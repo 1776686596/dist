@@ -1,0 +1,820 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>园长の小站 - Demo site</title><description>园长的个人博客</description><link>https://blog.daisheng.xyz/</link><language>zh_CN</language><item><title>Idol Tracker - 开源追星神器部署指南</title><link>https://blog.daisheng.xyz/posts/idol-tracker-guide/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/idol-tracker-guide/</guid><description>一款专为粉丝打造的现代化追星工具，集成微博动态聚合、超话自动签到、美图画廊等功能。本文详细介绍项目功能、技术架构及完整部署教程。</description><pubDate>Sun, 28 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;项目简介&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Idol Tracker&lt;/strong&gt; 是我开发的一款开源追星工具。作为一个追星党，我深知每天手动刷微博、签到超话的痛苦，于是决定用技术解决这个问题。&lt;/p&gt;
+&lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/1776686596/idol-tracker&quot;&gt;https://github.com/1776686596/idol-tracker&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;核心功能&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;功能&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;微博动态聚合&lt;/td&gt;
+&lt;td&gt;自动抓取爱豆微博，时间轴展示&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;超话自动签到&lt;/td&gt;
+&lt;td&gt;每天 8:00 定时签到，告别断签&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;美图画廊&lt;/td&gt;
+&lt;td&gt;瀑布流展示高清图片&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;消息推送&lt;/td&gt;
+&lt;td&gt;支持企业微信、邮件通知&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;扫码登录&lt;/td&gt;
+&lt;td&gt;微博扫码绑定，安全快捷&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;界面预览&lt;/h2&gt;
+&lt;h3&gt;首页介绍&lt;/h3&gt;
+&lt;p&gt;部署后访客看到的首页，展示项目核心功能介绍：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/add-idol.png&quot; alt=&quot;首页功能介绍&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;动态聚合&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;主界面&lt;/strong&gt; - 聚合展示所有关注爱豆的最新动态：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/dashboard.png&quot; alt=&quot;动态主界面&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;动态详情&lt;/strong&gt; - 点击查看某条动态的详细内容：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/checkin.png&quot; alt=&quot;动态详情&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;单个爱豆动态&lt;/strong&gt; - 查看某一位爱豆的所有动态：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/bind-weibo.png&quot; alt=&quot;单个爱豆动态&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;美图画廊&lt;/h3&gt;
+&lt;p&gt;瀑布流展示爱豆高清美图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/gallery.png&quot; alt=&quot;美图画廊&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;超话自动签到&lt;/h3&gt;
+&lt;p&gt;自动完成每日超话签到，告别断签烦恼：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/login.png&quot; alt=&quot;超话签到&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;管理后台&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;管理员登录&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/admin/settings.png&quot; alt=&quot;管理员登录&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;数据概览&lt;/strong&gt; - 统计卡片 / 签到趋势图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/admin/login.png&quot; alt=&quot;数据概览&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;用户管理&lt;/strong&gt; - 用户列表 / 状态管理：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/admin/dashboard.png&quot; alt=&quot;用户管理&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;系统配置&lt;/strong&gt; - 爬虫间隔设置 / 推送配置：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/admin/users.png&quot; alt=&quot;系统配置&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;技术架构&lt;/h2&gt;
+&lt;p&gt;项目采用 &lt;strong&gt;Monorepo&lt;/strong&gt; 架构，前后端分离：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;idol-tracker/
+├── packages/
+│   ├── web/        # 用户前台 (Next.js 14)
+│   ├── admin/      # 管理后台 (Next.js 14)
+│   ├── server/     # 后端服务 (Express.js)
+│   └── crawler/    # 爬虫模块
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;技术选型&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;前端：Next.js 14 + TailwindCSS&lt;/li&gt;
+&lt;li&gt;后端：Express.js + PostgreSQL + Redis&lt;/li&gt;
+&lt;li&gt;认证：JWT&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;部署教程&lt;/h2&gt;
+&lt;h3&gt;环境要求&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Node.js &amp;gt;= 18.0.0&lt;/li&gt;
+&lt;li&gt;PostgreSQL &amp;gt;= 14&lt;/li&gt;
+&lt;li&gt;Redis&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Step 1: 克隆项目&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;git clone https://github.com/1776686596/idol-tracker.git
+cd idol-tracker
+npm install
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Step 2: 配置数据库&lt;/h3&gt;
+&lt;p&gt;创建 PostgreSQL 数据库：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;CREATE DATABASE idol_tracker;
+CREATE USER idoltracker WITH PASSWORD &apos;your-password&apos;;
+GRANT ALL PRIVILEGES ON DATABASE idol_tracker TO idoltracker;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;初始化表结构：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;psql -U idoltracker -d idol_tracker -f packages/server/sql/init.sql
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Step 3: 配置环境变量&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;cp packages/server/.env.example packages/server/.env
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;编辑 &lt;code&gt;.env&lt;/code&gt; 文件：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 服务配置
+PORT=3001
+NODE_ENV=development
+
+# 数据库
+DATABASE_URL=postgresql://idoltracker:your-password@localhost:5432/idol_tracker
+
+# JWT 密钥（生产环境请修改）
+JWT_SECRET=your-super-secret-jwt-key
+
+# Redis
+REDIS_URL=redis://localhost:6379
+
+# 微博爬虫（必填）
+WEIBO_COOKIE=
+WEIBO_XSRF_TOKEN=
+
+# 企业微信推送（可选）
+WECHAT_WEBHOOK_KEY=
+
+# 邮件推送（可选）
+SMTP_HOST=smtp.example.com
+SMTP_PORT=465
+SMTP_USER=notify@example.com
+SMTP_PASS=your-smtp-password
+SMTP_FROM=Idol Tracker &amp;lt;notify@example.com&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Step 4: 获取微博 Cookie&lt;/h3&gt;
+&lt;p&gt;这是最关键的一步，爬虫需要微博 Cookie 才能工作：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;登录 &lt;a href=&quot;https://weibo.com&quot;&gt;weibo.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;按 &lt;code&gt;F12&lt;/code&gt; 打开开发者工具&lt;/li&gt;
+&lt;li&gt;切换到 &lt;code&gt;Network&lt;/code&gt; 标签&lt;/li&gt;
+&lt;li&gt;刷新页面，点击任意请求&lt;/li&gt;
+&lt;li&gt;在 &lt;code&gt;Request Headers&lt;/code&gt; 中找到 &lt;code&gt;Cookie&lt;/code&gt;，复制整个值&lt;/li&gt;
+&lt;li&gt;同样找到 &lt;code&gt;x-xsrf-token&lt;/code&gt;，复制其值&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;将这两个值填入 &lt;code&gt;.env&lt;/code&gt; 文件对应位置。&lt;/p&gt;
+&lt;h3&gt;Step 5: 启动服务&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;一键启动（推荐）&lt;/strong&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm run dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这会同时启动三个服务：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;用户前台：http://localhost:3000&lt;/li&gt;
+&lt;li&gt;管理后台：http://localhost:3002&lt;/li&gt;
+&lt;li&gt;后端 API：http://localhost:3001&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;单独启动&lt;/strong&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm run dev:web      # 用户前台
+npm run dev:admin    # 管理后台
+npm run dev:server   # 后端服务
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Step 6: 登录系统&lt;/h3&gt;
+&lt;p&gt;默认管理员账号：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;账号&lt;/th&gt;
+&lt;th&gt;密码&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;admin&lt;/td&gt;
+&lt;td&gt;admin123&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;blockquote&gt;
+&lt;p&gt;生产环境请务必修改默认密码！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;使用指南&lt;/h2&gt;
+&lt;h3&gt;查看爱豆动态&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/dashboard.png&quot; alt=&quot;动态主界面&quot; /&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;登录后进入主界面&lt;/li&gt;
+&lt;li&gt;系统自动聚合所有关注爱豆的最新动态&lt;/li&gt;
+&lt;li&gt;点击任意动态可查看详情&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;浏览美图画廊&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/gallery.png&quot; alt=&quot;美图画廊&quot; /&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;进入「美图」页面&lt;/li&gt;
+&lt;li&gt;瀑布流展示所有爱豆的高清图片&lt;/li&gt;
+&lt;li&gt;支持大图预览和无限滚动&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;超话自动签到&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/login.png&quot; alt=&quot;超话签到&quot; /&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;绑定微博账号后自动开启&lt;/li&gt;
+&lt;li&gt;每天早上 8:00 自动执行签到&lt;/li&gt;
+&lt;li&gt;签到结果可通过企业微信/邮件推送&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;配置消息推送&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/admin/users.png&quot; alt=&quot;系统配置&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;在管理后台「系统设置」中配置：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;企业微信&lt;/strong&gt;：填入群机器人 Webhook Key&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;邮件&lt;/strong&gt;：配置 SMTP 服务器信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;数据库结构&lt;/h2&gt;
+&lt;p&gt;主要数据表：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;表名&lt;/th&gt;
+&lt;th&gt;用途&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;users&lt;/td&gt;
+&lt;td&gt;用户账号&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;admins&lt;/td&gt;
+&lt;td&gt;管理员账号&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;idols&lt;/td&gt;
+&lt;td&gt;爱豆信息&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;subscriptions&lt;/td&gt;
+&lt;td&gt;用户订阅关系&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;weibo_posts&lt;/td&gt;
+&lt;td&gt;微博动态缓存&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;user_weibo_bindings&lt;/td&gt;
+&lt;td&gt;用户微博绑定&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;checkin_records&lt;/td&gt;
+&lt;td&gt;签到记录&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;system_config&lt;/td&gt;
+&lt;td&gt;系统配置&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;常见问题&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Q: 爬虫不工作？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;A: 检查微博 Cookie 是否过期，Cookie 有效期约 30 天，过期后需重新获取。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Q: 签到失败？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;A: 确保已正确绑定微博账号，且账号已关注对应超话。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Q: 如何部署到生产环境？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;A: 建议使用 PM2 管理 Node 进程，配合 Nginx 反向代理。记得修改 JWT_SECRET 和数据库密码。&lt;/p&gt;
+&lt;h2&gt;写在最后&lt;/h2&gt;
+&lt;p&gt;这个项目是我为了解决自己追星需求而开发的，希望能帮到有同样需求的朋友。&lt;/p&gt;
+&lt;p&gt;如果觉得有用，欢迎 Star 支持：&lt;a href=&quot;https://github.com/1776686596/idol-tracker&quot;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;有问题或建议欢迎提 Issue！&lt;/p&gt;
+</content:encoded></item><item><title>抖音酒类直播间监控系统 - 实时数据采集与可视化</title><link>https://blog.daisheng.xyz/posts/douyin-live-monitor/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/douyin-live-monitor/</guid><description>基于 Playwright + FastAPI 的抖音直播间数据监控系统，实时采集多个酒类品牌直播间的在线人数、点赞数和弹幕数据，提供精美的可视化仪表盘。</description><pubDate>Sun, 28 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;项目简介&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;抖音酒类直播间监控系统&lt;/strong&gt;（Douyin Live Monitor）是我开发的一款实时数据采集与可视化工具。项目初衷是监控多个酒类品牌在抖音平台的直播数据，为运营决策提供数据支撑。&lt;/p&gt;
+&lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/1776686596/douyin-live-monitor&quot;&gt;https://github.com/1776686596/douyin-live-monitor&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;核心功能&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;功能&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;🔴 实时监控&lt;/td&gt;
+&lt;td&gt;自动采集多个酒类直播间的在线人数和点赞数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;💬 弹幕采集&lt;/td&gt;
+&lt;td&gt;针对中国劲酒直播间进行弹幕内容抓取与关键词分析&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;📊 数据可视化&lt;/td&gt;
+&lt;td&gt;内置 Web 界面展示实时排行榜、趋势图表、统计卡片&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🗄️ 数据持久化&lt;/td&gt;
+&lt;td&gt;所有数据存储到 MySQL 数据库，支持历史分析&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🤖 智能反检测&lt;/td&gt;
+&lt;td&gt;模拟人工操作行为，提高采集稳定性&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🔄 自动重试&lt;/td&gt;
+&lt;td&gt;内置重试机制，确保数据采集的可靠性&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3&gt;监控品牌&lt;/h3&gt;
+&lt;p&gt;当前系统监控以下 6 个酒类品牌的官方抖音直播间：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;🥇 茅台&lt;/li&gt;
+&lt;li&gt;🥈 五粮液&lt;/li&gt;
+&lt;li&gt;🥉 汾酒&lt;/li&gt;
+&lt;li&gt;泸州老窖&lt;/li&gt;
+&lt;li&gt;剑南春&lt;/li&gt;
+&lt;li&gt;中国劲酒（含弹幕采集）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;界面预览&lt;/h2&gt;
+&lt;h3&gt;监控主面板&lt;/h3&gt;
+&lt;p&gt;启动服务后访问 &lt;code&gt;http://localhost:8001&lt;/code&gt; 即可看到精美的监控仪表盘：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/douyin-live-monitor/master/shot/%E6%88%AA%E5%9B%BE%202025-12-28%2015-38-59.png&quot; alt=&quot;监控主面板&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;主面板展示核心数据统计卡片，包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;监控品牌总数 / 当前直播中数量&lt;/li&gt;
+&lt;li&gt;总在线人数 / 总点赞数&lt;/li&gt;
+&lt;li&gt;近期弹幕总数&lt;/li&gt;
+&lt;li&gt;中国劲酒专属数据卡片&lt;/li&gt;
+&lt;li&gt;最后更新时间&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;全局数据洞察&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/douyin-live-monitor/master/shot/%E6%88%AA%E5%9B%BE%202025-12-28%2015-39-23.png&quot; alt=&quot;全局数据洞察&quot; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;在线人数分布图&lt;/strong&gt;：柱状图展示各直播间实时在线人数对比&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;本场点赞分布图&lt;/strong&gt;：折线图展示点赞数据趋势&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;人气排行榜&lt;/strong&gt;：按在线人数与点赞综合排序，Top1 高亮展示&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;历史趋势与弹幕分析&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/douyin-live-monitor/master/shot/%E6%88%AA%E5%9B%BE%202025-12-28%2015-39-28.png&quot; alt=&quot;历史趋势与弹幕&quot; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;历史趋势对比&lt;/strong&gt;：点击排行榜中的直播间，可查看最近 60 分钟的数据变化&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;实时弹幕列表&lt;/strong&gt;：展示中国劲酒直播间最近 10 分钟的弹幕&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;关键词分析&lt;/strong&gt;：自动统计高频关键词（优惠、下单、支持等）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;技术架构&lt;/h2&gt;
+&lt;p&gt;项目采用前后端分离架构，核心技术栈如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────┐
+│                    前端展示层                            │
+│         (内嵌 HTML + ECharts 图表 + CountUp.js)         │
+└─────────────────────────┬───────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│                    API 接口层                            │
+│              (FastAPI REST + Pydantic)                  │
+└─────────────────────────┬───────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│                   业务逻辑层                             │
+│           (CRUD 操作 + 数据处理 + 定时任务)              │
+└─────────────────────────┬───────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│                   数据采集层                             │
+│         (Playwright 浏览器自动化 + 反检测策略)           │
+└─────────────────────────┬───────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│                   数据存储层                             │
+│            (MySQL 8.0 + SQLAlchemy ORM)                 │
+└─────────────────────────────────────────────────────────┘
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;技术选型&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;层级&lt;/th&gt;
+&lt;th&gt;技术&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;后端框架&lt;/td&gt;
+&lt;td&gt;FastAPI&lt;/td&gt;
+&lt;td&gt;高性能异步 Web 框架&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;浏览器自动化&lt;/td&gt;
+&lt;td&gt;Playwright&lt;/td&gt;
+&lt;td&gt;支持 Chromium/Firefox/WebKit&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;数据库&lt;/td&gt;
+&lt;td&gt;MySQL 8.0&lt;/td&gt;
+&lt;td&gt;关系型数据库&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ORM&lt;/td&gt;
+&lt;td&gt;SQLAlchemy&lt;/td&gt;
+&lt;td&gt;异步数据库操作&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;前端图表&lt;/td&gt;
+&lt;td&gt;ECharts&lt;/td&gt;
+&lt;td&gt;开源可视化库&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;数字动画&lt;/td&gt;
+&lt;td&gt;CountUp.js&lt;/td&gt;
+&lt;td&gt;数字滚动效果&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3&gt;项目结构&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;douyin-live-monitor/
+├── backend/
+│   └── app/
+│       ├── main.py           # FastAPI 应用入口
+│       ├── config.py         # 配置管理
+│       ├── database.py       # 数据库连接
+│       ├── models.py         # SQLAlchemy 模型
+│       ├── schemas.py        # Pydantic 数据模型
+│       ├── crud.py           # 数据库 CRUD 操作
+│       └── crawler/
+│           ├── douyin_client.py  # 抖音直播间爬虫客户端
+│           └── tasks.py          # 后台采集任务
+├── database/                 # 数据库相关脚本
+├── shot/                     # 项目截图
+├── requirements.txt          # Python 依赖
+└── README.md
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;核心技术实现&lt;/h2&gt;
+&lt;h3&gt;1. Playwright 爬虫客户端&lt;/h3&gt;
+&lt;p&gt;爬虫核心是 &lt;code&gt;DouyinLiveClient&lt;/code&gt; 类，封装了浏览器自动化和数据解析逻辑：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;class DouyinLiveClient:
+    &quot;&quot;&quot;抖音直播间爬虫客户端&quot;&quot;&quot;
+
+    async def init(self) -&amp;gt; None:
+        &quot;&quot;&quot;初始化浏览器实例&quot;&quot;&quot;
+        self._playwright = await async_playwright().start()
+        self._browser = await self._playwright.chromium.launch(
+            headless=self._headless,
+        )
+        # 模拟真实用户环境
+        self._context = await self._browser.new_context(
+            user_agent=&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) ...&quot;,
+            locale=&quot;zh-CN&quot;,
+        )
+
+    async def fetch_room_info(self, room_name: str, room_url: str) -&amp;gt; LiveRoomInfo:
+        &quot;&quot;&quot;获取直播间实时数据&quot;&quot;&quot;
+        page = await self._open_room_page(room_url)
+        online_count, like_count = await self._extract_room_metrics(page, ...)
+        return LiveRoomInfo(
+            room_name=room_name,
+            is_live=online_count &amp;gt; 0 or like_count &amp;gt; 0,
+            online_count=online_count,
+            like_count=like_count,
+        )
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;2. 智能反检测策略&lt;/h3&gt;
+&lt;p&gt;为避免被平台识别为爬虫，实现了模拟人工操作的行为：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;async def _simulate_human_actions(self, page: Page) -&amp;gt; None:
+    &quot;&quot;&quot;模拟人工操作，提高采集稳定性&quot;&quot;&quot;
+    # 1. 随机等待
+    await page.wait_for_timeout(random.randint(800, 2500))
+
+    # 2. 鼠标移动到页面中间区域
+    x = random.randint(int(width * 0.3), int(width * 0.7))
+    y = random.randint(int(height * 0.3), int(height * 0.7))
+    await page.mouse.move(x, y, steps=random.randint(5, 20))
+    await page.mouse.click(x, y, delay=random.randint(50, 200))
+
+    # 3. 模拟滚动
+    await page.mouse.wheel(0, random.randint(200, 800))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;3. 弹幕采集与去重&lt;/h3&gt;
+&lt;p&gt;针对中国劲酒直播间实现了弹幕快照采集：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;async def fetch_danmu_snapshot(self, room_name: str, room_url: str) -&amp;gt; List[DanmuItem]:
+    &quot;&quot;&quot;抓取当前页面弹幕快照&quot;&quot;&quot;
+    # 定位弹幕容器
+    container_locator = page.locator(
+        &quot;div.webcast-chatroom___list &quot;
+        &quot;div:has(span.v8LY0gZF)&quot;  # 昵称
+        &quot;:has(span.webcast-chatroom___content-with-emoji-text)&quot;  # 内容
+    )
+
+    # 去重处理
+    key = f&quot;{room_name}|{sender_nickname}|{content}&quot;
+    if key not in seen_set:
+        seen_set.add(key)
+        danmu_items.append(DanmuItem(...))
+
+    return danmu_items
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;4. 数据解析策略&lt;/h3&gt;
+&lt;p&gt;支持多种数字格式解析（如 &quot;1.2w&quot;、&quot;1.2万&quot;、&quot;966&quot;）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;@staticmethod
+def _parse_number_from_text(text: str) -&amp;gt; int:
+    &quot;&quot;&quot;解析中文数字文本&quot;&quot;&quot;
+    m = re.search(r&quot;([\d.]+)\s*([wW万]?)&quot;, raw)
+    value = float(m.group(1))
+    unit = m.group(2)
+
+    if unit in (&quot;w&quot;, &quot;W&quot;, &quot;万&quot;):
+        value *= 10000
+
+    return int(value)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;部署教程&lt;/h2&gt;
+&lt;h3&gt;环境要求&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Python &amp;gt;= 3.8&lt;/li&gt;
+&lt;li&gt;MySQL &amp;gt;= 8.0&lt;/li&gt;
+&lt;li&gt;Node.js（可选，用于 Playwright 浏览器安装）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Step 1: 克隆项目&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;git clone https://github.com/1776686596/douyin-live-monitor.git
+cd douyin-live-monitor
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Step 2: 创建虚拟环境&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;python3 -m venv venv
+source venv/bin/activate  # Linux/macOS
+# 或 venv\Scripts\activate  # Windows
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Step 3: 安装依赖&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;pip install -r requirements.txt
+playwright install chromium
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Linux 用户注意&lt;/strong&gt;：Playwright 可能需要额外的系统依赖：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt install libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 \
+    libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 \
+    libxfixes3 libxrandr2 libgbm1 libasound2 -y
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;Step 4: 配置数据库&lt;/h3&gt;
+&lt;p&gt;创建 MySQL 数据库：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;CREATE DATABASE jj_douyin CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;配置数据库连接（编辑 &lt;code&gt;backend/app/config.py&lt;/code&gt; 或创建 &lt;code&gt;.env&lt;/code&gt; 文件）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;MYSQL_HOST=127.0.0.1
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASSWORD=your_password
+MYSQL_DB=jj_douyin
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Step 5: 启动服务&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;uvicorn backend.app.main:app --reload --port 8001
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;服务启动后访问 &lt;code&gt;http://localhost:8001&lt;/code&gt; 即可看到监控面板。&lt;/p&gt;
+&lt;h3&gt;主要配置项&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;配置项&lt;/th&gt;
+&lt;th&gt;默认值&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;enable_background_crawler&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;True&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;是否启动后台爬虫&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;playwright_headless&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;True&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;是否无头模式运行浏览器&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;jingjiu_interval_seconds&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;5&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;中国劲酒采集间隔（秒）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;other_rooms_interval_seconds&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;15&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;其他直播间采集间隔（秒）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;enable_human_like_actions&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;True&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;是否启用拟人行为&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;数据库设计&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/douyin-live-monitor/master/shot/%E6%88%AA%E5%9B%BE%202025-12-28%2015-40-43.png&quot; alt=&quot;数据库表结构&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;核心数据表&lt;/h3&gt;
+&lt;h4&gt;live_room_metric（直播间指标表）&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;字段&lt;/th&gt;
+&lt;th&gt;类型&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;id&lt;/td&gt;
+&lt;td&gt;BIGINT&lt;/td&gt;
+&lt;td&gt;主键&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;room_name&lt;/td&gt;
+&lt;td&gt;VARCHAR(64)&lt;/td&gt;
+&lt;td&gt;直播间名称&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;room_url&lt;/td&gt;
+&lt;td&gt;VARCHAR(255)&lt;/td&gt;
+&lt;td&gt;直播间链接&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;online_count&lt;/td&gt;
+&lt;td&gt;INT&lt;/td&gt;
+&lt;td&gt;在线人数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;like_count&lt;/td&gt;
+&lt;td&gt;BIGINT&lt;/td&gt;
+&lt;td&gt;点赞数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;is_live&lt;/td&gt;
+&lt;td&gt;BOOLEAN&lt;/td&gt;
+&lt;td&gt;是否直播中&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;live_status&lt;/td&gt;
+&lt;td&gt;VARCHAR(16)&lt;/td&gt;
+&lt;td&gt;状态文本&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;created_at&lt;/td&gt;
+&lt;td&gt;DATETIME&lt;/td&gt;
+&lt;td&gt;采集时间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4&gt;danmu_message（弹幕表）&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;字段&lt;/th&gt;
+&lt;th&gt;类型&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;id&lt;/td&gt;
+&lt;td&gt;BIGINT&lt;/td&gt;
+&lt;td&gt;主键&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;room_name&lt;/td&gt;
+&lt;td&gt;VARCHAR(64)&lt;/td&gt;
+&lt;td&gt;所属直播间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;sender_nickname&lt;/td&gt;
+&lt;td&gt;VARCHAR(255)&lt;/td&gt;
+&lt;td&gt;发送人昵称&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;content&lt;/td&gt;
+&lt;td&gt;TEXT&lt;/td&gt;
+&lt;td&gt;弹幕内容&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;metric_id&lt;/td&gt;
+&lt;td&gt;BIGINT&lt;/td&gt;
+&lt;td&gt;关联指标ID&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;created_at&lt;/td&gt;
+&lt;td&gt;DATETIME&lt;/td&gt;
+&lt;td&gt;采集时间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;API 接口&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;接口&lt;/th&gt;
+&lt;th&gt;方法&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;/&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;GET&lt;/td&gt;
+&lt;td&gt;监控面板首页&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;/health&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;GET&lt;/td&gt;
+&lt;td&gt;健康检查&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;/overview/live-rooms&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;GET&lt;/td&gt;
+&lt;td&gt;获取所有直播间概览&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;/danmu/jingjiu&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;GET&lt;/td&gt;
+&lt;td&gt;获取中国劲酒弹幕列表&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;/metrics/history&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;GET&lt;/td&gt;
+&lt;td&gt;获取直播间历史数据&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;/rooms/recheck&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;POST&lt;/td&gt;
+&lt;td&gt;手动重新检测直播间状态&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;常见问题&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Q: 数据显示为 0 或未开播？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;A: 可能原因：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;直播间确实未开播&lt;/li&gt;
+&lt;li&gt;页面选择器失效（抖音页面结构更新）&lt;/li&gt;
+&lt;li&gt;被平台反爬机制拦截&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;可点击排行榜中的&quot;重新检测&quot;按钮手动触发重查。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Q: 如何添加新的直播间？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;A: 修改 &lt;code&gt;backend/app/crawler/tasks.py&lt;/code&gt; 中的 &lt;code&gt;LIVE_ROOMS&lt;/code&gt; 字典：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;LIVE_ROOMS = {
+    &quot;茅台&quot;: &quot;https://live.douyin.com/250926880704&quot;,
+    &quot;五粮液&quot;: &quot;https://live.douyin.com/884334047259&quot;,
+    # 添加新直播间
+    &quot;新品牌&quot;: &quot;https://live.douyin.com/xxx&quot;,
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Q: 如何调整采集频率？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;A: 修改配置文件中的间隔参数：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;jingjiu_interval_seconds&lt;/code&gt;：中国劲酒采集间隔&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;other_rooms_interval_seconds&lt;/code&gt;：其他直播间采集间隔&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;写在最后&lt;/h2&gt;
+&lt;p&gt;这个项目是我在学习 Python 异步编程和浏览器自动化过程中的实践产物。通过这个项目，我深入理解了：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;FastAPI 异步 Web 开发&lt;/li&gt;
+&lt;li&gt;Playwright 浏览器自动化与反检测策略&lt;/li&gt;
+&lt;li&gt;SQLAlchemy 异步 ORM 操作&lt;/li&gt;
+&lt;li&gt;ECharts 数据可视化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果觉得有帮助，欢迎 Star 支持：&lt;a href=&quot;https://github.com/1776686596/douyin-live-monitor&quot;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;有问题或建议欢迎提 Issue！&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;声明&lt;/strong&gt;：本项目仅供学习和技术研究目的，请遵守相关法律法规及平台用户协议。&lt;/p&gt;
+&lt;/blockquote&gt;
+</content:encoded></item><item><title>IP Geolocation - 掌控浏览器地理位置的 Chrome 扩展</title><link>https://blog.daisheng.xyz/posts/ip-geolocation/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/ip-geolocation/</guid><description>一款基于 Chrome Manifest V3 的地理位置伪装扩展。通过重写 navigator.geolocation API，实现隐私保护与开发测试的双重需求。</description><pubDate>Sun, 28 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;在当今的互联网环境下，隐私保护已成为一个老生常谈的话题。许多用户习惯使用 VPN 或代理工具来隐藏真实的 IP 地址，以此规避追踪或访问特定区域的内容。然而，你是否遇到过这样的情况：明明已经切换了代理 IP，但网页依然精准地定位到了你所在的真实城市？&lt;/p&gt;
+&lt;p&gt;这通常是因为浏览器的 &lt;strong&gt;HTML5 Geolocation API&lt;/strong&gt; 出卖了你。不同于基于 IP 的定位，网页可以通过 &lt;code&gt;navigator.geolocation&lt;/code&gt; 直接请求设备的高精度 GPS 或 Wi-Fi 定位数据。&lt;/p&gt;
+&lt;p&gt;为了解决这个问题，填补网络层代理与应用层定位之间的隐私缺口，我开发了 &lt;strong&gt;IP Geolocation&lt;/strong&gt; —— 一个开源的 Chrome 浏览器扩展。&lt;/p&gt;
+&lt;h2&gt;项目背景&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;IP Geolocation&lt;/strong&gt; 旨在为用户提供对浏览器地理位置信息的完全控制权。无论你是需要测试不同地区业务逻辑的前端开发者，还是注重隐私的普通用户，这个工具都能帮你&quot;瞬间移动&quot;到世界的任何角落。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;项目源码&lt;/strong&gt;: &lt;a href=&quot;https://github.com/1776686596/IP-Geolocation&quot;&gt;GitHub - IP-Geolocation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;技术栈&lt;/strong&gt;: JavaScript, HTML, CSS (Manifest V3)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;许可证&lt;/strong&gt;: MIT License&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;核心功能&lt;/h2&gt;
+&lt;p&gt;IP Geolocation 不仅仅是一个简单的经纬度修改器，它结合了自动检测与手动控制，力求在易用性和灵活性之间找到平衡。&lt;/p&gt;
+&lt;h3&gt;1. 智能的自动定位&lt;/h3&gt;
+&lt;p&gt;扩展内置了自动化逻辑，能够通过 IP 地理位置 API 根据你当前的出口 IP 地址，自动获取对应的地理位置。这意味着当你切换代理节点时，浏览器的地理位置可以自动跟随变化，实现&quot;身临其境&quot;的伪装。&lt;/p&gt;
+&lt;h3&gt;2. 灵活的手动控制与地图交互&lt;/h3&gt;
+&lt;p&gt;如果自动定位不够精准，或者你想故意定位到一个虚构的地点，扩展提供了直观的 Leaflet 地图预览。你可以直接在地图上点击选择位置，或者手动输入经纬度坐标。&lt;/p&gt;
+&lt;h3&gt;3. 精细化的白名单/黑名单机制&lt;/h3&gt;
+&lt;p&gt;并不是所有网站都需要伪装。通过内置的过滤规则，你可以灵活配置：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;白名单模式&lt;/strong&gt;：仅在特定网站（如开发测试环境）启用伪装&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;黑名单模式&lt;/strong&gt;：在特定网站（如需要真实导航的地图服务）禁用伪装&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;4. 隐私保护与本地化优化&lt;/h3&gt;
+&lt;p&gt;考虑到特定网络环境，扩展加入了一个贴心的隐私保护逻辑：当检测到当前 IP 位于中国大陆时，为了避免意外暴露精确位置，系统会默认使用北京作为兜底位置，而不是透传真实的精确坐标。&lt;/p&gt;
+&lt;h2&gt;技术实现&lt;/h2&gt;
+&lt;p&gt;作为一款基于 &lt;strong&gt;Chrome Manifest V3&lt;/strong&gt; 规范开发的扩展，IP Geolocation 在技术实现上有几个值得探讨的亮点。&lt;/p&gt;
+&lt;h3&gt;核心原理：API 注入与重写&lt;/h3&gt;
+&lt;p&gt;如何欺骗网页的定位请求？答案是&lt;strong&gt;脚本注入（Script Injection）&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;我们利用 &lt;code&gt;chrome.scripting.executeScript&lt;/code&gt; 在页面加载的最早期注入一段自定义的 JavaScript 代码。这段代码会劫持并重写原生的 &lt;code&gt;navigator.geolocation&lt;/code&gt; 对象。&lt;/p&gt;
+&lt;p&gt;当网页调用 &lt;code&gt;navigator.geolocation.getCurrentPosition&lt;/code&gt; 时，它实际上调用的是我们伪造的函数。这个函数不会去查询底层硬件，而是直接返回存储在 &lt;code&gt;chrome.storage.local&lt;/code&gt; 中的伪造经纬度数据。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// 伪代码示例：重写 Geolocation API
+navigator.geolocation.getCurrentPosition = function(success, error, options) {
+    const mockPosition = {
+        coords: {
+            latitude: userSettings.lat,
+            longitude: userSettings.lng,
+            accuracy: 100
+        },
+        timestamp: Date.now()
+    };
+    success(mockPosition);
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;定时任务与状态同步&lt;/h3&gt;
+&lt;p&gt;为了保证位置信息的实时性，扩展使用了 &lt;code&gt;chrome.alarms&lt;/code&gt; API 创建定时任务，每分钟自动检查一次 IP 变动并更新地理位置缓存。这种异步更新机制确保了用户在使用过程中不会感觉到明显的延迟。&lt;/p&gt;
+&lt;h3&gt;沙箱化的地图预览&lt;/h3&gt;
+&lt;p&gt;在 Popup 弹窗中加载复杂的地图库（Leaflet）有时会受到 Chrome 内容安全策略（CSP）的限制。本项目通过 iframe 沙箱模式优雅地解决了这个问题，既保证了地图功能的完整性，又符合 Manifest V3 的安全规范。&lt;/p&gt;
+&lt;h2&gt;应用场景&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Web 开发与测试&lt;/strong&gt;：开发者在调试基于 LBS（地理位置服务）的应用时，无需肉身移动，即可测试应用在不同地区的表现&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;海外业务访问&lt;/strong&gt;：配合代理工具，解决部分流媒体或电商网站因为 GPS 位置与 IP 地址不符而产生的风控拦截&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;防止大数据杀熟与追踪&lt;/strong&gt;：混淆真实的物理活动轨迹，保护个人隐私&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;快速开始&lt;/h2&gt;
+&lt;p&gt;目前项目已在 GitHub 开源，你可以通过以下步骤安装体验：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;下载项目的 &lt;a href=&quot;https://github.com/1776686596/IP-Geolocation/releases&quot;&gt;Release 压缩包&lt;/a&gt; 或 &lt;code&gt;git clone&lt;/code&gt; 源码&lt;/li&gt;
+&lt;li&gt;打开 Chrome 浏览器，进入扩展程序管理页面 (&lt;code&gt;chrome://extensions/&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;开启右上角的&quot;开发者模式&quot;&lt;/li&gt;
+&lt;li&gt;点击&quot;加载已解压的扩展程序&quot;，选择项目文件夹&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;安装完成后，点击浏览器右上角的图标，即可看到当前的定位状态并进行设置。&lt;/p&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;IP Geolocation 是一个小而美的工具，它解决了一个具体而实际的问题。通过开源的方式，希望能帮助到更多的开发者和注重隐私的用户。&lt;/p&gt;
+&lt;p&gt;如果你对这个项目感兴趣，或者有更好的功能建议，欢迎在 &lt;a href=&quot;https://github.com/1776686596/IP-Geolocation&quot;&gt;GitHub&lt;/a&gt; 上提交 Issue 或 PR！&lt;/p&gt;
+</content:encoded></item></channel></rss>
