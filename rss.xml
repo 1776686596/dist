@@ -817,4 +817,353 @@ navigator.geolocation.getCurrentPosition = function(success, error, options) {
 &lt;h2&gt;总结&lt;/h2&gt;
 &lt;p&gt;IP Geolocation 是一个小而美的工具，它解决了一个具体而实际的问题。通过开源的方式，希望能帮助到更多的开发者和注重隐私的用户。&lt;/p&gt;
 &lt;p&gt;如果你对这个项目感兴趣，或者有更好的功能建议，欢迎在 &lt;a href=&quot;https://github.com/1776686596/IP-Geolocation&quot;&gt;GitHub&lt;/a&gt; 上提交 Issue 或 PR！&lt;/p&gt;
+</content:encoded></item><item><title>SciPlot-Copilot - AI 驱动的科研可视化与逻辑梳理平台</title><link>https://blog.daisheng.xyz/posts/sciplot-copilot/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/sciplot-copilot/</guid><description>融合大语言模型智慧，一键生成 Nature 级科研图表，智能梳理复杂实验逻辑。支持自然语言绘图、统计分析、数据预处理等功能。</description><pubDate>Sun, 28 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;项目简介&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;SciPlot-Copilot&lt;/strong&gt; 是一款 AI 驱动的下一代科研可视化与逻辑梳理平台。它融合了大语言模型的智慧，让科研工作者能够用自然语言描述需求，一键生成 Nature 级别的专业图表，同时智能梳理复杂的实验逻辑。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;项目地址&lt;/strong&gt;：&lt;a href=&quot;https://github.com/1776686596/mota&quot;&gt;https://github.com/1776686596/mota&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;在线体验&lt;/strong&gt;：&lt;a href=&quot;https://www.modelscope.cn/studios/daisheng410/mota&quot;&gt;https://www.modelscope.cn/studios/daisheng410/mota&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;为什么开发这个项目？&lt;/h3&gt;
+&lt;p&gt;在科研工作中，数据可视化和实验逻辑梳理是两个耗时且需要专业技能的环节。传统方式需要：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;熟练掌握 Python/R 编程和 matplotlib/seaborn 等库&lt;/li&gt;
+&lt;li&gt;手动调整图表样式以满足顶刊投稿要求&lt;/li&gt;
+&lt;li&gt;用 Visio/PPT 等工具手绘流程图&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;SciPlot-Copilot 通过 AI 将这些复杂操作简化为&lt;strong&gt;自然语言描述&lt;/strong&gt;，大幅降低了科研可视化的门槛。&lt;/p&gt;
+&lt;h2&gt;核心功能&lt;/h2&gt;
+&lt;h3&gt;📈 智能绘图工作室&lt;/h3&gt;
+&lt;p&gt;用自然语言描述你想要的图表，AI 自动生成专业级可视化代码：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/mota/master/shot/%E6%88%AA%E5%9B%BE%202025-12-28%2018-29-25.png&quot; alt=&quot;智能绘图工作室&quot; /&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;特性&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;自然语言绘图&lt;/td&gt;
+&lt;td&gt;用中文描述需求，AI 自动生成 matplotlib/seaborn 代码&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;多种图表类型&lt;/td&gt;
+&lt;td&gt;散点图、折线图、柱状图、箱线图、热力图、小提琴图、直方图等&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Nature 级样式&lt;/td&gt;
+&lt;td&gt;内置 Nature、Science、Cell、PNAS 等顶刊风格模板&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;AI 智能推荐&lt;/td&gt;
+&lt;td&gt;根据数据特征自动推荐最适合的图表类型&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;实时预览&lt;/td&gt;
+&lt;td&gt;即时查看效果，支持 PNG/PDF/SVG/JPG 导出&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;代码透明&lt;/td&gt;
+&lt;td&gt;完整展示生成的 Python 代码，方便学习和二次修改&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;使用示例&lt;/strong&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;请用 iris 数据集绘制一个散点图，x轴是花瓣长度，y轴是花瓣宽度，按物种着色
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;🧠 逻辑思维导图&lt;/h3&gt;
+&lt;p&gt;将实验流程文本智能转换为可视化的逻辑关系图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/mota/master/shot/%E6%88%AA%E5%9B%BE%202025-12-28%2018-29-34.png&quot; alt=&quot;逻辑思维导图&quot; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;智能逻辑梳理&lt;/strong&gt;：AI 分析实验步骤，自动提取关键节点和关系&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;交互式编辑&lt;/strong&gt;：支持拖拽、添加、删除节点，自由调整布局&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;多种布局算法&lt;/strong&gt;：层次布局、环形布局、网格布局&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;丰富导出格式&lt;/strong&gt;：PNG/JPG/SVG、JSON、Mermaid、Python 代码、GraphML&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;使用示例&lt;/strong&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;1. 首先将样品 A 与试剂 B 混合，在 50°C 下搅拌 2 小时
+2. 冷却至室温后，进行离心分离
+3. 上清液用于 HPLC 分析，沉淀物经洗涤干燥后进行 XRD 表征
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;💬 AI 对话助手&lt;/h3&gt;
+&lt;p&gt;与 AI 进行自然语言对话，获取数据分析建议和科研问题解答：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/mota/master/shot/%E6%88%AA%E5%9B%BE%202025-12-28%2018-29-42.png&quot; alt=&quot;AI 对话助手&quot; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;上下文感知&lt;/strong&gt;：AI 自动理解当前加载的数据特征&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;多轮对话&lt;/strong&gt;：支持连续对话，保持上下文记忆&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;快捷问题&lt;/strong&gt;：内置常用问题模板，一键获取分析建议&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;专业知识&lt;/strong&gt;：涵盖统计方法选择、图表设计、科研写作等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;🔬 统计分析工具&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/mota/master/shot/%E6%88%AA%E5%9B%BE%202025-12-28%2018-30-01.png&quot; alt=&quot;统计分析工具&quot; /&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;功能类别&lt;/th&gt;
+&lt;th&gt;支持的方法&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;假设检验&lt;/td&gt;
+&lt;td&gt;单样本 t 检验、独立样本 t 检验、配对样本 t 检验、ANOVA、Mann-Whitney U、Shapiro-Wilk 正态性检验&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;回归分析&lt;/td&gt;
+&lt;td&gt;线性回归、多元回归，自动计算 R²、RMSE 等指标&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;相关性分析&lt;/td&gt;
+&lt;td&gt;Pearson、Spearman、Kendall 相关系数矩阵，热力图可视化&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;描述统计&lt;/td&gt;
+&lt;td&gt;均值、中位数、标准差、偏度、峰度，分布直方图和箱线图&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3&gt;🔧 数据预处理&lt;/h3&gt;
+&lt;p&gt;强大的数据清洗和转换工具：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;缺失值处理&lt;/strong&gt;：均值/中位数/众数填充、前值/后值填充、删除缺失行&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;数据转换&lt;/strong&gt;：类型转换、标准化、归一化、对数转换、独热编码&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;数据筛选&lt;/strong&gt;：按条件筛选行、选择保留列&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;数据采样&lt;/strong&gt;：随机采样、头部/尾部数据、等间隔采样、分层采样&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;💾 项目管理&lt;/h3&gt;
+&lt;p&gt;保存和恢复工作进度，生成专业分析报告：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;保存项目&lt;/strong&gt;：保存数据集、绘图历史、对话记录、逻辑图、配置信息&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;加载项目&lt;/strong&gt;：随时恢复之前的工作进度&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;导出报告&lt;/strong&gt;：生成 Markdown 格式的分析报告&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;技术架构&lt;/h2&gt;
+&lt;h3&gt;项目结构&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;sciplot-copilot/
+├── app.py                 # 主入口文件
+├── core/                  # 核心模块
+│   ├── config_manager.py  # 配置管理
+│   ├── data_loader.py     # 数据加载器
+│   ├── llm_service.py     # LLM 服务封装
+│   ├── logic_graph.py     # 逻辑图处理
+│   └── sandbox.py         # 代码沙箱执行
+├── ui/                    # UI 组件
+│   ├── chat_tab.py        # AI 对话标签页
+│   ├── plot_tab.py        # 绘图标签页
+│   ├── logic_graph_tab.py # 逻辑图标签页
+│   ├── statistics_tab.py  # 统计分析标签页
+│   └── ...
+├── utils/                 # 工具模块
+├── data/                  # 示例数据集
+└── tests/                 # 测试文件
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;技术栈&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;类别&lt;/th&gt;
+&lt;th&gt;技术&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;前端框架&lt;/td&gt;
+&lt;td&gt;Streamlit&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;可视化库&lt;/td&gt;
+&lt;td&gt;Matplotlib、Seaborn&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;AI 引擎&lt;/td&gt;
+&lt;td&gt;OpenAI 兼容 API&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;数据处理&lt;/td&gt;
+&lt;td&gt;Pandas、NumPy&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;统计分析&lt;/td&gt;
+&lt;td&gt;SciPy、Scikit-learn、Statsmodels&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;流程图&lt;/td&gt;
+&lt;td&gt;streamlit-flow-component、NetworkX&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;快速开始&lt;/h2&gt;
+&lt;h3&gt;环境要求&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Python 3.8+&lt;/li&gt;
+&lt;li&gt;支持 OpenAI 兼容 API 的 LLM 服务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;安装步骤&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;# 克隆项目
+git clone https://github.com/1776686596/mota.git
+cd mota
+
+# 创建虚拟环境
+python3 -m venv venv
+source venv/bin/activate  # Linux/Mac
+
+# 安装依赖
+pip install -r requirements.txt
+
+# 启动应用
+streamlit run app.py
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;应用将在浏览器中自动打开，默认地址：&lt;code&gt;http://localhost:8501&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;配置 API&lt;/h3&gt;
+&lt;p&gt;在侧边栏的「⚙️ API 配置」中设置：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;配置项&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;th&gt;示例&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;API Base URL&lt;/td&gt;
+&lt;td&gt;LLM 服务地址&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;https://api.openai.com/v1&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;API Key&lt;/td&gt;
+&lt;td&gt;你的 API 密钥&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;sk-xxx...&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;模型&lt;/td&gt;
+&lt;td&gt;使用的模型名称&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;gpt-4&lt;/code&gt;、&lt;code&gt;gpt-3.5-turbo&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;blockquote&gt;
+&lt;p&gt;支持所有 OpenAI 兼容的 API 服务，包括 OpenAI、Azure OpenAI、通义千问、智谱 AI 等。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;内置数据集&lt;/h2&gt;
+&lt;p&gt;项目内置了多个科研常用数据集供体验：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;数据集&lt;/th&gt;
+&lt;th&gt;行数&lt;/th&gt;
+&lt;th&gt;列数&lt;/th&gt;
+&lt;th&gt;描述&lt;/th&gt;
+&lt;th&gt;适用场景&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;iris.csv&lt;/td&gt;
+&lt;td&gt;150&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;鸢尾花数据集&lt;/td&gt;
+&lt;td&gt;分类分析、散点图&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;penguins.csv&lt;/td&gt;
+&lt;td&gt;344&lt;/td&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;企鹅数据集&lt;/td&gt;
+&lt;td&gt;多变量分析、分组比较&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;tips.csv&lt;/td&gt;
+&lt;td&gt;244&lt;/td&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;餐厅小费数据&lt;/td&gt;
+&lt;td&gt;回归分析、分类比较&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;diamonds.csv&lt;/td&gt;
+&lt;td&gt;53940&lt;/td&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;钻石数据集&lt;/td&gt;
+&lt;td&gt;大数据可视化、价格预测&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;cell_viability.csv&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;细胞活力测试&lt;/td&gt;
+&lt;td&gt;科研场景测试&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;enzyme_activity.csv&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;酶活性分析&lt;/td&gt;
+&lt;td&gt;科研场景测试&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;支持的图表类型&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;图表类型&lt;/th&gt;
+&lt;th&gt;描述&lt;/th&gt;
+&lt;th&gt;适用场景&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;📊 散点图&lt;/td&gt;
+&lt;td&gt;展示两变量关系&lt;/td&gt;
+&lt;td&gt;相关性分析、聚类可视化&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;📈 折线图&lt;/td&gt;
+&lt;td&gt;展示趋势变化&lt;/td&gt;
+&lt;td&gt;时间序列、连续数据&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;📊 柱状图&lt;/td&gt;
+&lt;td&gt;比较分类数据&lt;/td&gt;
+&lt;td&gt;分组对比、频率统计&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;📦 箱线图&lt;/td&gt;
+&lt;td&gt;展示数据分布&lt;/td&gt;
+&lt;td&gt;统计分析、异常值检测&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🔥 热力图&lt;/td&gt;
+&lt;td&gt;展示矩阵数据&lt;/td&gt;
+&lt;td&gt;相关性矩阵、混淆矩阵&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;🎻 小提琴图&lt;/td&gt;
+&lt;td&gt;展示分布密度&lt;/td&gt;
+&lt;td&gt;分布对比、密度估计&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;📊 直方图&lt;/td&gt;
+&lt;td&gt;展示频率分布&lt;/td&gt;
+&lt;td&gt;数据分布、正态性检验&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2&gt;隐私与安全&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ 所有数据处理在本地完成&lt;/li&gt;
+&lt;li&gt;✅ API 密钥仅用于调用 LLM 服务，不会存储到服务器&lt;/li&gt;
+&lt;li&gt;✅ 不会上传或存储你的数据&lt;/li&gt;
+&lt;li&gt;✅ 代码在安全沙箱中执行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;写在最后&lt;/h2&gt;
+&lt;p&gt;SciPlot-Copilot 是我在探索 AI 与科研可视化结合过程中的实践产物。希望它能帮助更多科研工作者提升工作效率，让数据可视化变得更简单、更智能。&lt;/p&gt;
+&lt;p&gt;如果觉得有帮助，欢迎 Star 支持：&lt;a href=&quot;https://github.com/1776686596/mota&quot;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;在线体验地址：&lt;a href=&quot;https://www.modelscope.cn/studios/daisheng410/mota&quot;&gt;ModelScope&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;有问题或建议欢迎提 Issue！&lt;/p&gt;
+&lt;hr /&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本项目采用 Apache License 2.0 开源协议&lt;/p&gt;
+&lt;/blockquote&gt;
 </content:encoded></item></channel></rss>
