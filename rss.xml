@@ -1,1101 +1,490 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>园长の小站 - Demo site</title><description>园长的个人博客</description><link>https://blog.daisheng.xyz/</link><language>zh_CN</language><item><title>115-python：115 网盘 Python 工具生态</title><link>https://blog.daisheng.xyz/posts/115-python/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/115-python/</guid><description>115-python 是一个围绕 115 网盘的 Python 工具生态，包含 p115client 核心客户端和挂载、直链、传输、数据库等多个实用模块。</description><pubDate>Wed, 26 Aug 2026 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;开场&lt;/h2&gt;
-&lt;p&gt;平时用 115 网盘时，我经常遇到几个很实际的问题：&lt;/p&gt;
-&lt;ul&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>园长の小站</title><description>Demo site</description><link>https://blog.daisheng.xyz/</link><templateTheme>Firefly</templateTheme><templateThemeVersion>6.16.5</templateThemeVersion><templateThemeUrl>https://github.com/CuteLeaf/Firefly</templateThemeUrl><lastBuildDate>2026年8月27日 18:54:44</lastBuildDate><item><title>115-python：115 网盘 Python 工具生态</title><link>https://blog.daisheng.xyz/posts/115-python/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/115-python/</guid><description>115-python 是一个围绕 115 网盘的 Python 工具生态，包含 p115client 核心客户端和挂载、直链、传输、数据库等多个实用模块。</description><pubDate>Wed, 26 Aug 2026 00:00:00 GMT</pubDate><content:encoded>&lt;section&gt;&lt;h2&gt;开场&lt;a href=&quot;#开场&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;平时用 115 网盘时，我经常遇到几个很实际的问题：&lt;/p&gt;&lt;ul&gt;
 &lt;li&gt;想直接读取、挂载网盘里的文件，而不是每次都打开网页；&lt;/li&gt;
 &lt;li&gt;想把文件以直链、图片或扫码的方式分享出去；&lt;/li&gt;
 &lt;li&gt;想批量上传、下载，或者在本地维护一份文件列表用于查询。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;这些需求分散在不同领域，各自写一遍轮子既重复又容易踩坑。于是我把常用的能力整理成了一个仓库：&lt;strong&gt;115-python&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/1776686596/115-python&quot;&gt;https://github.com/1776686596/115-python&lt;/a&gt;&lt;/p&gt;
-&lt;h2&gt;项目定位&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;115-python&lt;/strong&gt; 是 115 网盘的 Python 工具生态聚合仓库，仓库 &lt;strong&gt;fork 自 &lt;a href=&quot;https://github.com/ChenyangGao/p115client&quot;&gt;ChenyangGao/p115client&lt;/a&gt;&lt;/strong&gt;，并在上游基础上持续维护和扩展。&lt;/p&gt;
-&lt;p&gt;需要说明的是：核心库与工具模块的基础能力都来自原作者 &lt;a href=&quot;https://github.com/ChenyangGao&quot;&gt;ChenyangGao&lt;/a&gt; 的辛勤工作，本仓库的主要价值是聚合、维护并在此基础上补充实用模块。我不把上游能力冒充为原创。&lt;/p&gt;
-&lt;h2&gt;核心客户端：p115client&lt;/h2&gt;
-&lt;p&gt;仓库的核心是 &lt;code&gt;p115client&lt;/code&gt;，它是 115 网盘 Web API 的 Python 客户端，支持同步 / 异步，全面封装了 &lt;strong&gt;web、app 与 open&lt;/strong&gt; 三类接口。&lt;/p&gt;
-&lt;p&gt;一个最小可用的示例如下（示例用占位符代替真实 Cookie，请勿直接填入自己的凭据）：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;from p115client import P115Client
+&lt;/ul&gt;&lt;p&gt;这些需求分散在不同领域，各自写一遍轮子既重复又容易踩坑。于是我把常用的能力整理成了一个仓库：&lt;strong&gt;115-python&lt;/strong&gt;。&lt;/p&gt;&lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/1776686596/115-python&quot; target=&quot;_blank&quot;&gt;https://github.com/1776686596/115-python&lt;/a&gt;&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;项目定位&lt;a href=&quot;#项目定位&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;115-python&lt;/strong&gt; 是 115 网盘的 Python 工具生态聚合仓库，仓库 &lt;strong&gt;fork 自 &lt;a href=&quot;https://github.com/ChenyangGao/p115client&quot; target=&quot;_blank&quot;&gt;ChenyangGao/p115client&lt;/a&gt;&lt;/strong&gt;，并在上游基础上持续维护和扩展。&lt;/p&gt;&lt;p&gt;需要说明的是：核心库与工具模块的基础能力都来自原作者 &lt;a href=&quot;https://github.com/ChenyangGao&quot; target=&quot;_blank&quot;&gt;ChenyangGao&lt;/a&gt; 的辛勤工作，本仓库的主要价值是聚合、维护并在此基础上补充实用模块。我不把上游能力冒充为原创。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;核心客户端：p115client&lt;a href=&quot;#核心客户端p115client&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;仓库的核心是 &lt;code&gt;p115client&lt;/code&gt;，它是 115 网盘 Web API 的 Python 客户端，支持同步 / 异步，全面封装了 &lt;strong&gt;web、app 与 open&lt;/strong&gt; 三类接口。&lt;/p&gt;&lt;p&gt;一个最小可用的示例如下（示例用占位符代替真实 Cookie，请勿直接填入自己的凭据）：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;from&lt;/span&gt;&lt;span&gt; p115client &lt;/span&gt;&lt;span&gt;import&lt;/span&gt;&lt;span&gt; P115Client&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;client &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;P115Client&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&quot;UID=...; CID=...; SEID=...; KID=...&quot;&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;data &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; client.&lt;/span&gt;&lt;span&gt;fs_files&lt;/span&gt;&lt;span&gt;({&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&quot;cid&quot;&lt;/span&gt;&lt;span&gt;: &lt;/span&gt;&lt;span&gt;0&lt;/span&gt;&lt;span&gt;, &lt;/span&gt;&lt;span&gt;&quot;limit&quot;&lt;/span&gt;&lt;span&gt;: &lt;/span&gt;&lt;span&gt;100&lt;/span&gt;&lt;span&gt;})&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;工具模块全景&lt;a href=&quot;#工具模块全景&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;在核心库之外，仓库通过 &lt;code&gt;modules/&lt;/code&gt; 组织了一系列工具模块，按四类划分：&lt;/p&gt;
 
-client = P115Client(&quot;UID=...; CID=...; SEID=...; KID=...&quot;)
-data = client.fs_files({&quot;cid&quot;: 0, &quot;limit&quot;: 100})
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;工具模块全景&lt;/h2&gt;
-&lt;p&gt;在核心库之外，仓库通过 &lt;code&gt;modules/&lt;/code&gt; 组织了一系列工具模块，按四类划分：&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;分类&lt;/th&gt;
-&lt;th&gt;模块&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;网盘挂载 / 访问&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;p115dav&lt;/code&gt;、&lt;code&gt;p115tinydav&lt;/code&gt;、&lt;code&gt;p115wsgidav&lt;/code&gt;、&lt;code&gt;p115ftp&lt;/code&gt;、&lt;code&gt;p115sftp&lt;/code&gt;、&lt;code&gt;p115fuse&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;302 直链 / 图片 / 扫码&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;p115image302&lt;/code&gt;、&lt;code&gt;p115nano302&lt;/code&gt;、&lt;code&gt;p115open302&lt;/code&gt;、&lt;code&gt;p115tiny302&lt;/code&gt;、&lt;code&gt;p115imghost&lt;/code&gt;、&lt;code&gt;p115qrcode&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;传输 / 存储&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;p115browser-mcp&lt;/code&gt;、&lt;code&gt;p115oss&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;数据库 / 工具&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;p115updatedb&lt;/code&gt;、&lt;code&gt;p115querydb&lt;/code&gt;、&lt;code&gt;p115servedb&lt;/code&gt;、&lt;code&gt;p115pickcode&lt;/code&gt;、&lt;code&gt;p115cipher&lt;/code&gt;、&lt;code&gt;p115rsacipher&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;各模块的详细说明见 &lt;code&gt;modules/&lt;/code&gt; 对应目录。&lt;/p&gt;
-&lt;h2&gt;典型使用方式&lt;/h2&gt;
-&lt;p&gt;使用路径有两条：&lt;/p&gt;
-&lt;ol&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;分类&lt;/th&gt;&lt;th&gt;模块&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;网盘挂载 / 访问&lt;/td&gt;&lt;td&gt;&lt;code&gt;p115dav&lt;/code&gt;、&lt;code&gt;p115tinydav&lt;/code&gt;、&lt;code&gt;p115wsgidav&lt;/code&gt;、&lt;code&gt;p115ftp&lt;/code&gt;、&lt;code&gt;p115sftp&lt;/code&gt;、&lt;code&gt;p115fuse&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;302 直链 / 图片 / 扫码&lt;/td&gt;&lt;td&gt;&lt;code&gt;p115image302&lt;/code&gt;、&lt;code&gt;p115nano302&lt;/code&gt;、&lt;code&gt;p115open302&lt;/code&gt;、&lt;code&gt;p115tiny302&lt;/code&gt;、&lt;code&gt;p115imghost&lt;/code&gt;、&lt;code&gt;p115qrcode&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;传输 / 存储&lt;/td&gt;&lt;td&gt;&lt;code&gt;p115browser-mcp&lt;/code&gt;、&lt;code&gt;p115oss&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;数据库 / 工具&lt;/td&gt;&lt;td&gt;&lt;code&gt;p115updatedb&lt;/code&gt;、&lt;code&gt;p115querydb&lt;/code&gt;、&lt;code&gt;p115servedb&lt;/code&gt;、&lt;code&gt;p115pickcode&lt;/code&gt;、&lt;code&gt;p115cipher&lt;/code&gt;、&lt;code&gt;p115rsacipher&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;p&gt;各模块的详细说明见 &lt;code&gt;modules/&lt;/code&gt; 对应目录。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;典型使用方式&lt;a href=&quot;#典型使用方式&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;使用路径有两条：&lt;/p&gt;&lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;直接使用核心库&lt;/strong&gt;：安装 &lt;code&gt;p115client&lt;/code&gt; 后在代码里按上面的示例调用即可。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;独立使用某个模块&lt;/strong&gt;：进入具体模块目录阅读独立说明。例如 MCP server 场景下进入 &lt;code&gt;modules/p115browser-mcp/&lt;/code&gt;，按照该目录 &lt;code&gt;readme.md&lt;/code&gt; 的 &lt;code&gt;pip install p115browser-mcp&lt;/code&gt;、启动 115 浏览器调试模式、配置 &lt;code&gt;.mcp.json&lt;/code&gt; 等步骤操作。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;这里不承诺未经验证的一键部署，具体以各模块 README 为准。&lt;/p&gt;
-&lt;h2&gt;安装与快速开始&lt;/h2&gt;
-&lt;p&gt;安装核心库：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;pip install -U p115client
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;安装核心库与各模块、使用独立模块（如 MCP server）时，请按对应模块的 &lt;code&gt;readme.md&lt;/code&gt; 操作，也可以参考 &lt;a href=&quot;https://p115client.readthedocs.io/en/latest/&quot;&gt;p115client 文档&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;项目当前 Python 版本约束为 &lt;code&gt;^3.12&lt;/code&gt;（即 Python 3.12 及以上），安装前请确认环境兼容。&lt;/p&gt;
-&lt;h2&gt;项目边界与致谢&lt;/h2&gt;
-&lt;ul&gt;
+&lt;/ol&gt;&lt;p&gt;这里不承诺未经验证的一键部署，具体以各模块 README 为准。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;安装与快速开始&lt;a href=&quot;#安装与快速开始&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;安装核心库：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;pip install -U p115client&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;安装核心库与各模块、使用独立模块（如 MCP server）时，请按对应模块的 &lt;code&gt;readme.md&lt;/code&gt; 操作，也可以参考 &lt;a href=&quot;https://p115client.readthedocs.io/en/latest/&quot; target=&quot;_blank&quot;&gt;p115client 文档&lt;/a&gt;。&lt;/p&gt;&lt;p&gt;项目当前 Python 版本约束为 &lt;code&gt;^3.12&lt;/code&gt;（即 Python 3.12 及以上），安装前请确认环境兼容。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;项目边界与致谢&lt;a href=&quot;#项目边界与致谢&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;本项目以 &lt;strong&gt;MIT 协议&lt;/strong&gt; 发布；&lt;/li&gt;
-&lt;li&gt;仓库 fork 自 &lt;code&gt;ChenyangGao/p115client&lt;/code&gt;，上游的 LICENSE 版权归原作者 &lt;a href=&quot;https://github.com/ChenyangGao&quot;&gt;ChenyangGao&lt;/a&gt;（年份 2024）；&lt;/li&gt;
+&lt;li&gt;仓库 fork 自 &lt;code&gt;ChenyangGao/p115client&lt;/code&gt;，上游的 LICENSE 版权归原作者 &lt;a href=&quot;https://github.com/ChenyangGao&quot; target=&quot;_blank&quot;&gt;ChenyangGao&lt;/a&gt;（年份 2024）；&lt;/li&gt;
 &lt;li&gt;本仓库在核心库之上维护与扩展工具模块，维护范围限于聚合、修复与补充说明，不替代上游的基础能力。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;写在最后&lt;/h2&gt;
-&lt;p&gt;对我来说，这套生态解决的核心问题是：把 115 网盘从「只能在网页里用」变成「可以在本地脚本、挂载目录、直链分享和本地文件列表里用」。&lt;/p&gt;
-&lt;p&gt;如果你也有类似需求，欢迎到 &lt;a href=&quot;https://github.com/1776686596/115-python&quot;&gt;GitHub - 115-python&lt;/a&gt; 查看、使用或提 Issue。&lt;/p&gt;
-</content:encoded></item><item><title>PackLens - 看清 Linux 软件、磁盘与进程的一站式工具</title><link>https://blog.daisheng.xyz/posts/packlens/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/packlens/</guid><description>PackLens 是一款 Linux 原生 GUI 工具，整合软件清单、开发环境识别、磁盘分析、缓存清理与进程检查，帮你快速知道系统里装了什么、占了多少、该怎么清理。</description><pubDate>Tue, 19 May 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;如果你长期使用 Linux 桌面，大概率会遇到一个很现实的问题：软件不是只从一个地方来的。&lt;/p&gt;
-&lt;p&gt;有些来自 &lt;code&gt;apt&lt;/code&gt;，有些来自 &lt;code&gt;snap&lt;/code&gt; 或 &lt;code&gt;flatpak&lt;/code&gt;，有些只是一个 &lt;code&gt;.desktop&lt;/code&gt; 入口；开发环境里还会叠加 Python、Node、Rust、Java、conda、nvm、rustup、pipx、npm 全局包、cargo install 工具。时间一久，系统里到底装了什么、占了多少空间、哪些缓存可以清理、哪些后台进程正在吃内存，就会变得越来越难看清。&lt;/p&gt;
-&lt;p&gt;于是我做了 &lt;strong&gt;PackLens&lt;/strong&gt;：一个面向 Linux 桌面的原生 GUI 工具，把软件清单、开发环境、磁盘分析、清理建议和进程检查放到一个应用里。&lt;/p&gt;
-&lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/1776686596/PackLens&quot;&gt;https://github.com/1776686596/PackLens&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://blog.daisheng.xyz/_astro/packlens-hero.DkHbE-a9_ZQItLR.webp&quot; alt=&quot;PackLens 项目概览&quot; /&gt;&lt;/p&gt;
-&lt;h2&gt;PackLens 想解决什么&lt;/h2&gt;
-&lt;p&gt;PackLens 的核心目标很简单：让 Linux 系统整理变得可见、可查、可判断。&lt;/p&gt;
-&lt;p&gt;它不是单纯的卸载器，也不是只显示磁盘占用的分析器，而是围绕一个更完整的问题展开：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;这个系统里装了什么？它从哪里来？占用了多少？我能不能安全地清理或卸载？&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;为了回答这个问题，PackLens 把几个常见但分散的操作集中在一起：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;查看 &lt;code&gt;apt&lt;/code&gt;、&lt;code&gt;snap&lt;/code&gt;、&lt;code&gt;flatpak&lt;/code&gt; 和桌面入口中的软件&lt;/li&gt;
-&lt;li&gt;识别 Python、Node、Rust、Java 等开发环境&lt;/li&gt;
-&lt;li&gt;分析目录和缓存占用&lt;/li&gt;
-&lt;li&gt;给出带风险等级的清理建议&lt;/li&gt;
-&lt;li&gt;扫描后台进程和内存占用&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;软件全景：先把“装了什么”看清楚&lt;/h2&gt;
-&lt;p&gt;Linux 桌面上软件来源很多，只看某一个包管理器经常不够。PackLens 会聚合常见来源，并在一个列表里展示软件名称、来源、安装方式、路径和卸载命令。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://blog.daisheng.xyz/_astro/packlens-software-panorama.BY1hXXfq_ZfBgPb.webp&quot; alt=&quot;PackLens 软件全景&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;这里比较实用的是两点：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;可以搜索和筛选，不需要在终端里记不同包管理器的查询命令。&lt;/li&gt;
-&lt;li&gt;可以看到卸载命令，适合在动手前先确认来源和影响范围。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;对于手动安装、带 &lt;code&gt;.desktop&lt;/code&gt; 文件但不在包管理器记录里的应用，PackLens 也会尽量把入口信息展示出来，避免“明明菜单里有，但不知道从哪来的”这种情况。&lt;/p&gt;
-&lt;h2&gt;开发环境：专门照顾开发者的混乱现场&lt;/h2&gt;
-&lt;p&gt;开发机最容易膨胀的部分，往往不是普通桌面应用，而是各种语言生态。&lt;/p&gt;
-&lt;p&gt;PackLens 会检查常见运行时和版本管理器，例如：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Python：&lt;code&gt;python3&lt;/code&gt;、&lt;code&gt;pip&lt;/code&gt;、&lt;code&gt;pipx&lt;/code&gt;、&lt;code&gt;uv tool&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Node：&lt;code&gt;node&lt;/code&gt;、&lt;code&gt;npm -g&lt;/code&gt;、&lt;code&gt;nvm&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Rust：&lt;code&gt;rustc&lt;/code&gt;、&lt;code&gt;cargo install&lt;/code&gt;、&lt;code&gt;rustup&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Java：&lt;code&gt;java&lt;/code&gt;、&lt;code&gt;javac&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img src=&quot;https://blog.daisheng.xyz/_astro/packlens-dev-environment.Cz6-RaDr_Z1ryweQ.webp&quot; alt=&quot;PackLens 开发环境&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;这部分对我自己的意义很大。很多时候磁盘空间被吃掉，不是因为装了一个特别大的软件，而是多个开发生态各自缓存、各自安装全局工具，最后叠在一起变成一堆很难回忆来源的东西。&lt;/p&gt;
-&lt;p&gt;PackLens 把这些信息放到独立页面里，方便快速判断：哪些运行时还在用，哪些全局包可能已经不需要了。&lt;/p&gt;
-&lt;h2&gt;磁盘分析：不只看大小，也要能定位路径&lt;/h2&gt;
-&lt;p&gt;当磁盘空间告急时，最怕的不是“大文件很多”，而是不知道应该从哪里开始看。&lt;/p&gt;
-&lt;p&gt;PackLens 提供快速扫描和完整扫描两种模式。快速模式适合日常看用户目录，完整模式可以覆盖 &lt;code&gt;/&lt;/code&gt;，但会更慢。扫描结果会用目录树和可视化块图展示占用情况，也可以打开路径继续检查。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://blog.daisheng.xyz/_astro/packlens-disk-analysis.BmAyf9sU_Ze4MEK.webp&quot; alt=&quot;PackLens 磁盘分析&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;它还会识别常见开发缓存目录，例如 &lt;code&gt;apt&lt;/code&gt;、&lt;code&gt;pip&lt;/code&gt;、&lt;code&gt;npm&lt;/code&gt;、&lt;code&gt;conda&lt;/code&gt;、&lt;code&gt;cargo&lt;/code&gt;、&lt;code&gt;docker&lt;/code&gt; 等。这样你看到的不只是“某个目录很大”，而是能进一步判断它为什么大、能不能清。&lt;/p&gt;
-&lt;h2&gt;清理助手：把风险说清楚&lt;/h2&gt;
-&lt;p&gt;清理系统最麻烦的地方在于：有些东西可以放心删，有些东西最好先确认，有些操作还需要 &lt;code&gt;sudo&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;PackLens 的清理助手会生成清理建议，并标注风险等级。无需 &lt;code&gt;sudo&lt;/code&gt; 的清理项可以在应用内执行；需要管理员权限的操作会提示复制命令到终端执行。&lt;/p&gt;
-&lt;p&gt;这种设计比较保守，但我更喜欢这种方式：清理工具不应该为了“一键释放空间”而隐藏风险。尤其是开发机，很多缓存目录重新下载成本不低，清理前知道影响范围更重要。&lt;/p&gt;
-&lt;h2&gt;进程管理：找到正在吃内存的后台任务&lt;/h2&gt;
-&lt;p&gt;除了磁盘，内存占用也是日常整理的一部分。PackLens 的进程管理页会展示内存和交换分区占用，并列出后台进程。你可以搜索、筛选，并选择结束可终止的进程。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://blog.daisheng.xyz/_astro/packlens-process-manager.B3LOMfMS_ZchAGV.webp&quot; alt=&quot;PackLens 进程管理&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;它不会假装能结束所有进程：权限不足或系统关键进程可能无法结束。这也是我希望 PackLens 保持的边界，能帮你看清楚和处理常见问题，但不做危险的越权操作。&lt;/p&gt;
-&lt;h2&gt;技术栈&lt;/h2&gt;
-&lt;p&gt;PackLens 是一个 Linux 原生桌面应用，当前版本为 &lt;code&gt;0.1.2&lt;/code&gt;，主要技术栈如下：&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;模块&lt;/th&gt;
-&lt;th&gt;技术&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;应用语言&lt;/td&gt;
-&lt;td&gt;Rust&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;GUI&lt;/td&gt;
-&lt;td&gt;GTK4 + libadwaita&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;异步任务&lt;/td&gt;
-&lt;td&gt;Tokio&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;日志&lt;/td&gt;
-&lt;td&gt;tracing&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;配置&lt;/td&gt;
-&lt;td&gt;TOML&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;项目使用 &lt;code&gt;GPL-3.0-or-later&lt;/code&gt; 协议发布。&lt;/p&gt;
-&lt;h2&gt;安装与运行&lt;/h2&gt;
-&lt;p&gt;如果你想直接体验，可以关注项目的 GitHub Releases：&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/1776686596/PackLens/releases&quot;&gt;https://github.com/1776686596/PackLens/releases&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;预构建包依赖系统已安装 GTK4 和 libadwaita。Ubuntu 24.04+ 用户可以优先选择 &lt;code&gt;.deb&lt;/code&gt; 包；也可以下载 &lt;code&gt;.tar.gz&lt;/code&gt; 后执行本地安装脚本。&lt;/p&gt;
-&lt;p&gt;如果你想从源码运行：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;git clone https://github.com/1776686596/PackLens.git
-cd PackLens
-cargo run --bin packlens
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;发布构建：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;cargo build --release
-./target/release/packlens
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;系统依赖方面，需要 GTK4、libadwaita 和 &lt;code&gt;pkg-config&lt;/code&gt;。不同发行版安装方式略有差异，README 中已经给出了 Ubuntu / Debian、Fedora、Arch 的示例命令。&lt;/p&gt;
-&lt;h2&gt;适合谁&lt;/h2&gt;
-&lt;p&gt;我会推荐这些用户试试 PackLens：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;经常折腾 Linux 桌面环境的人&lt;/li&gt;
-&lt;li&gt;想清理磁盘，但不想盲目删除目录的人&lt;/li&gt;
-&lt;li&gt;Python / Node / Rust / Java 环境比较多的开发者&lt;/li&gt;
-&lt;li&gt;想知道系统里软件来源和卸载方式的人&lt;/li&gt;
-&lt;li&gt;偏好 GNOME / GTK 风格原生应用的人&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;写在最后&lt;/h2&gt;
-&lt;p&gt;PackLens 目前还在持续完善中，但它已经能覆盖我自己整理 Linux 桌面环境时最常遇到的几个问题：软件来源分散、开发环境混乱、缓存占用不透明、后台进程不容易快速判断。&lt;/p&gt;
-&lt;p&gt;如果你也遇到过类似问题，欢迎下载体验，也欢迎在 GitHub 上提 Issue 或 Star 支持：&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/1776686596/PackLens&quot;&gt;GitHub - PackLens&lt;/a&gt;&lt;/p&gt;
-</content:encoded></item><item><title>Tauri 2 随机视频播放器：桌面端 + Chrome 悬浮窗</title><link>https://blog.daisheng.xyz/posts/video-player/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/video-player/</guid><description>一个基于 Tauri 2 的随机视频/美图播放器，并配套 Manifest V3 Chrome 悬浮窗插件：一键弹出可拖拽浮窗，支持自动下一个、预加载与接口配置。</description><pubDate>Sat, 10 Jan 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;我做了一个偏「小而爽」的工具：桌面端用 &lt;strong&gt;Tauri 2&lt;/strong&gt;（Rust + 原生 HTML/JS）实现随机视频/美图播放；浏览器端再配一个 &lt;strong&gt;Chrome 插件&lt;/strong&gt;，在任何网页里点一下就能弹出可拖拽的悬浮窗播放器。&lt;/p&gt;
-&lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/1776686596/video-player&quot;&gt;https://github.com/1776686596/video-player&lt;/a&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;推荐优先使用浏览器插件：装好后在任意网页一键弹出悬浮窗，更轻量也更顺手；桌面端更适合当独立播放器使用（带接口/缓存管理与预加载兜底）。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;项目 UI 文案沿用了“美女视频”的叫法，但它本质上是一个“可配置视频接口的播放器壳子”，换成任何公开视频/图片接口都行。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2&gt;效果预览&lt;/h2&gt;
-&lt;p&gt;下图是 Chrome 插件在网页中的实际使用效果（右下角悬浮窗）：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://blog.daisheng.xyz/_astro/video-player.BLIPp4Rp_Z10bKMG.webp&quot; alt=&quot;Chrome 插件悬浮窗效果&quot; /&gt;&lt;/p&gt;
-&lt;h2&gt;项目由两部分组成&lt;/h2&gt;
-&lt;h3&gt;1）桌面端（Tauri 应用）&lt;/h3&gt;
-&lt;p&gt;桌面端的目标是：&lt;strong&gt;播放体验尽量顺滑、接口尽量兼容、配置尽量可视化&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;核心功能：&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;功能&lt;/th&gt;
-&lt;th&gt;说明&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;视频播放&lt;/td&gt;
-&lt;td&gt;自定义控制栏（播放/暂停、进度、音量、倍速、全屏）&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;自动下一个&lt;/td&gt;
-&lt;td&gt;视频结束自动切换下一条&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;预加载&lt;/td&gt;
-&lt;td&gt;后台提前下载下一条，降低切换等待&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;接口管理&lt;/td&gt;
-&lt;td&gt;支持分类切换/随机、添加自定义接口、删除自定义接口&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;缓存管理&lt;/td&gt;
-&lt;td&gt;一键清理当前播放与预加载队列&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;美图模式&lt;/td&gt;
-&lt;td&gt;同一套“接口/分类”能力，用于随机图片浏览&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3&gt;2）浏览器端（Chrome 悬浮窗插件）&lt;/h3&gt;
-&lt;p&gt;Chrome 插件的目标是：&lt;strong&gt;不离开当前网页，随时开关一个浮窗播放器&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;交互上就一件事：点击扩展图标 → 注入脚本 → 页面右下角出现悬浮窗。&lt;/p&gt;
-&lt;p&gt;悬浮窗支持：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;拖拽移动&lt;/li&gt;
-&lt;li&gt;最小化/关闭&lt;/li&gt;
-&lt;li&gt;自动下一个 / 手动下一个&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;桌面端实现要点：把“网络层复杂度”留在 Rust&lt;/h2&gt;
-&lt;p&gt;做“随机视频播放器”最烦的不是 UI，而是接口返回的多样性：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;302 重定向到真实地址&lt;/li&gt;
-&lt;li&gt;JSON 包一层 &lt;code&gt;data/url&lt;/code&gt; 字段&lt;/li&gt;
-&lt;li&gt;直链播放失败（跨域/CORS、Range、Referer、UA 等问题）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;这个项目的策略是：&lt;strong&gt;前端只负责播放与交互，Rust 侧负责取链、解析与兜底&lt;/strong&gt;。&lt;/p&gt;
-&lt;h3&gt;自定义 &lt;code&gt;stream://&lt;/code&gt; 协议：兜底播放兼容性&lt;/h3&gt;
-&lt;p&gt;项目注册了一个自定义协议 &lt;code&gt;stream&lt;/code&gt;，前端遇到“直链播放失败”时会退回到：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;stream:///video?...&lt;/code&gt;：Rust 侧作为 HTTP 代理（并带 Range 支持）&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;stream:///video/{id}&lt;/code&gt;：直接播放“预加载队列”里已下载的视频字节&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;这样 &lt;code&gt;&amp;lt;video&amp;gt;&lt;/code&gt; 只要能播 &lt;code&gt;stream://&lt;/code&gt;，很多兼容问题就能被统一兜底。&lt;/p&gt;
-&lt;h3&gt;预加载：把“等待”变成“切换”&lt;/h3&gt;
-&lt;p&gt;预加载队列维持一个很小的上限（例如 2 条），让“下一个”尽量像切换而不是等待：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;播放过程中按节奏触发 &lt;code&gt;preload_next&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;切换时优先 &lt;code&gt;pop_next_video&lt;/code&gt; 拿到 &lt;code&gt;stream:///video/{id}&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;再配合前端“错误自动跳过（指数退避）”，接口偶发不稳定时也不会卡死。&lt;/p&gt;
-&lt;h2&gt;本地运行与打包&lt;/h2&gt;
-&lt;h3&gt;运行桌面端（Tauri）&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;npm install
-npm run dev
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;打包：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;npm run build
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;安装 Chrome 插件（开发者模式）&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;打开 &lt;code&gt;chrome://extensions/&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;开启右上角「开发者模式」&lt;/li&gt;
-&lt;li&gt;从 GitHub 下载/克隆仓库：&lt;code&gt;https://github.com/1776686596/video-player&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;点击「加载已解压的扩展程序」，选择仓库里的 &lt;code&gt;chrome-extension/&lt;/code&gt; 目录&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2&gt;免责声明&lt;/h2&gt;
-&lt;p&gt;本项目会请求第三方公开接口资源，仅用于学习与交流。请在使用与二次分发时遵守法律法规、版权与接口方使用条款，并自行评估接口稳定性与安全性。&lt;/p&gt;
-</content:encoded></item><item><title>Idol Tracker - 开源追星神器部署指南</title><link>https://blog.daisheng.xyz/posts/idol-tracker-guide/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/idol-tracker-guide/</guid><description>一款专为粉丝打造的现代化追星工具，集成微博动态聚合、超话自动签到、美图画廊等功能。本文详细介绍项目功能、技术架构及完整部署教程。</description><pubDate>Sun, 28 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;项目简介&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;Idol Tracker&lt;/strong&gt; 是我开发的一款开源追星工具。作为一个追星党，我深知每天手动刷微博、签到超话的痛苦，于是决定用技术解决这个问题。&lt;/p&gt;
-&lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/1776686596/idol-tracker&quot;&gt;https://github.com/1776686596/idol-tracker&lt;/a&gt;&lt;/p&gt;
-&lt;h3&gt;核心功能&lt;/h3&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;功能&lt;/th&gt;
-&lt;th&gt;说明&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;微博动态聚合&lt;/td&gt;
-&lt;td&gt;自动抓取爱豆微博，时间轴展示&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;超话自动签到&lt;/td&gt;
-&lt;td&gt;每天 8:00 定时签到，告别断签&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;美图画廊&lt;/td&gt;
-&lt;td&gt;瀑布流展示高清图片&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;消息推送&lt;/td&gt;
-&lt;td&gt;支持企业微信、邮件通知&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;扫码登录&lt;/td&gt;
-&lt;td&gt;微博扫码绑定，安全快捷&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h2&gt;界面预览&lt;/h2&gt;
-&lt;h3&gt;首页介绍&lt;/h3&gt;
-&lt;p&gt;部署后访客看到的首页，展示项目核心功能介绍：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/add-idol.png&quot; alt=&quot;首页功能介绍&quot; /&gt;&lt;/p&gt;
-&lt;h3&gt;动态聚合&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;主界面&lt;/strong&gt; - 聚合展示所有关注爱豆的最新动态：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/dashboard.png&quot; alt=&quot;动态主界面&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;动态详情&lt;/strong&gt; - 点击查看某条动态的详细内容：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/checkin.png&quot; alt=&quot;动态详情&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;单个爱豆动态&lt;/strong&gt; - 查看某一位爱豆的所有动态：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/bind-weibo.png&quot; alt=&quot;单个爱豆动态&quot; /&gt;&lt;/p&gt;
-&lt;h3&gt;美图画廊&lt;/h3&gt;
-&lt;p&gt;瀑布流展示爱豆高清美图：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/gallery.png&quot; alt=&quot;美图画廊&quot; /&gt;&lt;/p&gt;
-&lt;h3&gt;超话自动签到&lt;/h3&gt;
-&lt;p&gt;自动完成每日超话签到，告别断签烦恼：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/login.png&quot; alt=&quot;超话签到&quot; /&gt;&lt;/p&gt;
-&lt;h3&gt;管理后台&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;管理员登录&lt;/strong&gt;：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/admin/settings.png&quot; alt=&quot;管理员登录&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;数据概览&lt;/strong&gt; - 统计卡片 / 签到趋势图：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/admin/login.png&quot; alt=&quot;数据概览&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;用户管理&lt;/strong&gt; - 用户列表 / 状态管理：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/admin/dashboard.png&quot; alt=&quot;用户管理&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;系统配置&lt;/strong&gt; - 爬虫间隔设置 / 推送配置：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/admin/users.png&quot; alt=&quot;系统配置&quot; /&gt;&lt;/p&gt;
-&lt;h2&gt;技术架构&lt;/h2&gt;
-&lt;p&gt;项目采用 &lt;strong&gt;Monorepo&lt;/strong&gt; 架构，前后端分离：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;idol-tracker/
-├── packages/
-│   ├── web/        # 用户前台 (Next.js 14)
-│   ├── admin/      # 管理后台 (Next.js 14)
-│   ├── server/     # 后端服务 (Express.js)
-│   └── crawler/    # 爬虫模块
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;技术选型&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;前端：Next.js 14 + TailwindCSS&lt;/li&gt;
-&lt;li&gt;后端：Express.js + PostgreSQL + Redis&lt;/li&gt;
-&lt;li&gt;认证：JWT&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;部署教程&lt;/h2&gt;
-&lt;h3&gt;环境要求&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Node.js &amp;gt;= 18.0.0&lt;/li&gt;
-&lt;li&gt;PostgreSQL &amp;gt;= 14&lt;/li&gt;
-&lt;li&gt;Redis&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;Step 1: 克隆项目&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;git clone https://github.com/1776686596/idol-tracker.git
-cd idol-tracker
-npm install
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Step 2: 配置数据库&lt;/h3&gt;
-&lt;p&gt;创建 PostgreSQL 数据库：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;CREATE DATABASE idol_tracker;
-CREATE USER idoltracker WITH PASSWORD &apos;your-password&apos;;
-GRANT ALL PRIVILEGES ON DATABASE idol_tracker TO idoltracker;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;初始化表结构：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;psql -U idoltracker -d idol_tracker -f packages/server/sql/init.sql
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Step 3: 配置环境变量&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;cp packages/server/.env.example packages/server/.env
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;编辑 &lt;code&gt;.env&lt;/code&gt; 文件：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# 服务配置
-PORT=3001
-NODE_ENV=development
+&lt;/ul&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;写在最后&lt;a href=&quot;#写在最后&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;对我来说，这套生态解决的核心问题是：把 115 网盘从「只能在网页里用」变成「可以在本地脚本、挂载目录、直链分享和本地文件列表里用」。&lt;/p&gt;&lt;p&gt;如果你也有类似需求，欢迎到 &lt;a href=&quot;https://github.com/1776686596/115-python&quot; target=&quot;_blank&quot;&gt;GitHub - 115-python&lt;/a&gt; 查看、使用或提 Issue。&lt;/p&gt;&lt;/section&gt;</content:encoded></item><item><title>抖音酒类直播间监控系统 - 实时数据采集与可视化</title><link>https://blog.daisheng.xyz/posts/douyin-live-monitor/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/douyin-live-monitor/</guid><description>基于 Playwright + FastAPI 的抖音直播间数据监控系统，实时采集多个酒类品牌直播间的在线人数、点赞数和弹幕数据，提供精美的可视化仪表盘。</description><pubDate>Sun, 28 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;section&gt;&lt;h2&gt;项目简介&lt;a href=&quot;#项目简介&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;抖音酒类直播间监控系统&lt;/strong&gt;（Douyin Live Monitor）是我开发的一款实时数据采集与可视化工具。项目初衷是监控多个酒类品牌在抖音平台的直播数据，为运营决策提供数据支撑。&lt;/p&gt;&lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/1776686596/douyin-live-monitor&quot; target=&quot;_blank&quot;&gt;https://github.com/1776686596/douyin-live-monitor&lt;/a&gt;&lt;/p&gt;&lt;section&gt;&lt;h3&gt;核心功能&lt;a href=&quot;#核心功能&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;
 
-# 数据库
-DATABASE_URL=postgresql://idoltracker:your-password@localhost:5432/idol_tracker
 
-# JWT 密钥（生产环境请修改）
-JWT_SECRET=your-super-secret-jwt-key
 
-# Redis
-REDIS_URL=redis://localhost:6379
 
-# 微博爬虫（必填）
-WEIBO_COOKIE=
-WEIBO_XSRF_TOKEN=
 
-# 企业微信推送（可选）
-WECHAT_WEBHOOK_KEY=
 
-# 邮件推送（可选）
-SMTP_HOST=smtp.example.com
-SMTP_PORT=465
-SMTP_USER=notify@example.com
-SMTP_PASS=your-smtp-password
-SMTP_FROM=Idol Tracker &amp;lt;notify@example.com&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Step 4: 获取微博 Cookie&lt;/h3&gt;
-&lt;p&gt;这是最关键的一步，爬虫需要微博 Cookie 才能工作：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;登录 &lt;a href=&quot;https://weibo.com&quot;&gt;weibo.com&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;按 &lt;code&gt;F12&lt;/code&gt; 打开开发者工具&lt;/li&gt;
-&lt;li&gt;切换到 &lt;code&gt;Network&lt;/code&gt; 标签&lt;/li&gt;
-&lt;li&gt;刷新页面，点击任意请求&lt;/li&gt;
-&lt;li&gt;在 &lt;code&gt;Request Headers&lt;/code&gt; 中找到 &lt;code&gt;Cookie&lt;/code&gt;，复制整个值&lt;/li&gt;
-&lt;li&gt;同样找到 &lt;code&gt;x-xsrf-token&lt;/code&gt;，复制其值&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;将这两个值填入 &lt;code&gt;.env&lt;/code&gt; 文件对应位置。&lt;/p&gt;
-&lt;h3&gt;Step 5: 启动服务&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;一键启动（推荐）&lt;/strong&gt;：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;npm run dev
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;这会同时启动三个服务：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;用户前台：http://localhost:3000&lt;/li&gt;
-&lt;li&gt;管理后台：http://localhost:3002&lt;/li&gt;
-&lt;li&gt;后端 API：http://localhost:3001&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;单独启动&lt;/strong&gt;：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;npm run dev:web      # 用户前台
-npm run dev:admin    # 管理后台
-npm run dev:server   # 后端服务
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Step 6: 登录系统&lt;/h3&gt;
-&lt;p&gt;默认管理员账号：&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;账号&lt;/th&gt;
-&lt;th&gt;密码&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;admin&lt;/td&gt;
-&lt;td&gt;admin123&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;blockquote&gt;
-&lt;p&gt;生产环境请务必修改默认密码！&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2&gt;使用指南&lt;/h2&gt;
-&lt;h3&gt;查看爱豆动态&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/dashboard.png&quot; alt=&quot;动态主界面&quot; /&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;登录后进入主界面&lt;/li&gt;
-&lt;li&gt;系统自动聚合所有关注爱豆的最新动态&lt;/li&gt;
-&lt;li&gt;点击任意动态可查看详情&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3&gt;浏览美图画廊&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/gallery.png&quot; alt=&quot;美图画廊&quot; /&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;进入「美图」页面&lt;/li&gt;
-&lt;li&gt;瀑布流展示所有爱豆的高清图片&lt;/li&gt;
-&lt;li&gt;支持大图预览和无限滚动&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3&gt;超话自动签到&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/login.png&quot; alt=&quot;超话签到&quot; /&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;绑定微博账号后自动开启&lt;/li&gt;
-&lt;li&gt;每天早上 8:00 自动执行签到&lt;/li&gt;
-&lt;li&gt;签到结果可通过企业微信/邮件推送&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3&gt;配置消息推送&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/admin/users.png&quot; alt=&quot;系统配置&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;在管理后台「系统设置」中配置：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;企业微信&lt;/strong&gt;：填入群机器人 Webhook Key&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;邮件&lt;/strong&gt;：配置 SMTP 服务器信息&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;数据库结构&lt;/h2&gt;
-&lt;p&gt;主要数据表：&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;表名&lt;/th&gt;
-&lt;th&gt;用途&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;users&lt;/td&gt;
-&lt;td&gt;用户账号&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;admins&lt;/td&gt;
-&lt;td&gt;管理员账号&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;idols&lt;/td&gt;
-&lt;td&gt;爱豆信息&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;subscriptions&lt;/td&gt;
-&lt;td&gt;用户订阅关系&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;weibo_posts&lt;/td&gt;
-&lt;td&gt;微博动态缓存&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;user_weibo_bindings&lt;/td&gt;
-&lt;td&gt;用户微博绑定&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;checkin_records&lt;/td&gt;
-&lt;td&gt;签到记录&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;system_config&lt;/td&gt;
-&lt;td&gt;系统配置&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h2&gt;常见问题&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;Q: 爬虫不工作？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;A: 检查微博 Cookie 是否过期，Cookie 有效期约 30 天，过期后需重新获取。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Q: 签到失败？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;A: 确保已正确绑定微博账号，且账号已关注对应超话。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Q: 如何部署到生产环境？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;A: 建议使用 PM2 管理 Node 进程，配合 Nginx 反向代理。记得修改 JWT_SECRET 和数据库密码。&lt;/p&gt;
-&lt;h2&gt;写在最后&lt;/h2&gt;
-&lt;p&gt;这个项目是我为了解决自己追星需求而开发的，希望能帮到有同样需求的朋友。&lt;/p&gt;
-&lt;p&gt;如果觉得有用，欢迎 Star 支持：&lt;a href=&quot;https://github.com/1776686596/idol-tracker&quot;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;有问题或建议欢迎提 Issue！&lt;/p&gt;
-</content:encoded></item><item><title>抖音酒类直播间监控系统 - 实时数据采集与可视化</title><link>https://blog.daisheng.xyz/posts/douyin-live-monitor/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/douyin-live-monitor/</guid><description>基于 Playwright + FastAPI 的抖音直播间数据监控系统，实时采集多个酒类品牌直播间的在线人数、点赞数和弹幕数据，提供精美的可视化仪表盘。</description><pubDate>Sun, 28 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;项目简介&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;抖音酒类直播间监控系统&lt;/strong&gt;（Douyin Live Monitor）是我开发的一款实时数据采集与可视化工具。项目初衷是监控多个酒类品牌在抖音平台的直播数据，为运营决策提供数据支撑。&lt;/p&gt;
-&lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/1776686596/douyin-live-monitor&quot;&gt;https://github.com/1776686596/douyin-live-monitor&lt;/a&gt;&lt;/p&gt;
-&lt;h3&gt;核心功能&lt;/h3&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;功能&lt;/th&gt;
-&lt;th&gt;说明&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;🔴 实时监控&lt;/td&gt;
-&lt;td&gt;自动采集多个酒类直播间的在线人数和点赞数&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;💬 弹幕采集&lt;/td&gt;
-&lt;td&gt;针对中国劲酒直播间进行弹幕内容抓取与关键词分析&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;📊 数据可视化&lt;/td&gt;
-&lt;td&gt;内置 Web 界面展示实时排行榜、趋势图表、统计卡片&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;🗄️ 数据持久化&lt;/td&gt;
-&lt;td&gt;所有数据存储到 MySQL 数据库，支持历史分析&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;🤖 智能反检测&lt;/td&gt;
-&lt;td&gt;模拟人工操作行为，提高采集稳定性&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;🔄 自动重试&lt;/td&gt;
-&lt;td&gt;内置重试机制，确保数据采集的可靠性&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3&gt;监控品牌&lt;/h3&gt;
-&lt;p&gt;当前系统监控以下 6 个酒类品牌的官方抖音直播间：&lt;/p&gt;
-&lt;ul&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;功能&lt;/th&gt;&lt;th&gt;说明&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;🔴 实时监控&lt;/td&gt;&lt;td&gt;自动采集多个酒类直播间的在线人数和点赞数&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;💬 弹幕采集&lt;/td&gt;&lt;td&gt;针对中国劲酒直播间进行弹幕内容抓取与关键词分析&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;📊 数据可视化&lt;/td&gt;&lt;td&gt;内置 Web 界面展示实时排行榜、趋势图表、统计卡片&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;🗄️ 数据持久化&lt;/td&gt;&lt;td&gt;所有数据存储到 MySQL 数据库，支持历史分析&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;🤖 智能反检测&lt;/td&gt;&lt;td&gt;模拟人工操作行为，提高采集稳定性&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;🔄 自动重试&lt;/td&gt;&lt;td&gt;内置重试机制，确保数据采集的可靠性&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;监控品牌&lt;a href=&quot;#监控品牌&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;当前系统监控以下 6 个酒类品牌的官方抖音直播间：&lt;/p&gt;&lt;ul&gt;
 &lt;li&gt;🥇 茅台&lt;/li&gt;
 &lt;li&gt;🥈 五粮液&lt;/li&gt;
 &lt;li&gt;🥉 汾酒&lt;/li&gt;
 &lt;li&gt;泸州老窖&lt;/li&gt;
 &lt;li&gt;剑南春&lt;/li&gt;
 &lt;li&gt;中国劲酒（含弹幕采集）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;界面预览&lt;/h2&gt;
-&lt;h3&gt;监控主面板&lt;/h3&gt;
-&lt;p&gt;启动服务后访问 &lt;code&gt;http://localhost:8001&lt;/code&gt; 即可看到精美的监控仪表盘：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/douyin-live-monitor/master/shot/%E6%88%AA%E5%9B%BE%202025-12-28%2015-38-59.png&quot; alt=&quot;监控主面板&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;主面板展示核心数据统计卡片，包括：&lt;/p&gt;
-&lt;ul&gt;
+&lt;/ul&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;界面预览&lt;a href=&quot;#界面预览&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;section&gt;&lt;h3&gt;监控主面板&lt;a href=&quot;#监控主面板&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;启动服务后访问 &lt;code&gt;http://localhost:8001&lt;/code&gt; 即可看到精美的监控仪表盘：&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/douyin-live-monitor/master/shot/%E6%88%AA%E5%9B%BE%202025-12-28%2015-38-59.png&quot; alt=&quot;监控主面板&quot; /&gt;&lt;figcaption&gt;监控主面板&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;主面板展示核心数据统计卡片，包括：&lt;/p&gt;&lt;ul&gt;
 &lt;li&gt;监控品牌总数 / 当前直播中数量&lt;/li&gt;
 &lt;li&gt;总在线人数 / 总点赞数&lt;/li&gt;
 &lt;li&gt;近期弹幕总数&lt;/li&gt;
 &lt;li&gt;中国劲酒专属数据卡片&lt;/li&gt;
 &lt;li&gt;最后更新时间&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;全局数据洞察&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/douyin-live-monitor/master/shot/%E6%88%AA%E5%9B%BE%202025-12-28%2015-39-23.png&quot; alt=&quot;全局数据洞察&quot; /&gt;&lt;/p&gt;
-&lt;ul&gt;
+&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;全局数据洞察&lt;a href=&quot;#全局数据洞察&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/douyin-live-monitor/master/shot/%E6%88%AA%E5%9B%BE%202025-12-28%2015-39-23.png&quot; alt=&quot;全局数据洞察&quot; /&gt;&lt;figcaption&gt;全局数据洞察&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;在线人数分布图&lt;/strong&gt;：柱状图展示各直播间实时在线人数对比&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;本场点赞分布图&lt;/strong&gt;：折线图展示点赞数据趋势&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;人气排行榜&lt;/strong&gt;：按在线人数与点赞综合排序，Top1 高亮展示&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;历史趋势与弹幕分析&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/douyin-live-monitor/master/shot/%E6%88%AA%E5%9B%BE%202025-12-28%2015-39-28.png&quot; alt=&quot;历史趋势与弹幕&quot; /&gt;&lt;/p&gt;
-&lt;ul&gt;
+&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;历史趋势与弹幕分析&lt;a href=&quot;#历史趋势与弹幕分析&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/douyin-live-monitor/master/shot/%E6%88%AA%E5%9B%BE%202025-12-28%2015-39-28.png&quot; alt=&quot;历史趋势与弹幕&quot; /&gt;&lt;figcaption&gt;历史趋势与弹幕&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;历史趋势对比&lt;/strong&gt;：点击排行榜中的直播间，可查看最近 60 分钟的数据变化&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;实时弹幕列表&lt;/strong&gt;：展示中国劲酒直播间最近 10 分钟的弹幕&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;关键词分析&lt;/strong&gt;：自动统计高频关键词（优惠、下单、支持等）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;技术架构&lt;/h2&gt;
-&lt;p&gt;项目采用前后端分离架构，核心技术栈如下：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────┐
-│                    前端展示层                            │
-│         (内嵌 HTML + ECharts 图表 + CountUp.js)         │
-└─────────────────────────┬───────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────┐
-│                    API 接口层                            │
-│              (FastAPI REST + Pydantic)                  │
-└─────────────────────────┬───────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────┐
-│                   业务逻辑层                             │
-│           (CRUD 操作 + 数据处理 + 定时任务)              │
-└─────────────────────────┬───────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────┐
-│                   数据采集层                             │
-│         (Playwright 浏览器自动化 + 反检测策略)           │
-└─────────────────────────┬───────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────┐
-│                   数据存储层                             │
-│            (MySQL 8.0 + SQLAlchemy ORM)                 │
-└─────────────────────────────────────────────────────────┘
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;技术选型&lt;/h3&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;层级&lt;/th&gt;
-&lt;th&gt;技术&lt;/th&gt;
-&lt;th&gt;说明&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;后端框架&lt;/td&gt;
-&lt;td&gt;FastAPI&lt;/td&gt;
-&lt;td&gt;高性能异步 Web 框架&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;浏览器自动化&lt;/td&gt;
-&lt;td&gt;Playwright&lt;/td&gt;
-&lt;td&gt;支持 Chromium/Firefox/WebKit&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;数据库&lt;/td&gt;
-&lt;td&gt;MySQL 8.0&lt;/td&gt;
-&lt;td&gt;关系型数据库&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;ORM&lt;/td&gt;
-&lt;td&gt;SQLAlchemy&lt;/td&gt;
-&lt;td&gt;异步数据库操作&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;前端图表&lt;/td&gt;
-&lt;td&gt;ECharts&lt;/td&gt;
-&lt;td&gt;开源可视化库&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;数字动画&lt;/td&gt;
-&lt;td&gt;CountUp.js&lt;/td&gt;
-&lt;td&gt;数字滚动效果&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3&gt;项目结构&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;douyin-live-monitor/
-├── backend/
-│   └── app/
-│       ├── main.py           # FastAPI 应用入口
-│       ├── config.py         # 配置管理
-│       ├── database.py       # 数据库连接
-│       ├── models.py         # SQLAlchemy 模型
-│       ├── schemas.py        # Pydantic 数据模型
-│       ├── crud.py           # 数据库 CRUD 操作
-│       └── crawler/
-│           ├── douyin_client.py  # 抖音直播间爬虫客户端
-│           └── tasks.py          # 后台采集任务
-├── database/                 # 数据库相关脚本
-├── shot/                     # 项目截图
-├── requirements.txt          # Python 依赖
-└── README.md
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;核心技术实现&lt;/h2&gt;
-&lt;h3&gt;1. Playwright 爬虫客户端&lt;/h3&gt;
-&lt;p&gt;爬虫核心是 &lt;code&gt;DouyinLiveClient&lt;/code&gt; 类，封装了浏览器自动化和数据解析逻辑：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;class DouyinLiveClient:
-    &quot;&quot;&quot;抖音直播间爬虫客户端&quot;&quot;&quot;
+&lt;/ul&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;技术架构&lt;a href=&quot;#技术架构&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;项目采用前后端分离架构，核心技术栈如下：&lt;/p&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;┌─────────────────────────────────────────────────────────┐&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│                    前端展示层                            │&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│         (内嵌 HTML + ECharts 图表 + CountUp.js)         │&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;└─────────────────────────┬───────────────────────────────┘&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;5&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;                          &lt;/span&gt;&lt;/span&gt;&lt;span&gt;│&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;6&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;                          &lt;/span&gt;&lt;/span&gt;&lt;span&gt;▼&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;7&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;┌─────────────────────────────────────────────────────────┐&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;8&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│                    API 接口层                            │&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;9&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│              (FastAPI REST + Pydantic)                  │&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;10&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;└─────────────────────────┬───────────────────────────────┘&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;11&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;                          &lt;/span&gt;&lt;/span&gt;&lt;span&gt;│&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;12&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;                          &lt;/span&gt;&lt;/span&gt;&lt;span&gt;▼&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;13&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;┌─────────────────────────────────────────────────────────┐&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;14&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│                   业务逻辑层                             │&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;15&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│           (CRUD 操作 + 数据处理 + 定时任务)              │&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;16&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;└─────────────────────────┬───────────────────────────────┘&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;17&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;                          &lt;/span&gt;&lt;/span&gt;&lt;span&gt;│&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;18&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;                          &lt;/span&gt;&lt;/span&gt;&lt;span&gt;▼&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;19&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;┌─────────────────────────────────────────────────────────┐&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;20&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│                   数据采集层                             │&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;21&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│         (Playwright 浏览器自动化 + 反检测策略)           │&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;22&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;└─────────────────────────┬───────────────────────────────┘&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;23&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;                          &lt;/span&gt;&lt;/span&gt;&lt;span&gt;│&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;24&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;                          &lt;/span&gt;&lt;/span&gt;&lt;span&gt;▼&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;25&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;┌─────────────────────────────────────────────────────────┐&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;26&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│                   数据存储层                             │&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;27&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│            (MySQL 8.0 + SQLAlchemy ORM)                 │&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;28&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;└─────────────────────────────────────────────────────────┘&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;span&gt;展开&lt;/span&gt;&lt;span&gt;收起&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;section&gt;&lt;h3&gt;技术选型&lt;a href=&quot;#技术选型&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;
 
-    async def init(self) -&amp;gt; None:
-        &quot;&quot;&quot;初始化浏览器实例&quot;&quot;&quot;
-        self._playwright = await async_playwright().start()
-        self._browser = await self._playwright.chromium.launch(
-            headless=self._headless,
-        )
-        # 模拟真实用户环境
-        self._context = await self._browser.new_context(
-            user_agent=&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) ...&quot;,
-            locale=&quot;zh-CN&quot;,
-        )
 
-    async def fetch_room_info(self, room_name: str, room_url: str) -&amp;gt; LiveRoomInfo:
-        &quot;&quot;&quot;获取直播间实时数据&quot;&quot;&quot;
-        page = await self._open_room_page(room_url)
-        online_count, like_count = await self._extract_room_metrics(page, ...)
-        return LiveRoomInfo(
-            room_name=room_name,
-            is_live=online_count &amp;gt; 0 or like_count &amp;gt; 0,
-            online_count=online_count,
-            like_count=like_count,
-        )
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;2. 智能反检测策略&lt;/h3&gt;
-&lt;p&gt;为避免被平台识别为爬虫，实现了模拟人工操作的行为：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;async def _simulate_human_actions(self, page: Page) -&amp;gt; None:
-    &quot;&quot;&quot;模拟人工操作，提高采集稳定性&quot;&quot;&quot;
-    # 1. 随机等待
-    await page.wait_for_timeout(random.randint(800, 2500))
 
-    # 2. 鼠标移动到页面中间区域
-    x = random.randint(int(width * 0.3), int(width * 0.7))
-    y = random.randint(int(height * 0.3), int(height * 0.7))
-    await page.mouse.move(x, y, steps=random.randint(5, 20))
-    await page.mouse.click(x, y, delay=random.randint(50, 200))
 
-    # 3. 模拟滚动
-    await page.mouse.wheel(0, random.randint(200, 800))
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;3. 弹幕采集与去重&lt;/h3&gt;
-&lt;p&gt;针对中国劲酒直播间实现了弹幕快照采集：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;async def fetch_danmu_snapshot(self, room_name: str, room_url: str) -&amp;gt; List[DanmuItem]:
-    &quot;&quot;&quot;抓取当前页面弹幕快照&quot;&quot;&quot;
-    # 定位弹幕容器
-    container_locator = page.locator(
-        &quot;div.webcast-chatroom___list &quot;
-        &quot;div:has(span.v8LY0gZF)&quot;  # 昵称
-        &quot;:has(span.webcast-chatroom___content-with-emoji-text)&quot;  # 内容
-    )
 
-    # 去重处理
-    key = f&quot;{room_name}|{sender_nickname}|{content}&quot;
-    if key not in seen_set:
-        seen_set.add(key)
-        danmu_items.append(DanmuItem(...))
 
-    return danmu_items
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;4. 数据解析策略&lt;/h3&gt;
-&lt;p&gt;支持多种数字格式解析（如 &quot;1.2w&quot;、&quot;1.2万&quot;、&quot;966&quot;）：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;@staticmethod
-def _parse_number_from_text(text: str) -&amp;gt; int:
-    &quot;&quot;&quot;解析中文数字文本&quot;&quot;&quot;
-    m = re.search(r&quot;([\d.]+)\s*([wW万]?)&quot;, raw)
-    value = float(m.group(1))
-    unit = m.group(2)
 
-    if unit in (&quot;w&quot;, &quot;W&quot;, &quot;万&quot;):
-        value *= 10000
 
-    return int(value)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;部署教程&lt;/h2&gt;
-&lt;h3&gt;环境要求&lt;/h3&gt;
-&lt;ul&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;层级&lt;/th&gt;&lt;th&gt;技术&lt;/th&gt;&lt;th&gt;说明&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;后端框架&lt;/td&gt;&lt;td&gt;FastAPI&lt;/td&gt;&lt;td&gt;高性能异步 Web 框架&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;浏览器自动化&lt;/td&gt;&lt;td&gt;Playwright&lt;/td&gt;&lt;td&gt;支持 Chromium/Firefox/WebKit&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;数据库&lt;/td&gt;&lt;td&gt;MySQL 8.0&lt;/td&gt;&lt;td&gt;关系型数据库&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;ORM&lt;/td&gt;&lt;td&gt;SQLAlchemy&lt;/td&gt;&lt;td&gt;异步数据库操作&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;前端图表&lt;/td&gt;&lt;td&gt;ECharts&lt;/td&gt;&lt;td&gt;开源可视化库&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;数字动画&lt;/td&gt;&lt;td&gt;CountUp.js&lt;/td&gt;&lt;td&gt;数字滚动效果&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;项目结构&lt;a href=&quot;#项目结构&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;douyin-live-monitor/&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;├── backend/&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│   └── app/&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│       ├── main.py           # FastAPI 应用入口&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;5&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│       ├── config.py         # 配置管理&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;6&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│       ├── database.py       # 数据库连接&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;7&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│       ├── models.py         # SQLAlchemy 模型&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;8&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│       ├── schemas.py        # Pydantic 数据模型&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;9&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│       ├── crud.py           # 数据库 CRUD 操作&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;10&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│       └── crawler/&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;11&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│           ├── douyin_client.py  # 抖音直播间爬虫客户端&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;12&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│           └── tasks.py          # 后台采集任务&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;13&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;├── database/                 # 数据库相关脚本&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;14&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;├── shot/                     # 项目截图&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;15&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;├── requirements.txt          # Python 依赖&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;16&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;└── README.md&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;span&gt;展开&lt;/span&gt;&lt;span&gt;收起&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;核心技术实现&lt;a href=&quot;#核心技术实现&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;section&gt;&lt;h3&gt;1. Playwright 爬虫客户端&lt;a href=&quot;#1-playwright-爬虫客户端&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;爬虫核心是 &lt;code&gt;DouyinLiveClient&lt;/code&gt; 类，封装了浏览器自动化和数据解析逻辑：&lt;/p&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;class&lt;/span&gt;&lt;span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;DouyinLiveClient&lt;/span&gt;&lt;/span&gt;&lt;span&gt;:&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;&quot;&quot;&quot;抖音直播间爬虫客户端&quot;&quot;&quot;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;async&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;def&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;init&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;self&lt;/span&gt;&lt;span&gt;) -&amp;gt; &lt;/span&gt;&lt;span&gt;None&lt;/span&gt;&lt;span&gt;:&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;5&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;        &lt;/span&gt;&lt;span&gt;&quot;&quot;&quot;初始化浏览器实例&quot;&quot;&quot;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;6&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;        &lt;/span&gt;&lt;span&gt;self&lt;/span&gt;&lt;span&gt;&lt;span&gt;._playwright &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;/span&gt;&lt;span&gt;await&lt;/span&gt;&lt;span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;async_playwright&lt;/span&gt;&lt;span&gt;().&lt;/span&gt;&lt;span&gt;start&lt;/span&gt;&lt;span&gt;()&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;7&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;        &lt;/span&gt;&lt;span&gt;self&lt;/span&gt;&lt;span&gt;&lt;span&gt;._browser &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;/span&gt;&lt;span&gt;await&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;self&lt;/span&gt;&lt;span&gt;&lt;span&gt;._playwright.chromium.&lt;/span&gt;&lt;span&gt;launch&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;8&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;            &lt;/span&gt;&lt;span&gt;headless&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;self&lt;/span&gt;&lt;span&gt;._headless,&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;9&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;        &lt;/span&gt;&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;10&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;        &lt;/span&gt;&lt;span&gt;# 模拟真实用户环境&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;11&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;        &lt;/span&gt;&lt;span&gt;self&lt;/span&gt;&lt;span&gt;&lt;span&gt;._context &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;/span&gt;&lt;span&gt;await&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;self&lt;/span&gt;&lt;span&gt;&lt;span&gt;._browser.&lt;/span&gt;&lt;span&gt;new_context&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;12&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;            &lt;/span&gt;&lt;span&gt;user_agent&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) ...&quot;&lt;/span&gt;&lt;span&gt;,&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;13&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;            &lt;/span&gt;&lt;span&gt;locale&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;&quot;zh-CN&quot;&lt;/span&gt;&lt;span&gt;,&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;14&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;        &lt;/span&gt;&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;15&lt;/div&gt;&lt;/div&gt;&lt;div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;16&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;async&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;def&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;fetch_room_info&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;self&lt;/span&gt;&lt;span&gt;,&lt;/span&gt;&lt;span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;room_name&lt;/span&gt;&lt;/span&gt;&lt;span&gt;:&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;str&lt;/span&gt;&lt;span&gt;,&lt;/span&gt;&lt;span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;room_url&lt;/span&gt;&lt;/span&gt;&lt;span&gt;:&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;str&lt;/span&gt;&lt;span&gt;) -&amp;gt; LiveRoomInfo:&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;17&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;        &lt;/span&gt;&lt;span&gt;&quot;&quot;&quot;获取直播间实时数据&quot;&quot;&quot;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;18&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;        &lt;/span&gt;&lt;/span&gt;&lt;span&gt;page &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;await&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;self&lt;/span&gt;&lt;span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span&gt;_open_room_page&lt;/span&gt;&lt;span&gt;(room_url)&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;19&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;        &lt;/span&gt;&lt;/span&gt;&lt;span&gt;online_count, like_count &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;await&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;self&lt;/span&gt;&lt;span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span&gt;_extract_room_metrics&lt;/span&gt;&lt;span&gt;(page, &lt;/span&gt;&lt;span&gt;...&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;20&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;        &lt;/span&gt;&lt;span&gt;return&lt;/span&gt;&lt;span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;LiveRoomInfo&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;21&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;            &lt;/span&gt;&lt;span&gt;room_name&lt;/span&gt;&lt;span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;room_name,&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;22&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;            &lt;/span&gt;&lt;span&gt;is_live&lt;/span&gt;&lt;span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;online_count &lt;/span&gt;&lt;span&gt;&amp;gt;&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;/span&gt;&lt;span&gt;0&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;or&lt;/span&gt;&lt;span&gt;&lt;span&gt; like_count &lt;/span&gt;&lt;span&gt;&amp;gt;&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;/span&gt;&lt;span&gt;0&lt;/span&gt;&lt;span&gt;,&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;23&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;            &lt;/span&gt;&lt;span&gt;online_count&lt;/span&gt;&lt;span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;online_count,&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;24&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;            &lt;/span&gt;&lt;span&gt;like_count&lt;/span&gt;&lt;span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;like_count,&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;25&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;        &lt;/span&gt;&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;span&gt;展开&lt;/span&gt;&lt;span&gt;收起&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;2. 智能反检测策略&lt;a href=&quot;#2-智能反检测策略&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;为避免被平台识别为爬虫，实现了模拟人工操作的行为：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;async&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;def&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;_simulate_human_actions&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;self&lt;/span&gt;&lt;span&gt;,&lt;/span&gt;&lt;span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;page&lt;/span&gt;&lt;/span&gt;&lt;span&gt;:&lt;/span&gt;&lt;span&gt; Page&lt;/span&gt;&lt;span&gt;) -&amp;gt; &lt;/span&gt;&lt;span&gt;None&lt;/span&gt;&lt;span&gt;:&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;&quot;&quot;&quot;模拟人工操作，提高采集稳定性&quot;&quot;&quot;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;# 1. 随机等待&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;await&lt;/span&gt;&lt;span&gt;&lt;span&gt; page.&lt;/span&gt;&lt;span&gt;wait_for_timeout&lt;/span&gt;&lt;span&gt;(random.&lt;/span&gt;&lt;span&gt;randint&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;/span&gt;&lt;span&gt;800&lt;/span&gt;&lt;span&gt;, &lt;/span&gt;&lt;span&gt;2500&lt;/span&gt;&lt;span&gt;))&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;5&lt;/div&gt;&lt;/div&gt;&lt;div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;6&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;# 2. 鼠标移动到页面中间区域&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;7&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;    &lt;/span&gt;&lt;/span&gt;&lt;span&gt;x &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; random.&lt;/span&gt;&lt;span&gt;randint&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;int&lt;/span&gt;&lt;span&gt;&lt;span&gt;(width &lt;/span&gt;&lt;span&gt;*&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;/span&gt;&lt;span&gt;0.3&lt;/span&gt;&lt;span&gt;), &lt;/span&gt;&lt;span&gt;int&lt;/span&gt;&lt;span&gt;&lt;span&gt;(width &lt;/span&gt;&lt;span&gt;*&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;/span&gt;&lt;span&gt;0.7&lt;/span&gt;&lt;span&gt;))&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;8&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;    &lt;/span&gt;&lt;/span&gt;&lt;span&gt;y &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; random.&lt;/span&gt;&lt;span&gt;randint&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;int&lt;/span&gt;&lt;span&gt;&lt;span&gt;(height &lt;/span&gt;&lt;span&gt;*&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;/span&gt;&lt;span&gt;0.3&lt;/span&gt;&lt;span&gt;), &lt;/span&gt;&lt;span&gt;int&lt;/span&gt;&lt;span&gt;&lt;span&gt;(height &lt;/span&gt;&lt;span&gt;*&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;/span&gt;&lt;span&gt;0.7&lt;/span&gt;&lt;span&gt;))&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;9&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;await&lt;/span&gt;&lt;span&gt;&lt;span&gt; page.mouse.&lt;/span&gt;&lt;span&gt;move&lt;/span&gt;&lt;span&gt;(x, y, &lt;/span&gt;&lt;/span&gt;&lt;span&gt;steps&lt;/span&gt;&lt;span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;random.&lt;/span&gt;&lt;span&gt;randint&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;/span&gt;&lt;span&gt;5&lt;/span&gt;&lt;span&gt;, &lt;/span&gt;&lt;span&gt;20&lt;/span&gt;&lt;span&gt;))&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;10&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;await&lt;/span&gt;&lt;span&gt;&lt;span&gt; page.mouse.&lt;/span&gt;&lt;span&gt;click&lt;/span&gt;&lt;span&gt;(x, y, &lt;/span&gt;&lt;/span&gt;&lt;span&gt;delay&lt;/span&gt;&lt;span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;random.&lt;/span&gt;&lt;span&gt;randint&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;/span&gt;&lt;span&gt;50&lt;/span&gt;&lt;span&gt;, &lt;/span&gt;&lt;span&gt;200&lt;/span&gt;&lt;span&gt;))&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;11&lt;/div&gt;&lt;/div&gt;&lt;div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;12&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;# 3. 模拟滚动&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;13&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;await&lt;/span&gt;&lt;span&gt;&lt;span&gt; page.mouse.&lt;/span&gt;&lt;span&gt;wheel&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;/span&gt;&lt;span&gt;0&lt;/span&gt;&lt;span&gt;&lt;span&gt;, random.&lt;/span&gt;&lt;span&gt;randint&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;/span&gt;&lt;span&gt;200&lt;/span&gt;&lt;span&gt;, &lt;/span&gt;&lt;span&gt;800&lt;/span&gt;&lt;span&gt;))&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;3. 弹幕采集与去重&lt;a href=&quot;#3-弹幕采集与去重&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;针对中国劲酒直播间实现了弹幕快照采集：&lt;/p&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;async&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;def&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;fetch_danmu_snapshot&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;self&lt;/span&gt;&lt;span&gt;,&lt;/span&gt;&lt;span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;room_name&lt;/span&gt;&lt;/span&gt;&lt;span&gt;:&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;str&lt;/span&gt;&lt;span&gt;,&lt;/span&gt;&lt;span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;room_url&lt;/span&gt;&lt;/span&gt;&lt;span&gt;:&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;str&lt;/span&gt;&lt;span&gt;) -&amp;gt; List[DanmuItem]:&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;&quot;&quot;&quot;抓取当前页面弹幕快照&quot;&quot;&quot;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;# 定位弹幕容器&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;    &lt;/span&gt;&lt;/span&gt;&lt;span&gt;container_locator &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; page.&lt;/span&gt;&lt;span&gt;locator&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;5&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;        &lt;/span&gt;&lt;span&gt;&quot;div.webcast-chatroom___list &quot;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;6&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;        &lt;/span&gt;&lt;span&gt;&quot;div:has(span.v8LY0gZF)&quot;&lt;/span&gt;&lt;span&gt;  &lt;/span&gt;&lt;span&gt;# 昵称&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;7&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;        &lt;/span&gt;&lt;span&gt;&quot;:has(span.webcast-chatroom___content-with-emoji-text)&quot;&lt;/span&gt;&lt;span&gt;  &lt;/span&gt;&lt;span&gt;# 内容&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;8&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;    &lt;/span&gt;&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;9&lt;/div&gt;&lt;/div&gt;&lt;div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;10&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;# 去重处理&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;11&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;    &lt;/span&gt;&lt;/span&gt;&lt;span&gt;key &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;f&lt;/span&gt;&lt;span&gt;&quot;&lt;/span&gt;&lt;span&gt;{&lt;/span&gt;&lt;span&gt;room_name&lt;/span&gt;&lt;span&gt;}&lt;/span&gt;&lt;span&gt;|&lt;/span&gt;&lt;span&gt;{&lt;/span&gt;&lt;span&gt;sender_nickname&lt;/span&gt;&lt;span&gt;}&lt;/span&gt;&lt;span&gt;|&lt;/span&gt;&lt;span&gt;{&lt;/span&gt;&lt;span&gt;content&lt;/span&gt;&lt;span&gt;}&lt;/span&gt;&lt;span&gt;&quot;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;12&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;if&lt;/span&gt;&lt;span&gt; key &lt;/span&gt;&lt;span&gt;not&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;in&lt;/span&gt;&lt;span&gt; seen_set:&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;13&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;        &lt;/span&gt;&lt;/span&gt;&lt;span&gt;seen_set.&lt;/span&gt;&lt;span&gt;add&lt;/span&gt;&lt;span&gt;(key)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;14&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;        &lt;/span&gt;&lt;/span&gt;&lt;span&gt;danmu_items.&lt;/span&gt;&lt;span&gt;append&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;DanmuItem&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;...&lt;/span&gt;&lt;span&gt;))&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;15&lt;/div&gt;&lt;/div&gt;&lt;div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;16&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;return&lt;/span&gt;&lt;span&gt; danmu_items&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;span&gt;展开&lt;/span&gt;&lt;span&gt;收起&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;4. 数据解析策略&lt;a href=&quot;#4-数据解析策略&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;支持多种数字格式解析（如 “1.2w”、“1.2万”、“966”）：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;@&lt;/span&gt;&lt;span&gt;staticmethod&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;def&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;_parse_number_from_text&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;text&lt;/span&gt;&lt;span&gt;:&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;str&lt;/span&gt;&lt;span&gt;) -&amp;gt; &lt;/span&gt;&lt;span&gt;int&lt;/span&gt;&lt;span&gt;:&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;&quot;&quot;&quot;解析中文数字文本&quot;&quot;&quot;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;    &lt;/span&gt;&lt;/span&gt;&lt;span&gt;m &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; re.&lt;/span&gt;&lt;span&gt;search&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;r&lt;/span&gt;&lt;span&gt;&lt;span&gt;&quot;&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;/span&gt;&lt;span&gt;[&lt;/span&gt;&lt;span&gt;\d&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span&gt;]+&lt;/span&gt;&lt;span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span&gt;\s&lt;/span&gt;&lt;/span&gt;&lt;span&gt;*&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;[&lt;/span&gt;&lt;span&gt;wW万&lt;/span&gt;&lt;span&gt;]?&lt;/span&gt;&lt;span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;, raw)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;5&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;    &lt;/span&gt;&lt;/span&gt;&lt;span&gt;value &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;float&lt;/span&gt;&lt;span&gt;&lt;span&gt;(m.&lt;/span&gt;&lt;span&gt;group&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;/span&gt;&lt;span&gt;1&lt;/span&gt;&lt;span&gt;))&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;6&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;    &lt;/span&gt;&lt;/span&gt;&lt;span&gt;unit &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; m.&lt;/span&gt;&lt;span&gt;group&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;2&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;7&lt;/div&gt;&lt;/div&gt;&lt;div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;8&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;if&lt;/span&gt;&lt;span&gt; unit &lt;/span&gt;&lt;span&gt;in&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span&gt;&quot;w&quot;&lt;/span&gt;&lt;span&gt;, &lt;/span&gt;&lt;span&gt;&quot;W&quot;&lt;/span&gt;&lt;span&gt;, &lt;/span&gt;&lt;span&gt;&quot;万&quot;&lt;/span&gt;&lt;span&gt;):&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;9&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;        &lt;/span&gt;&lt;/span&gt;&lt;span&gt;value &lt;/span&gt;&lt;span&gt;*=&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;10000&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;10&lt;/div&gt;&lt;/div&gt;&lt;div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;11&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;return&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;int&lt;/span&gt;&lt;span&gt;(value)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;部署教程&lt;a href=&quot;#部署教程&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;section&gt;&lt;h3&gt;环境要求&lt;a href=&quot;#环境要求&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;Python &amp;gt;= 3.8&lt;/li&gt;
 &lt;li&gt;MySQL &amp;gt;= 8.0&lt;/li&gt;
 &lt;li&gt;Node.js（可选，用于 Playwright 浏览器安装）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;Step 1: 克隆项目&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;git clone https://github.com/1776686596/douyin-live-monitor.git
-cd douyin-live-monitor
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Step 2: 创建虚拟环境&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;python3 -m venv venv
-source venv/bin/activate  # Linux/macOS
-# 或 venv\Scripts\activate  # Windows
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Step 3: 安装依赖&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;pip install -r requirements.txt
-playwright install chromium
-&lt;/code&gt;&lt;/pre&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Linux 用户注意&lt;/strong&gt;：Playwright 可能需要额外的系统依赖：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;sudo apt install libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 \
-    libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 \
-    libxfixes3 libxrandr2 libgbm1 libasound2 -y
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/blockquote&gt;
-&lt;h3&gt;Step 4: 配置数据库&lt;/h3&gt;
-&lt;p&gt;创建 MySQL 数据库：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;CREATE DATABASE jj_douyin CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;配置数据库连接（编辑 &lt;code&gt;backend/app/config.py&lt;/code&gt; 或创建 &lt;code&gt;.env&lt;/code&gt; 文件）：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;MYSQL_HOST=127.0.0.1
-MYSQL_PORT=3306
-MYSQL_USER=root
-MYSQL_PASSWORD=your_password
-MYSQL_DB=jj_douyin
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Step 5: 启动服务&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;uvicorn backend.app.main:app --reload --port 8001
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;服务启动后访问 &lt;code&gt;http://localhost:8001&lt;/code&gt; 即可看到监控面板。&lt;/p&gt;
-&lt;h3&gt;主要配置项&lt;/h3&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;配置项&lt;/th&gt;
-&lt;th&gt;默认值&lt;/th&gt;
-&lt;th&gt;说明&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;enable_background_crawler&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;True&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;是否启动后台爬虫&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;playwright_headless&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;True&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;是否无头模式运行浏览器&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;jingjiu_interval_seconds&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;5&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;中国劲酒采集间隔（秒）&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;other_rooms_interval_seconds&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;15&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;其他直播间采集间隔（秒）&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;enable_human_like_actions&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;True&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;是否启用拟人行为&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h2&gt;数据库设计&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/douyin-live-monitor/master/shot/%E6%88%AA%E5%9B%BE%202025-12-28%2015-40-43.png&quot; alt=&quot;数据库表结构&quot; /&gt;&lt;/p&gt;
-&lt;h3&gt;核心数据表&lt;/h3&gt;
-&lt;h4&gt;live_room_metric（直播间指标表）&lt;/h4&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;字段&lt;/th&gt;
-&lt;th&gt;类型&lt;/th&gt;
-&lt;th&gt;说明&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;id&lt;/td&gt;
-&lt;td&gt;BIGINT&lt;/td&gt;
-&lt;td&gt;主键&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;room_name&lt;/td&gt;
-&lt;td&gt;VARCHAR(64)&lt;/td&gt;
-&lt;td&gt;直播间名称&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;room_url&lt;/td&gt;
-&lt;td&gt;VARCHAR(255)&lt;/td&gt;
-&lt;td&gt;直播间链接&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;online_count&lt;/td&gt;
-&lt;td&gt;INT&lt;/td&gt;
-&lt;td&gt;在线人数&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;like_count&lt;/td&gt;
-&lt;td&gt;BIGINT&lt;/td&gt;
-&lt;td&gt;点赞数&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;is_live&lt;/td&gt;
-&lt;td&gt;BOOLEAN&lt;/td&gt;
-&lt;td&gt;是否直播中&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;live_status&lt;/td&gt;
-&lt;td&gt;VARCHAR(16)&lt;/td&gt;
-&lt;td&gt;状态文本&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;created_at&lt;/td&gt;
-&lt;td&gt;DATETIME&lt;/td&gt;
-&lt;td&gt;采集时间&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h4&gt;danmu_message（弹幕表）&lt;/h4&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;字段&lt;/th&gt;
-&lt;th&gt;类型&lt;/th&gt;
-&lt;th&gt;说明&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;id&lt;/td&gt;
-&lt;td&gt;BIGINT&lt;/td&gt;
-&lt;td&gt;主键&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;room_name&lt;/td&gt;
-&lt;td&gt;VARCHAR(64)&lt;/td&gt;
-&lt;td&gt;所属直播间&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;sender_nickname&lt;/td&gt;
-&lt;td&gt;VARCHAR(255)&lt;/td&gt;
-&lt;td&gt;发送人昵称&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;content&lt;/td&gt;
-&lt;td&gt;TEXT&lt;/td&gt;
-&lt;td&gt;弹幕内容&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;metric_id&lt;/td&gt;
-&lt;td&gt;BIGINT&lt;/td&gt;
-&lt;td&gt;关联指标ID&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;created_at&lt;/td&gt;
-&lt;td&gt;DATETIME&lt;/td&gt;
-&lt;td&gt;采集时间&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h2&gt;API 接口&lt;/h2&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;接口&lt;/th&gt;
-&lt;th&gt;方法&lt;/th&gt;
-&lt;th&gt;说明&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;/&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;GET&lt;/td&gt;
-&lt;td&gt;监控面板首页&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;/health&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;GET&lt;/td&gt;
-&lt;td&gt;健康检查&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;/overview/live-rooms&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;GET&lt;/td&gt;
-&lt;td&gt;获取所有直播间概览&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;/danmu/jingjiu&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;GET&lt;/td&gt;
-&lt;td&gt;获取中国劲酒弹幕列表&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;/metrics/history&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;GET&lt;/td&gt;
-&lt;td&gt;获取直播间历史数据&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;/rooms/recheck&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;POST&lt;/td&gt;
-&lt;td&gt;手动重新检测直播间状态&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h2&gt;常见问题&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;Q: 数据显示为 0 或未开播？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;A: 可能原因：&lt;/p&gt;
-&lt;ol&gt;
+&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;Step 1: 克隆项目&lt;a href=&quot;#step-1-克隆项目&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;git&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;clone&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;https://github.com/1776686596/douyin-live-monitor.git&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;cd&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;douyin-live-monitor&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;Step 2: 创建虚拟环境&lt;a href=&quot;#step-2-创建虚拟环境&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;python3&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-m&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;venv&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;venv&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;source&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;venv/bin/activate&lt;/span&gt;&lt;span&gt;  &lt;/span&gt;&lt;span&gt;# Linux/macOS&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;# 或 venv\Scripts\activate  # Windows&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;Step 3: 安装依赖&lt;a href=&quot;#step-3-安装依赖&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;pip&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;install&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-r&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;requirements.txt&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;playwright&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;install&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;chromium&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;Linux 用户注意&lt;/strong&gt;：Playwright 可能需要额外的系统依赖：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;sudo&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;apt&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;install&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;libnss3&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;libnspr4&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;libatk1.0-0&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;libatk-bridge2.0-0&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;\&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;libcups2&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;libdrm2&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;libxkbcommon0&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;libxcomposite1&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;libxdamage1&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;\&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;libxfixes3&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;libxrandr2&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;libgbm1&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;libasound2&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-y&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;/blockquote&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;Step 4: 配置数据库&lt;a href=&quot;#step-4-配置数据库&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;创建 MySQL 数据库：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;CREATE&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;DATABASE&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;jj_douyin&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;CHARACTER&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;SET&lt;/span&gt;&lt;span&gt; utf8mb4 &lt;/span&gt;&lt;span&gt;COLLATE&lt;/span&gt;&lt;span&gt; utf8mb4_unicode_ci;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;配置数据库连接（编辑 &lt;code&gt;backend/app/config.py&lt;/code&gt; 或创建 &lt;code&gt;.env&lt;/code&gt; 文件）：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;MYSQL_HOST&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;127.0.0.1&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;MYSQL_PORT&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;3306&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;MYSQL_USER&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;root&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;MYSQL_PASSWORD&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;your_password&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;5&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;MYSQL_DB&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;jj_douyin&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;Step 5: 启动服务&lt;a href=&quot;#step-5-启动服务&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;uvicorn&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;backend.app.main:app&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;--reload&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;--port&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;8001&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;服务启动后访问 &lt;code&gt;http://localhost:8001&lt;/code&gt; 即可看到监控面板。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;主要配置项&lt;a href=&quot;#主要配置项&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;配置项&lt;/th&gt;&lt;th&gt;默认值&lt;/th&gt;&lt;th&gt;说明&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;code&gt;enable_background_crawler&lt;/code&gt;&lt;/td&gt;&lt;td&gt;&lt;code&gt;True&lt;/code&gt;&lt;/td&gt;&lt;td&gt;是否启动后台爬虫&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;code&gt;playwright_headless&lt;/code&gt;&lt;/td&gt;&lt;td&gt;&lt;code&gt;True&lt;/code&gt;&lt;/td&gt;&lt;td&gt;是否无头模式运行浏览器&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;code&gt;jingjiu_interval_seconds&lt;/code&gt;&lt;/td&gt;&lt;td&gt;&lt;code&gt;5&lt;/code&gt;&lt;/td&gt;&lt;td&gt;中国劲酒采集间隔（秒）&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;code&gt;other_rooms_interval_seconds&lt;/code&gt;&lt;/td&gt;&lt;td&gt;&lt;code&gt;15&lt;/code&gt;&lt;/td&gt;&lt;td&gt;其他直播间采集间隔（秒）&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;code&gt;enable_human_like_actions&lt;/code&gt;&lt;/td&gt;&lt;td&gt;&lt;code&gt;True&lt;/code&gt;&lt;/td&gt;&lt;td&gt;是否启用拟人行为&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;数据库设计&lt;a href=&quot;#数据库设计&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/douyin-live-monitor/master/shot/%E6%88%AA%E5%9B%BE%202025-12-28%2015-40-43.png&quot; alt=&quot;数据库表结构&quot; /&gt;&lt;figcaption&gt;数据库表结构&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;section&gt;&lt;h3&gt;核心数据表&lt;a href=&quot;#核心数据表&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;section&gt;&lt;h4&gt;live_room_metric（直播间指标表）&lt;a href=&quot;#live_room_metric直播间指标表&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h4&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;字段&lt;/th&gt;&lt;th&gt;类型&lt;/th&gt;&lt;th&gt;说明&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;id&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;主键&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;room_name&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;直播间名称&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;room_url&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;直播间链接&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;online_count&lt;/td&gt;&lt;td&gt;INT&lt;/td&gt;&lt;td&gt;在线人数&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;like_count&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;点赞数&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;is_live&lt;/td&gt;&lt;td&gt;BOOLEAN&lt;/td&gt;&lt;td&gt;是否直播中&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;live_status&lt;/td&gt;&lt;td&gt;VARCHAR(16)&lt;/td&gt;&lt;td&gt;状态文本&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;created_at&lt;/td&gt;&lt;td&gt;DATETIME&lt;/td&gt;&lt;td&gt;采集时间&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/section&gt;&lt;section&gt;&lt;h4&gt;danmu_message（弹幕表）&lt;a href=&quot;#danmu_message弹幕表&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h4&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;字段&lt;/th&gt;&lt;th&gt;类型&lt;/th&gt;&lt;th&gt;说明&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;id&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;主键&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;room_name&lt;/td&gt;&lt;td&gt;VARCHAR(64)&lt;/td&gt;&lt;td&gt;所属直播间&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;sender_nickname&lt;/td&gt;&lt;td&gt;VARCHAR(255)&lt;/td&gt;&lt;td&gt;发送人昵称&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;content&lt;/td&gt;&lt;td&gt;TEXT&lt;/td&gt;&lt;td&gt;弹幕内容&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;metric_id&lt;/td&gt;&lt;td&gt;BIGINT&lt;/td&gt;&lt;td&gt;关联指标ID&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;created_at&lt;/td&gt;&lt;td&gt;DATETIME&lt;/td&gt;&lt;td&gt;采集时间&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/section&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;API 接口&lt;a href=&quot;#api-接口&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;接口&lt;/th&gt;&lt;th&gt;方法&lt;/th&gt;&lt;th&gt;说明&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;code&gt;/&lt;/code&gt;&lt;/td&gt;&lt;td&gt;GET&lt;/td&gt;&lt;td&gt;监控面板首页&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;code&gt;/health&lt;/code&gt;&lt;/td&gt;&lt;td&gt;GET&lt;/td&gt;&lt;td&gt;健康检查&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;code&gt;/overview/live-rooms&lt;/code&gt;&lt;/td&gt;&lt;td&gt;GET&lt;/td&gt;&lt;td&gt;获取所有直播间概览&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;code&gt;/danmu/jingjiu&lt;/code&gt;&lt;/td&gt;&lt;td&gt;GET&lt;/td&gt;&lt;td&gt;获取中国劲酒弹幕列表&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;code&gt;/metrics/history&lt;/code&gt;&lt;/td&gt;&lt;td&gt;GET&lt;/td&gt;&lt;td&gt;获取直播间历史数据&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;code&gt;/rooms/recheck&lt;/code&gt;&lt;/td&gt;&lt;td&gt;POST&lt;/td&gt;&lt;td&gt;手动重新检测直播间状态&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;常见问题&lt;a href=&quot;#常见问题&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;Q: 数据显示为 0 或未开播？&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;A: 可能原因：&lt;/p&gt;&lt;ol&gt;
 &lt;li&gt;直播间确实未开播&lt;/li&gt;
 &lt;li&gt;页面选择器失效（抖音页面结构更新）&lt;/li&gt;
 &lt;li&gt;被平台反爬机制拦截&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;可点击排行榜中的&quot;重新检测&quot;按钮手动触发重查。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Q: 如何添加新的直播间？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;A: 修改 &lt;code&gt;backend/app/crawler/tasks.py&lt;/code&gt; 中的 &lt;code&gt;LIVE_ROOMS&lt;/code&gt; 字典：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;LIVE_ROOMS = {
-    &quot;茅台&quot;: &quot;https://live.douyin.com/250926880704&quot;,
-    &quot;五粮液&quot;: &quot;https://live.douyin.com/884334047259&quot;,
-    # 添加新直播间
-    &quot;新品牌&quot;: &quot;https://live.douyin.com/xxx&quot;,
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;Q: 如何调整采集频率？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;A: 修改配置文件中的间隔参数：&lt;/p&gt;
-&lt;ul&gt;
+&lt;/ol&gt;&lt;p&gt;可点击排行榜中的”重新检测”按钮手动触发重查。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Q: 如何添加新的直播间？&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;A: 修改 &lt;code&gt;backend/app/crawler/tasks.py&lt;/code&gt; 中的 &lt;code&gt;LIVE_ROOMS&lt;/code&gt; 字典：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;LIVE_ROOMS&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; {&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;&quot;茅台&quot;&lt;/span&gt;&lt;span&gt;: &lt;/span&gt;&lt;span&gt;&quot;https://live.douyin.com/250926880704&quot;&lt;/span&gt;&lt;span&gt;,&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;&quot;五粮液&quot;&lt;/span&gt;&lt;span&gt;: &lt;/span&gt;&lt;span&gt;&quot;https://live.douyin.com/884334047259&quot;&lt;/span&gt;&lt;span&gt;,&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;# 添加新直播间&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;5&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;&quot;新品牌&quot;&lt;/span&gt;&lt;span&gt;: &lt;/span&gt;&lt;span&gt;&quot;https://live.douyin.com/xxx&quot;&lt;/span&gt;&lt;span&gt;,&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;6&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;}&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Q: 如何调整采集频率？&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;A: 修改配置文件中的间隔参数：&lt;/p&gt;&lt;ul&gt;
 &lt;li&gt;&lt;code&gt;jingjiu_interval_seconds&lt;/code&gt;：中国劲酒采集间隔&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;other_rooms_interval_seconds&lt;/code&gt;：其他直播间采集间隔&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;写在最后&lt;/h2&gt;
-&lt;p&gt;这个项目是我在学习 Python 异步编程和浏览器自动化过程中的实践产物。通过这个项目，我深入理解了：&lt;/p&gt;
-&lt;ul&gt;
+&lt;/ul&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;写在最后&lt;a href=&quot;#写在最后&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;这个项目是我在学习 Python 异步编程和浏览器自动化过程中的实践产物。通过这个项目，我深入理解了：&lt;/p&gt;&lt;ul&gt;
 &lt;li&gt;FastAPI 异步 Web 开发&lt;/li&gt;
 &lt;li&gt;Playwright 浏览器自动化与反检测策略&lt;/li&gt;
 &lt;li&gt;SQLAlchemy 异步 ORM 操作&lt;/li&gt;
 &lt;li&gt;ECharts 数据可视化&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;如果觉得有帮助，欢迎 Star 支持：&lt;a href=&quot;https://github.com/1776686596/douyin-live-monitor&quot;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;有问题或建议欢迎提 Issue！&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;声明&lt;/strong&gt;：本项目仅供学习和技术研究目的，请遵守相关法律法规及平台用户协议。&lt;/p&gt;
-&lt;/blockquote&gt;
-</content:encoded></item><item><title>IP Geolocation - 掌控浏览器地理位置的 Chrome 扩展</title><link>https://blog.daisheng.xyz/posts/ip-geolocation/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/ip-geolocation/</guid><description>一款基于 Chrome Manifest V3 的地理位置伪装扩展。通过重写 navigator.geolocation API，实现隐私保护与开发测试的双重需求。</description><pubDate>Sun, 28 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;在当今的互联网环境下，隐私保护已成为一个老生常谈的话题。许多用户习惯使用 VPN 或代理工具来隐藏真实的 IP 地址，以此规避追踪或访问特定区域的内容。然而，你是否遇到过这样的情况：明明已经切换了代理 IP，但网页依然精准地定位到了你所在的真实城市？&lt;/p&gt;
+&lt;/ul&gt;&lt;p&gt;如果觉得有帮助，欢迎 Star 支持：&lt;a href=&quot;https://github.com/1776686596/douyin-live-monitor&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt;&lt;/p&gt;&lt;p&gt;有问题或建议欢迎提 Issue！&lt;/p&gt;&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;声明&lt;/strong&gt;：本项目仅供学习和技术研究目的，请遵守相关法律法规及平台用户协议。&lt;/p&gt;&lt;/blockquote&gt;&lt;/section&gt;</content:encoded></item><item><title>Idol Tracker - 开源追星神器部署指南</title><link>https://blog.daisheng.xyz/posts/idol-tracker-guide/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/idol-tracker-guide/</guid><description>一款专为粉丝打造的现代化追星工具，集成微博动态聚合、超话自动签到、美图画廊等功能。本文详细介绍项目功能、技术架构及完整部署教程。</description><pubDate>Sun, 28 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;section&gt;&lt;h2&gt;项目简介&lt;a href=&quot;#项目简介&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;Idol Tracker&lt;/strong&gt; 是我开发的一款开源追星工具。作为一个追星党，我深知每天手动刷微博、签到超话的痛苦，于是决定用技术解决这个问题。&lt;/p&gt;&lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/1776686596/idol-tracker&quot; target=&quot;_blank&quot;&gt;https://github.com/1776686596/idol-tracker&lt;/a&gt;&lt;/p&gt;&lt;section&gt;&lt;h3&gt;核心功能&lt;a href=&quot;#核心功能&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;功能&lt;/th&gt;&lt;th&gt;说明&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;微博动态聚合&lt;/td&gt;&lt;td&gt;自动抓取爱豆微博，时间轴展示&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;超话自动签到&lt;/td&gt;&lt;td&gt;每天 8&amp;lt;00&amp;gt; 定时签到，告别断签&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;美图画廊&lt;/td&gt;&lt;td&gt;瀑布流展示高清图片&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;消息推送&lt;/td&gt;&lt;td&gt;支持企业微信、邮件通知&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;扫码登录&lt;/td&gt;&lt;td&gt;微博扫码绑定，安全快捷&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;界面预览&lt;a href=&quot;#界面预览&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;section&gt;&lt;h3&gt;首页介绍&lt;a href=&quot;#首页介绍&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;部署后访客看到的首页，展示项目核心功能介绍：&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/add-idol.png&quot; alt=&quot;首页功能介绍&quot; /&gt;&lt;figcaption&gt;首页功能介绍&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;动态聚合&lt;a href=&quot;#动态聚合&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;主界面&lt;/strong&gt; - 聚合展示所有关注爱豆的最新动态：&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/dashboard.png&quot; alt=&quot;动态主界面&quot; /&gt;&lt;figcaption&gt;动态主界面&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;动态详情&lt;/strong&gt; - 点击查看某条动态的详细内容：&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/checkin.png&quot; alt=&quot;动态详情&quot; /&gt;&lt;figcaption&gt;动态详情&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;单个爱豆动态&lt;/strong&gt; - 查看某一位爱豆的所有动态：&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/bind-weibo.png&quot; alt=&quot;单个爱豆动态&quot; /&gt;&lt;figcaption&gt;单个爱豆动态&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;美图画廊&lt;a href=&quot;#美图画廊&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;瀑布流展示爱豆高清美图：&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/gallery.png&quot; alt=&quot;美图画廊&quot; /&gt;&lt;figcaption&gt;美图画廊&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;超话自动签到&lt;a href=&quot;#超话自动签到&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;自动完成每日超话签到，告别断签烦恼：&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/login.png&quot; alt=&quot;超话签到&quot; /&gt;&lt;figcaption&gt;超话签到&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;管理后台&lt;a href=&quot;#管理后台&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;管理员登录&lt;/strong&gt;：&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/admin/settings.png&quot; alt=&quot;管理员登录&quot; /&gt;&lt;figcaption&gt;管理员登录&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;数据概览&lt;/strong&gt; - 统计卡片 / 签到趋势图：&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/admin/login.png&quot; alt=&quot;数据概览&quot; /&gt;&lt;figcaption&gt;数据概览&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;用户管理&lt;/strong&gt; - 用户列表 / 状态管理：&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/admin/dashboard.png&quot; alt=&quot;用户管理&quot; /&gt;&lt;figcaption&gt;用户管理&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;系统配置&lt;/strong&gt; - 爬虫间隔设置 / 推送配置：&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/admin/users.png&quot; alt=&quot;系统配置&quot; /&gt;&lt;figcaption&gt;系统配置&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;技术架构&lt;a href=&quot;#技术架构&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;项目采用 &lt;strong&gt;Monorepo&lt;/strong&gt; 架构，前后端分离：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;idol-tracker/&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;├── packages/&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│   ├── web/        # 用户前台 (Next.js 14)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│   ├── admin/      # 管理后台 (Next.js 14)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;5&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│   ├── server/     # 后端服务 (Express.js)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;6&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;│   └── crawler/    # 爬虫模块&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;技术选型&lt;/strong&gt;：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;前端：Next.js 14 + TailwindCSS&lt;/li&gt;
+&lt;li&gt;后端：Express.js + PostgreSQL + Redis&lt;/li&gt;
+&lt;li&gt;认证：JWT&lt;/li&gt;
+&lt;/ul&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;部署教程&lt;a href=&quot;#部署教程&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;section&gt;&lt;h3&gt;环境要求&lt;a href=&quot;#环境要求&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Node.js &amp;gt;= 18.0.0&lt;/li&gt;
+&lt;li&gt;PostgreSQL &amp;gt;= 14&lt;/li&gt;
+&lt;li&gt;Redis&lt;/li&gt;
+&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;Step 1: 克隆项目&lt;a href=&quot;#step-1-克隆项目&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;git&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;clone&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;https://github.com/1776686596/idol-tracker.git&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;cd&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;idol-tracker&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;npm&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;install&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;Step 2: 配置数据库&lt;a href=&quot;#step-2-配置数据库&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;创建 PostgreSQL 数据库：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;CREATE&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;DATABASE&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;idol_tracker&lt;/span&gt;&lt;span&gt;;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;CREATE&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;USER&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;idoltracker&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;WITH&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;PASSWORD&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;&apos;your-password&apos;&lt;/span&gt;&lt;span&gt;;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;GRANT&lt;/span&gt;&lt;span&gt; ALL PRIVILEGES &lt;/span&gt;&lt;span&gt;ON&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;DATABASE&lt;/span&gt;&lt;span&gt; idol_tracker &lt;/span&gt;&lt;span&gt;TO&lt;/span&gt;&lt;span&gt; idoltracker;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;初始化表结构：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;psql&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-U&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;idoltracker&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-d&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;idol_tracker&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-f&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;packages/server/sql/init.sql&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;Step 3: 配置环境变量&lt;a href=&quot;#step-3-配置环境变量&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;cp&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;packages/server/.env.example&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;packages/server/.env&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;编辑 &lt;code&gt;.env&lt;/code&gt; 文件：&lt;/p&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;span&gt;展开&lt;/span&gt;&lt;span&gt;收起&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;# 服务配置&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;PORT&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;3001&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;NODE_ENV&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;development&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;5&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;# 数据库&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;6&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;DATABASE_URL&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;postgresql://idoltracker:your-password@localhost:5432/idol_tracker&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;7&lt;/div&gt;&lt;/div&gt;&lt;div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;8&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;# JWT 密钥（生产环境请修改）&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;9&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;JWT_SECRET&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;your-super-secret-jwt-key&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;10&lt;/div&gt;&lt;/div&gt;&lt;div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;11&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;# Redis&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;12&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;REDIS_URL&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;redis://localhost:6379&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;13&lt;/div&gt;&lt;/div&gt;&lt;div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;14&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;# 微博爬虫（必填）&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;15&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;WEIBO_COOKIE&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;16&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;WEIBO_XSRF_TOKEN&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;17&lt;/div&gt;&lt;/div&gt;&lt;div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;18&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;# 企业微信推送（可选）&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;19&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;WECHAT_WEBHOOK_KEY&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;20&lt;/div&gt;&lt;/div&gt;&lt;div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;21&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;# 邮件推送（可选）&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;22&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;SMTP_HOST&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;smtp.example.com&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;23&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;SMTP_PORT&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;465&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;24&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;SMTP_USER&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;notify@example.com&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;25&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;SMTP_PASS&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;your-smtp-password&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;26&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;SMTP_FROM&lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt;Idol&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;Tracker&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;&amp;lt;notify@example.com&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;span&gt;展开&lt;/span&gt;&lt;span&gt;收起&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;Step 4: 获取微博 Cookie&lt;a href=&quot;#step-4-获取微博-cookie&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;这是最关键的一步，爬虫需要微博 Cookie 才能工作：&lt;/p&gt;&lt;ol&gt;
+&lt;li&gt;登录 &lt;a href=&quot;https://weibo.com&quot; target=&quot;_blank&quot;&gt;weibo.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;按 &lt;code&gt;F12&lt;/code&gt; 打开开发者工具&lt;/li&gt;
+&lt;li&gt;切换到 &lt;code&gt;Network&lt;/code&gt; 标签&lt;/li&gt;
+&lt;li&gt;刷新页面，点击任意请求&lt;/li&gt;
+&lt;li&gt;在 &lt;code&gt;Request Headers&lt;/code&gt; 中找到 &lt;code&gt;Cookie&lt;/code&gt;，复制整个值&lt;/li&gt;
+&lt;li&gt;同样找到 &lt;code&gt;x-xsrf-token&lt;/code&gt;，复制其值&lt;/li&gt;
+&lt;/ol&gt;&lt;p&gt;将这两个值填入 &lt;code&gt;.env&lt;/code&gt; 文件对应位置。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;Step 5: 启动服务&lt;a href=&quot;#step-5-启动服务&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;一键启动（推荐）&lt;/strong&gt;：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;npm&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;run&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;dev&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;这会同时启动三个服务：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;用户前台：&lt;a href=&quot;http://localhost:3000&quot; target=&quot;_blank&quot;&gt;http://localhost:3000&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;管理后台：&lt;a href=&quot;http://localhost:3002&quot; target=&quot;_blank&quot;&gt;http://localhost:3002&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;后端 API：&lt;a href=&quot;http://localhost:3001&quot; target=&quot;_blank&quot;&gt;http://localhost:3001&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;单独启动&lt;/strong&gt;：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;npm&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;run&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;dev:web&lt;/span&gt;&lt;span&gt;      &lt;/span&gt;&lt;span&gt;# 用户前台&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;npm&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;run&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;dev:admin&lt;/span&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;# 管理后台&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;npm&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;run&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;dev:server&lt;/span&gt;&lt;span&gt;   &lt;/span&gt;&lt;span&gt;# 后端服务&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;Step 6: 登录系统&lt;a href=&quot;#step-6-登录系统&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;默认管理员账号：&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;账号&lt;/th&gt;&lt;th&gt;密码&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;admin&lt;/td&gt;&lt;td&gt;admin123&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;blockquote&gt;&lt;p&gt;生产环境请务必修改默认密码！&lt;/p&gt;&lt;/blockquote&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;使用指南&lt;a href=&quot;#使用指南&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;section&gt;&lt;h3&gt;查看爱豆动态&lt;a href=&quot;#查看爱豆动态&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/dashboard.png&quot; alt=&quot;动态主界面&quot; /&gt;&lt;figcaption&gt;动态主界面&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;ol&gt;
+&lt;li&gt;登录后进入主界面&lt;/li&gt;
+&lt;li&gt;系统自动聚合所有关注爱豆的最新动态&lt;/li&gt;
+&lt;li&gt;点击任意动态可查看详情&lt;/li&gt;
+&lt;/ol&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;浏览美图画廊&lt;a href=&quot;#浏览美图画廊&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/gallery.png&quot; alt=&quot;美图画廊&quot; /&gt;&lt;figcaption&gt;美图画廊&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;ol&gt;
+&lt;li&gt;进入「美图」页面&lt;/li&gt;
+&lt;li&gt;瀑布流展示所有爱豆的高清图片&lt;/li&gt;
+&lt;li&gt;支持大图预览和无限滚动&lt;/li&gt;
+&lt;/ol&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;超话自动签到&lt;a href=&quot;#超话自动签到-1&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/web/login.png&quot; alt=&quot;超话签到&quot; /&gt;&lt;figcaption&gt;超话签到&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;ol&gt;
+&lt;li&gt;绑定微博账号后自动开启&lt;/li&gt;
+&lt;li&gt;每天早上 8&amp;lt;00&amp;gt; 自动执行签到&lt;/li&gt;
+&lt;li&gt;签到结果可通过企业微信/邮件推送&lt;/li&gt;
+&lt;/ol&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;配置消息推送&lt;a href=&quot;#配置消息推送&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img src=&quot;https://raw.githubusercontent.com/1776686596/idol-tracker/master/screenshot/admin/users.png&quot; alt=&quot;系统配置&quot; /&gt;&lt;figcaption&gt;系统配置&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;在管理后台「系统设置」中配置：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;企业微信&lt;/strong&gt;：填入群机器人 Webhook Key&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;邮件&lt;/strong&gt;：配置 SMTP 服务器信息&lt;/li&gt;
+&lt;/ul&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;数据库结构&lt;a href=&quot;#数据库结构&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;主要数据表：&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;表名&lt;/th&gt;&lt;th&gt;用途&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;users&lt;/td&gt;&lt;td&gt;用户账号&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;admins&lt;/td&gt;&lt;td&gt;管理员账号&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;idols&lt;/td&gt;&lt;td&gt;爱豆信息&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;subscriptions&lt;/td&gt;&lt;td&gt;用户订阅关系&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;weibo_posts&lt;/td&gt;&lt;td&gt;微博动态缓存&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;user_weibo_bindings&lt;/td&gt;&lt;td&gt;用户微博绑定&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;checkin_records&lt;/td&gt;&lt;td&gt;签到记录&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;system_config&lt;/td&gt;&lt;td&gt;系统配置&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;常见问题&lt;a href=&quot;#常见问题&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;Q: 爬虫不工作？&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;A: 检查微博 Cookie 是否过期，Cookie 有效期约 30 天，过期后需重新获取。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Q: 签到失败？&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;A: 确保已正确绑定微博账号，且账号已关注对应超话。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Q: 如何部署到生产环境？&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;A: 建议使用 PM2 管理 Node 进程，配合 Nginx 反向代理。记得修改 JWT_SECRET 和数据库密码。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;写在最后&lt;a href=&quot;#写在最后&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;这个项目是我为了解决自己追星需求而开发的，希望能帮到有同样需求的朋友。&lt;/p&gt;&lt;p&gt;如果觉得有用，欢迎 Star 支持：&lt;a href=&quot;https://github.com/1776686596/idol-tracker&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt;&lt;/p&gt;&lt;p&gt;有问题或建议欢迎提 Issue！&lt;/p&gt;&lt;/section&gt;</content:encoded></item><item><title>IP Geolocation - 掌控浏览器地理位置的 Chrome 扩展</title><link>https://blog.daisheng.xyz/posts/ip-geolocation/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/ip-geolocation/</guid><description>一款基于 Chrome Manifest V3 的地理位置伪装扩展。通过重写 navigator.geolocation API，实现隐私保护与开发测试的双重需求。</description><pubDate>Sun, 28 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;在当今的互联网环境下，隐私保护已成为一个老生常谈的话题。许多用户习惯使用 VPN 或代理工具来隐藏真实的 IP 地址，以此规避追踪或访问特定区域的内容。然而，你是否遇到过这样的情况：明明已经切换了代理 IP，但网页依然精准地定位到了你所在的真实城市？&lt;/p&gt;
 &lt;p&gt;这通常是因为浏览器的 &lt;strong&gt;HTML5 Geolocation API&lt;/strong&gt; 出卖了你。不同于基于 IP 的定位，网页可以通过 &lt;code&gt;navigator.geolocation&lt;/code&gt; 直接请求设备的高精度 GPS 或 Wi-Fi 定位数据。&lt;/p&gt;
 &lt;p&gt;为了解决这个问题，填补网络层代理与应用层定位之间的隐私缺口，我开发了 &lt;strong&gt;IP Geolocation&lt;/strong&gt; —— 一个开源的 Chrome 浏览器扩展。&lt;/p&gt;
-&lt;h2&gt;项目背景&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;IP Geolocation&lt;/strong&gt; 旨在为用户提供对浏览器地理位置信息的完全控制权。无论你是需要测试不同地区业务逻辑的前端开发者，还是注重隐私的普通用户，这个工具都能帮你&quot;瞬间移动&quot;到世界的任何角落。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;项目源码&lt;/strong&gt;: &lt;a href=&quot;https://github.com/1776686596/IP-Geolocation&quot;&gt;GitHub - IP-Geolocation&lt;/a&gt;&lt;/li&gt;
+&lt;section&gt;&lt;h2&gt;项目背景&lt;a href=&quot;#项目背景&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;IP Geolocation&lt;/strong&gt; 旨在为用户提供对浏览器地理位置信息的完全控制权。无论你是需要测试不同地区业务逻辑的前端开发者，还是注重隐私的普通用户，这个工具都能帮你”瞬间移动”到世界的任何角落。&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;项目源码&lt;/strong&gt;: &lt;a href=&quot;https://github.com/1776686596/IP-Geolocation&quot; target=&quot;_blank&quot;&gt;GitHub - IP-Geolocation&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;技术栈&lt;/strong&gt;: JavaScript, HTML, CSS (Manifest V3)&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;许可证&lt;/strong&gt;: MIT License&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;核心功能&lt;/h2&gt;
-&lt;p&gt;IP Geolocation 不仅仅是一个简单的经纬度修改器，它结合了自动检测与手动控制，力求在易用性和灵活性之间找到平衡。&lt;/p&gt;
-&lt;h3&gt;1. 智能的自动定位&lt;/h3&gt;
-&lt;p&gt;扩展内置了自动化逻辑，能够通过 IP 地理位置 API 根据你当前的出口 IP 地址，自动获取对应的地理位置。这意味着当你切换代理节点时，浏览器的地理位置可以自动跟随变化，实现&quot;身临其境&quot;的伪装。&lt;/p&gt;
-&lt;h3&gt;2. 灵活的手动控制与地图交互&lt;/h3&gt;
-&lt;p&gt;如果自动定位不够精准，或者你想故意定位到一个虚构的地点，扩展提供了直观的 Leaflet 地图预览。你可以直接在地图上点击选择位置，或者手动输入经纬度坐标。&lt;/p&gt;
-&lt;h3&gt;3. 精细化的白名单/黑名单机制&lt;/h3&gt;
-&lt;p&gt;并不是所有网站都需要伪装。通过内置的过滤规则，你可以灵活配置：&lt;/p&gt;
-&lt;ul&gt;
+&lt;/ul&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;核心功能&lt;a href=&quot;#核心功能&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;IP Geolocation 不仅仅是一个简单的经纬度修改器，它结合了自动检测与手动控制，力求在易用性和灵活性之间找到平衡。&lt;/p&gt;&lt;section&gt;&lt;h3&gt;1. 智能的自动定位&lt;a href=&quot;#1-智能的自动定位&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;扩展内置了自动化逻辑，能够通过 IP 地理位置 API 根据你当前的出口 IP 地址，自动获取对应的地理位置。这意味着当你切换代理节点时，浏览器的地理位置可以自动跟随变化，实现”身临其境”的伪装。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;2. 灵活的手动控制与地图交互&lt;a href=&quot;#2-灵活的手动控制与地图交互&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;如果自动定位不够精准，或者你想故意定位到一个虚构的地点，扩展提供了直观的 Leaflet 地图预览。你可以直接在地图上点击选择位置，或者手动输入经纬度坐标。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;3. 精细化的白名单/黑名单机制&lt;a href=&quot;#3-精细化的白名单黑名单机制&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;并不是所有网站都需要伪装。通过内置的过滤规则，你可以灵活配置：&lt;/p&gt;&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;白名单模式&lt;/strong&gt;：仅在特定网站（如开发测试环境）启用伪装&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;黑名单模式&lt;/strong&gt;：在特定网站（如需要真实导航的地图服务）禁用伪装&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;4. 隐私保护与本地化优化&lt;/h3&gt;
-&lt;p&gt;考虑到特定网络环境，扩展加入了一个贴心的隐私保护逻辑：当检测到当前 IP 位于中国大陆时，为了避免意外暴露精确位置，系统会默认使用北京作为兜底位置，而不是透传真实的精确坐标。&lt;/p&gt;
-&lt;h2&gt;技术实现&lt;/h2&gt;
-&lt;p&gt;作为一款基于 &lt;strong&gt;Chrome Manifest V3&lt;/strong&gt; 规范开发的扩展，IP Geolocation 在技术实现上有几个值得探讨的亮点。&lt;/p&gt;
-&lt;h3&gt;核心原理：API 注入与重写&lt;/h3&gt;
-&lt;p&gt;如何欺骗网页的定位请求？答案是&lt;strong&gt;脚本注入（Script Injection）&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;我们利用 &lt;code&gt;chrome.scripting.executeScript&lt;/code&gt; 在页面加载的最早期注入一段自定义的 JavaScript 代码。这段代码会劫持并重写原生的 &lt;code&gt;navigator.geolocation&lt;/code&gt; 对象。&lt;/p&gt;
-&lt;p&gt;当网页调用 &lt;code&gt;navigator.geolocation.getCurrentPosition&lt;/code&gt; 时，它实际上调用的是我们伪造的函数。这个函数不会去查询底层硬件，而是直接返回存储在 &lt;code&gt;chrome.storage.local&lt;/code&gt; 中的伪造经纬度数据。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// 伪代码示例：重写 Geolocation API
-navigator.geolocation.getCurrentPosition = function(success, error, options) {
-    const mockPosition = {
-        coords: {
-            latitude: userSettings.lat,
-            longitude: userSettings.lng,
-            accuracy: 100
-        },
-        timestamp: Date.now()
-    };
-    success(mockPosition);
-};
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;定时任务与状态同步&lt;/h3&gt;
-&lt;p&gt;为了保证位置信息的实时性，扩展使用了 &lt;code&gt;chrome.alarms&lt;/code&gt; API 创建定时任务，每分钟自动检查一次 IP 变动并更新地理位置缓存。这种异步更新机制确保了用户在使用过程中不会感觉到明显的延迟。&lt;/p&gt;
-&lt;h3&gt;沙箱化的地图预览&lt;/h3&gt;
-&lt;p&gt;在 Popup 弹窗中加载复杂的地图库（Leaflet）有时会受到 Chrome 内容安全策略（CSP）的限制。本项目通过 iframe 沙箱模式优雅地解决了这个问题，既保证了地图功能的完整性，又符合 Manifest V3 的安全规范。&lt;/p&gt;
-&lt;h2&gt;应用场景&lt;/h2&gt;
-&lt;ol&gt;
+&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;4. 隐私保护与本地化优化&lt;a href=&quot;#4-隐私保护与本地化优化&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;考虑到特定网络环境，扩展加入了一个贴心的隐私保护逻辑：当检测到当前 IP 位于中国大陆时，为了避免意外暴露精确位置，系统会默认使用北京作为兜底位置，而不是透传真实的精确坐标。&lt;/p&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;技术实现&lt;a href=&quot;#技术实现&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;作为一款基于 &lt;strong&gt;Chrome Manifest V3&lt;/strong&gt; 规范开发的扩展，IP Geolocation 在技术实现上有几个值得探讨的亮点。&lt;/p&gt;&lt;section&gt;&lt;h3&gt;核心原理：API 注入与重写&lt;a href=&quot;#核心原理api-注入与重写&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;如何欺骗网页的定位请求？答案是&lt;strong&gt;脚本注入（Script Injection）&lt;/strong&gt;。&lt;/p&gt;&lt;p&gt;我们利用 &lt;code&gt;chrome.scripting.executeScript&lt;/code&gt; 在页面加载的最早期注入一段自定义的 JavaScript 代码。这段代码会劫持并重写原生的 &lt;code&gt;navigator.geolocation&lt;/code&gt; 对象。&lt;/p&gt;&lt;p&gt;当网页调用 &lt;code&gt;navigator.geolocation.getCurrentPosition&lt;/code&gt; 时，它实际上调用的是我们伪造的函数。这个函数不会去查询底层硬件，而是直接返回存储在 &lt;code&gt;chrome.storage.local&lt;/code&gt; 中的伪造经纬度数据。&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;// 伪代码示例：重写 Geolocation API&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;navigator&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;/span&gt;&lt;span&gt;geolocation&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;span&gt;getCurrentPosition&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;function&lt;/span&gt;&lt;span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;success&lt;/span&gt;&lt;span&gt;, &lt;/span&gt;&lt;span&gt;error&lt;/span&gt;&lt;span&gt;, &lt;/span&gt;&lt;span&gt;options&lt;/span&gt;&lt;span&gt;) {&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;const&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;mockPosition&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;=&lt;/span&gt;&lt;span&gt; {&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;        &lt;/span&gt;&lt;span&gt;coords&lt;/span&gt;&lt;span&gt;:&lt;/span&gt;&lt;span&gt; {&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;5&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;            &lt;/span&gt;&lt;span&gt;latitude&lt;/span&gt;&lt;span&gt;:&lt;/span&gt;&lt;span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;userSettings&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;/span&gt;&lt;span&gt;lat&lt;/span&gt;&lt;span&gt;,&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;6&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;            &lt;/span&gt;&lt;span&gt;longitude&lt;/span&gt;&lt;span&gt;:&lt;/span&gt;&lt;span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;userSettings&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;/span&gt;&lt;span&gt;lng&lt;/span&gt;&lt;span&gt;,&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;7&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;            &lt;/span&gt;&lt;span&gt;accuracy&lt;/span&gt;&lt;span&gt;:&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;100&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;8&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;        &lt;/span&gt;&lt;/span&gt;&lt;span&gt;},&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;9&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;        &lt;/span&gt;&lt;span&gt;timestamp&lt;/span&gt;&lt;span&gt;:&lt;/span&gt;&lt;span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;Date&lt;/span&gt;&lt;span&gt;.&lt;/span&gt;&lt;/span&gt;&lt;span&gt;now&lt;/span&gt;&lt;span&gt;()&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;10&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;span&gt;    &lt;/span&gt;&lt;/span&gt;&lt;span&gt;};&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;11&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;    &lt;/span&gt;&lt;span&gt;success&lt;/span&gt;&lt;span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;mockPosition&lt;/span&gt;&lt;span&gt;);&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;12&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;};&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;定时任务与状态同步&lt;a href=&quot;#定时任务与状态同步&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;为了保证位置信息的实时性，扩展使用了 &lt;code&gt;chrome.alarms&lt;/code&gt; API 创建定时任务，每分钟自动检查一次 IP 变动并更新地理位置缓存。这种异步更新机制确保了用户在使用过程中不会感觉到明显的延迟。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;沙箱化的地图预览&lt;a href=&quot;#沙箱化的地图预览&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;在 Popup 弹窗中加载复杂的地图库（Leaflet）有时会受到 Chrome 内容安全策略（CSP）的限制。本项目通过 iframe 沙箱模式优雅地解决了这个问题，既保证了地图功能的完整性，又符合 Manifest V3 的安全规范。&lt;/p&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;应用场景&lt;a href=&quot;#应用场景&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;Web 开发与测试&lt;/strong&gt;：开发者在调试基于 LBS（地理位置服务）的应用时，无需肉身移动，即可测试应用在不同地区的表现&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;海外业务访问&lt;/strong&gt;：配合代理工具，解决部分流媒体或电商网站因为 GPS 位置与 IP 地址不符而产生的风控拦截&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;防止大数据杀熟与追踪&lt;/strong&gt;：混淆真实的物理活动轨迹，保护个人隐私&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2&gt;快速开始&lt;/h2&gt;
-&lt;p&gt;目前项目已在 GitHub 开源，你可以通过以下步骤安装体验：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;下载项目的 &lt;a href=&quot;https://github.com/1776686596/IP-Geolocation/releases&quot;&gt;Release 压缩包&lt;/a&gt; 或 &lt;code&gt;git clone&lt;/code&gt; 源码&lt;/li&gt;
+&lt;/ol&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;快速开始&lt;a href=&quot;#快速开始&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;目前项目已在 GitHub 开源，你可以通过以下步骤安装体验：&lt;/p&gt;&lt;ol&gt;
+&lt;li&gt;下载项目的 &lt;a href=&quot;https://github.com/1776686596/IP-Geolocation/releases&quot; target=&quot;_blank&quot;&gt;Release 压缩包&lt;/a&gt; 或 &lt;code&gt;git clone&lt;/code&gt; 源码&lt;/li&gt;
 &lt;li&gt;打开 Chrome 浏览器，进入扩展程序管理页面 (&lt;code&gt;chrome://extensions/&lt;/code&gt;)&lt;/li&gt;
-&lt;li&gt;开启右上角的&quot;开发者模式&quot;&lt;/li&gt;
-&lt;li&gt;点击&quot;加载已解压的扩展程序&quot;，选择项目文件夹&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;安装完成后，点击浏览器右上角的图标，即可看到当前的定位状态并进行设置。&lt;/p&gt;
-&lt;h2&gt;总结&lt;/h2&gt;
-&lt;p&gt;IP Geolocation 是一个小而美的工具，它解决了一个具体而实际的问题。通过开源的方式，希望能帮助到更多的开发者和注重隐私的用户。&lt;/p&gt;
-&lt;p&gt;如果你对这个项目感兴趣，或者有更好的功能建议，欢迎在 &lt;a href=&quot;https://github.com/1776686596/IP-Geolocation&quot;&gt;GitHub&lt;/a&gt; 上提交 Issue 或 PR！&lt;/p&gt;
-</content:encoded></item></channel></rss>
+&lt;li&gt;开启右上角的”开发者模式”&lt;/li&gt;
+&lt;li&gt;点击”加载已解压的扩展程序”，选择项目文件夹&lt;/li&gt;
+&lt;/ol&gt;&lt;p&gt;安装完成后，点击浏览器右上角的图标，即可看到当前的定位状态并进行设置。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;总结&lt;a href=&quot;#总结&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;IP Geolocation 是一个小而美的工具，它解决了一个具体而实际的问题。通过开源的方式，希望能帮助到更多的开发者和注重隐私的用户。&lt;/p&gt;&lt;p&gt;如果你对这个项目感兴趣，或者有更好的功能建议，欢迎在 &lt;a href=&quot;https://github.com/1776686596/IP-Geolocation&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt; 上提交 Issue 或 PR！&lt;/p&gt;&lt;/section&gt;</content:encoded></item></channel></rss>
