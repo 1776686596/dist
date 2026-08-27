@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>园长の小站</title><description>Demo site</description><link>https://blog.daisheng.xyz/</link><templateTheme>Firefly</templateTheme><templateThemeVersion>6.16.5</templateThemeVersion><templateThemeUrl>https://github.com/CuteLeaf/Firefly</templateThemeUrl><lastBuildDate>2026年8月27日 19:20:22</lastBuildDate><item><title>115-python：115 网盘 Python 工具生态</title><link>https://blog.daisheng.xyz/posts/115-python/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/115-python/</guid><description>115-python 是一个围绕 115 网盘的 Python 工具生态，包含 p115client 核心客户端和挂载、直链、传输、数据库等多个实用模块。</description><pubDate>Wed, 26 Aug 2026 00:00:00 GMT</pubDate><content:encoded>&lt;section&gt;&lt;h2&gt;开场&lt;a href=&quot;#开场&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;平时用 115 网盘时，我经常遇到几个很实际的问题：&lt;/p&gt;&lt;ul&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>园长の小站</title><description>Demo site</description><link>https://blog.daisheng.xyz/</link><templateTheme>Firefly</templateTheme><templateThemeVersion>6.16.5</templateThemeVersion><templateThemeUrl>https://github.com/CuteLeaf/Firefly</templateThemeUrl><lastBuildDate>2026年8月27日 19:37:48</lastBuildDate><item><title>115-python：115 网盘 Python 工具生态</title><link>https://blog.daisheng.xyz/posts/115-python/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/115-python/</guid><description>115-python 是一个围绕 115 网盘的 Python 工具生态，包含 p115client 核心客户端和挂载、直链、传输、数据库等多个实用模块。</description><pubDate>Wed, 26 Aug 2026 00:00:00 GMT</pubDate><content:encoded>&lt;section&gt;&lt;h2&gt;开场&lt;a href=&quot;#开场&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;平时用 115 网盘时，我经常遇到几个很实际的问题：&lt;/p&gt;&lt;ul&gt;
 &lt;li&gt;想直接读取、挂载网盘里的文件，而不是每次都打开网页；&lt;/li&gt;
 &lt;li&gt;想把文件以直链、图片或扫码的方式分享出去；&lt;/li&gt;
 &lt;li&gt;想批量上传、下载，或者在本地维护一份文件列表用于查询。&lt;/li&gt;
@@ -42,7 +42,130 @@
 &lt;li&gt;仓库 fork 自 &lt;code&gt;ChenyangGao/p115client&lt;/code&gt;，上游的 LICENSE 版权归原作者 &lt;a href=&quot;https://github.com/ChenyangGao&quot; target=&quot;_blank&quot;&gt;ChenyangGao&lt;/a&gt;（年份 2024）；&lt;/li&gt;
 &lt;li&gt;本仓库在核心库之上维护与扩展工具模块，维护范围限于聚合、修复与补充说明，不替代上游的基础能力。&lt;/li&gt;
 &lt;/ul&gt;&lt;/section&gt;
-&lt;section&gt;&lt;h2&gt;写在最后&lt;a href=&quot;#写在最后&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;对我来说，这套生态解决的核心问题是：把 115 网盘从「只能在网页里用」变成「可以在本地脚本、挂载目录、直链分享和本地文件列表里用」。&lt;/p&gt;&lt;p&gt;如果你也有类似需求，欢迎到 &lt;a href=&quot;https://github.com/1776686596/115-python&quot; target=&quot;_blank&quot;&gt;GitHub - 115-python&lt;/a&gt; 查看、使用或提 Issue。&lt;/p&gt;&lt;/section&gt;</content:encoded></item><item><title>抖音酒类直播间监控系统 - 实时数据采集与可视化</title><link>https://blog.daisheng.xyz/posts/douyin-live-monitor/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/douyin-live-monitor/</guid><description>基于 Playwright + FastAPI 的抖音直播间数据监控系统，实时采集多个酒类品牌直播间的在线人数、点赞数和弹幕数据，提供精美的可视化仪表盘。</description><pubDate>Sun, 28 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;section&gt;&lt;h2&gt;项目简介&lt;a href=&quot;#项目简介&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;抖音酒类直播间监控系统&lt;/strong&gt;（Douyin Live Monitor）是我开发的一款实时数据采集与可视化工具。项目初衷是监控多个酒类品牌在抖音平台的直播数据，为运营决策提供数据支撑。&lt;/p&gt;&lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/1776686596/douyin-live-monitor&quot; target=&quot;_blank&quot;&gt;https://github.com/1776686596/douyin-live-monitor&lt;/a&gt;&lt;/p&gt;&lt;section&gt;&lt;h3&gt;核心功能&lt;a href=&quot;#核心功能&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;section&gt;&lt;h2&gt;写在最后&lt;a href=&quot;#写在最后&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;对我来说，这套生态解决的核心问题是：把 115 网盘从「只能在网页里用」变成「可以在本地脚本、挂载目录、直链分享和本地文件列表里用」。&lt;/p&gt;&lt;p&gt;如果你也有类似需求，欢迎到 &lt;a href=&quot;https://github.com/1776686596/115-python&quot; target=&quot;_blank&quot;&gt;GitHub - 115-python&lt;/a&gt; 查看、使用或提 Issue。&lt;/p&gt;&lt;/section&gt;</content:encoded></item><item><title>PackLens - 看清 Linux 软件、磁盘与进程的一站式工具</title><link>https://blog.daisheng.xyz/posts/packlens/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/packlens/</guid><description>PackLens 是一款 Linux 原生 GUI 工具，整合软件清单、开发环境识别、磁盘分析、缓存清理与进程检查，帮你快速知道系统里装了什么、占了多少、该怎么清理。</description><pubDate>Tue, 19 May 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;如果你长期使用 Linux 桌面，大概率会遇到一个很现实的问题：软件不是只从一个地方来的。&lt;/p&gt;
+&lt;p&gt;有些来自 &lt;code&gt;apt&lt;/code&gt;，有些来自 &lt;code&gt;snap&lt;/code&gt; 或 &lt;code&gt;flatpak&lt;/code&gt;，有些只是一个 &lt;code&gt;.desktop&lt;/code&gt; 入口；开发环境里还会叠加 Python、Node、Rust、Java、conda、nvm、rustup、pipx、npm 全局包、cargo install 工具。时间一久，系统里到底装了什么、占了多少空间、哪些缓存可以清理、哪些后台进程正在吃内存，就会变得越来越难看清。&lt;/p&gt;
+&lt;p&gt;于是我做了 &lt;strong&gt;PackLens&lt;/strong&gt;：一个面向 Linux 桌面的原生 GUI 工具，把软件清单、开发环境、磁盘分析、清理建议和进程检查放到一个应用里。&lt;/p&gt;
+&lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/1776686596/PackLens&quot; target=&quot;_blank&quot;&gt;https://github.com/1776686596/PackLens&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img alt=&quot;PackLens 项目概览&quot; loading=&quot;lazy&quot; width=&quot;1813&quot; height=&quot;868&quot; src=&quot;/_astro/packlens-hero.DkHbE-a9_IDcFC.webp&quot; /&gt;&lt;figcaption&gt;PackLens 项目概览&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;
+&lt;section&gt;&lt;h2&gt;PackLens 想解决什么&lt;a href=&quot;#packlens-想解决什么&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;PackLens 的核心目标很简单：让 Linux 系统整理变得可见、可查、可判断。&lt;/p&gt;&lt;p&gt;它不是单纯的卸载器，也不是只显示磁盘占用的分析器，而是围绕一个更完整的问题展开：&lt;/p&gt;&lt;blockquote&gt;&lt;p&gt;这个系统里装了什么？它从哪里来？占用了多少？我能不能安全地清理或卸载？&lt;/p&gt;&lt;/blockquote&gt;&lt;p&gt;为了回答这个问题，PackLens 把几个常见但分散的操作集中在一起：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;查看 &lt;code&gt;apt&lt;/code&gt;、&lt;code&gt;snap&lt;/code&gt;、&lt;code&gt;flatpak&lt;/code&gt; 和桌面入口中的软件&lt;/li&gt;
+&lt;li&gt;识别 Python、Node、Rust、Java 等开发环境&lt;/li&gt;
+&lt;li&gt;分析目录和缓存占用&lt;/li&gt;
+&lt;li&gt;给出带风险等级的清理建议&lt;/li&gt;
+&lt;li&gt;扫描后台进程和内存占用&lt;/li&gt;
+&lt;/ul&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;软件全景：先把“装了什么”看清楚&lt;a href=&quot;#软件全景先把装了什么看清楚&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Linux 桌面上软件来源很多，只看某一个包管理器经常不够。PackLens 会聚合常见来源，并在一个列表里展示软件名称、来源、安装方式、路径和卸载命令。&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img alt=&quot;PackLens 软件全景&quot; loading=&quot;lazy&quot; width=&quot;1855&quot; height=&quot;976&quot; src=&quot;/_astro/packlens-software-panorama.BY1hXXfq_1Wscqi.webp&quot; /&gt;&lt;figcaption&gt;PackLens 软件全景&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;这里比较实用的是两点：&lt;/p&gt;&lt;ol&gt;
+&lt;li&gt;可以搜索和筛选，不需要在终端里记不同包管理器的查询命令。&lt;/li&gt;
+&lt;li&gt;可以看到卸载命令，适合在动手前先确认来源和影响范围。&lt;/li&gt;
+&lt;/ol&gt;&lt;p&gt;对于手动安装、带 &lt;code&gt;.desktop&lt;/code&gt; 文件但不在包管理器记录里的应用，PackLens 也会尽量把入口信息展示出来，避免“明明菜单里有，但不知道从哪来的”这种情况。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;开发环境：专门照顾开发者的混乱现场&lt;a href=&quot;#开发环境专门照顾开发者的混乱现场&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;开发机最容易膨胀的部分，往往不是普通桌面应用，而是各种语言生态。&lt;/p&gt;&lt;p&gt;PackLens 会检查常见运行时和版本管理器，例如：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;Python：&lt;code&gt;python3&lt;/code&gt;、&lt;code&gt;pip&lt;/code&gt;、&lt;code&gt;pipx&lt;/code&gt;、&lt;code&gt;uv tool&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Node：&lt;code&gt;node&lt;/code&gt;、&lt;code&gt;npm -g&lt;/code&gt;、&lt;code&gt;nvm&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Rust：&lt;code&gt;rustc&lt;/code&gt;、&lt;code&gt;cargo install&lt;/code&gt;、&lt;code&gt;rustup&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Java：&lt;code&gt;java&lt;/code&gt;、&lt;code&gt;javac&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img alt=&quot;PackLens 开发环境&quot; loading=&quot;lazy&quot; width=&quot;1855&quot; height=&quot;976&quot; src=&quot;/_astro/packlens-dev-environment.Cz6-RaDr_Z4Oe1S.webp&quot; /&gt;&lt;figcaption&gt;PackLens 开发环境&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;这部分对我自己的意义很大。很多时候磁盘空间被吃掉，不是因为装了一个特别大的软件，而是多个开发生态各自缓存、各自安装全局工具，最后叠在一起变成一堆很难回忆来源的东西。&lt;/p&gt;&lt;p&gt;PackLens 把这些信息放到独立页面里，方便快速判断：哪些运行时还在用，哪些全局包可能已经不需要了。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;磁盘分析：不只看大小，也要能定位路径&lt;a href=&quot;#磁盘分析不只看大小也要能定位路径&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;当磁盘空间告急时，最怕的不是“大文件很多”，而是不知道应该从哪里开始看。&lt;/p&gt;&lt;p&gt;PackLens 提供快速扫描和完整扫描两种模式。快速模式适合日常看用户目录，完整模式可以覆盖 &lt;code&gt;/&lt;/code&gt;，但会更慢。扫描结果会用目录树和可视化块图展示占用情况，也可以打开路径继续检查。&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img alt=&quot;PackLens 磁盘分析&quot; loading=&quot;lazy&quot; width=&quot;1855&quot; height=&quot;976&quot; src=&quot;/_astro/packlens-disk-analysis.BmAyf9sU_19fBXE.webp&quot; /&gt;&lt;figcaption&gt;PackLens 磁盘分析&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;它还会识别常见开发缓存目录，例如 &lt;code&gt;apt&lt;/code&gt;、&lt;code&gt;pip&lt;/code&gt;、&lt;code&gt;npm&lt;/code&gt;、&lt;code&gt;conda&lt;/code&gt;、&lt;code&gt;cargo&lt;/code&gt;、&lt;code&gt;docker&lt;/code&gt; 等。这样你看到的不只是“某个目录很大”，而是能进一步判断它为什么大、能不能清。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;清理助手：把风险说清楚&lt;a href=&quot;#清理助手把风险说清楚&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;清理系统最麻烦的地方在于：有些东西可以放心删，有些东西最好先确认，有些操作还需要 &lt;code&gt;sudo&lt;/code&gt;。&lt;/p&gt;&lt;p&gt;PackLens 的清理助手会生成清理建议，并标注风险等级。无需 &lt;code&gt;sudo&lt;/code&gt; 的清理项可以在应用内执行；需要管理员权限的操作会提示复制命令到终端执行。&lt;/p&gt;&lt;p&gt;这种设计比较保守，但我更喜欢这种方式：清理工具不应该为了“一键释放空间”而隐藏风险。尤其是开发机，很多缓存目录重新下载成本不低，清理前知道影响范围更重要。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;进程管理：找到正在吃内存的后台任务&lt;a href=&quot;#进程管理找到正在吃内存的后台任务&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;除了磁盘，内存占用也是日常整理的一部分。PackLens 的进程管理页会展示内存和交换分区占用，并列出后台进程。你可以搜索、筛选，并选择结束可终止的进程。&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img alt=&quot;PackLens 进程管理&quot; loading=&quot;lazy&quot; width=&quot;1855&quot; height=&quot;976&quot; src=&quot;/_astro/packlens-process-manager.B3LOMfMS_1arGv2.webp&quot; /&gt;&lt;figcaption&gt;PackLens 进程管理&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;它不会假装能结束所有进程：权限不足或系统关键进程可能无法结束。这也是我希望 PackLens 保持的边界，能帮你看清楚和处理常见问题，但不做危险的越权操作。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;技术栈&lt;a href=&quot;#技术栈&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;PackLens 是一个 Linux 原生桌面应用，当前版本为 &lt;code&gt;0.1.2&lt;/code&gt;，主要技术栈如下：&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;模块&lt;/th&gt;&lt;th&gt;技术&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;应用语言&lt;/td&gt;&lt;td&gt;Rust&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;GUI&lt;/td&gt;&lt;td&gt;GTK4 + libadwaita&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;异步任务&lt;/td&gt;&lt;td&gt;Tokio&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;日志&lt;/td&gt;&lt;td&gt;tracing&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;配置&lt;/td&gt;&lt;td&gt;TOML&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;p&gt;项目使用 &lt;code&gt;GPL-3.0-or-later&lt;/code&gt; 协议发布。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;安装与运行&lt;a href=&quot;#安装与运行&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;如果你想直接体验，可以关注项目的 GitHub Releases：&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/1776686596/PackLens/releases&quot; target=&quot;_blank&quot;&gt;https://github.com/1776686596/PackLens/releases&lt;/a&gt;&lt;/p&gt;&lt;p&gt;预构建包依赖系统已安装 GTK4 和 libadwaita。Ubuntu 24.04+ 用户可以优先选择 &lt;code&gt;.deb&lt;/code&gt; 包；也可以下载 &lt;code&gt;.tar.gz&lt;/code&gt; 后执行本地安装脚本。&lt;/p&gt;&lt;p&gt;如果你想从源码运行：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;git&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;clone&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;https://github.com/1776686596/PackLens.git&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;cd&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;PackLens&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;cargo&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;run&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;--bin&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;packlens&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;发布构建：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;cargo&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;build&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;--release&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;./target/release/packlens&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;系统依赖方面，需要 GTK4、libadwaita 和 &lt;code&gt;pkg-config&lt;/code&gt;。不同发行版安装方式略有差异，README 中已经给出了 Ubuntu / Debian、Fedora、Arch 的示例命令。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;适合谁&lt;a href=&quot;#适合谁&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;我会推荐这些用户试试 PackLens：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;经常折腾 Linux 桌面环境的人&lt;/li&gt;
+&lt;li&gt;想清理磁盘，但不想盲目删除目录的人&lt;/li&gt;
+&lt;li&gt;Python / Node / Rust / Java 环境比较多的开发者&lt;/li&gt;
+&lt;li&gt;想知道系统里软件来源和卸载方式的人&lt;/li&gt;
+&lt;li&gt;偏好 GNOME / GTK 风格原生应用的人&lt;/li&gt;
+&lt;/ul&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;写在最后&lt;a href=&quot;#写在最后&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;PackLens 目前还在持续完善中，但它已经能覆盖我自己整理 Linux 桌面环境时最常遇到的几个问题：软件来源分散、开发环境混乱、缓存占用不透明、后台进程不容易快速判断。&lt;/p&gt;&lt;p&gt;如果你也遇到过类似问题，欢迎下载体验，也欢迎在 GitHub 上提 Issue 或 Star 支持：&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/1776686596/PackLens&quot; target=&quot;_blank&quot;&gt;GitHub - PackLens&lt;/a&gt;&lt;/p&gt;&lt;/section&gt;</content:encoded></item><item><title>Tauri 2 随机视频播放器：桌面端 + Chrome 悬浮窗</title><link>https://blog.daisheng.xyz/posts/video-player/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/video-player/</guid><description>一个基于 Tauri 2 的随机视频/美图播放器，并配套 Manifest V3 Chrome 悬浮窗插件：一键弹出可拖拽浮窗，支持自动下一个、预加载与接口配置。</description><pubDate>Sat, 10 Jan 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;我做了一个偏「小而爽」的工具：桌面端用 &lt;strong&gt;Tauri 2&lt;/strong&gt;（Rust + 原生 HTML/JS）实现随机视频/美图播放；浏览器端再配一个 &lt;strong&gt;Chrome 插件&lt;/strong&gt;，在任何网页里点一下就能弹出可拖拽的悬浮窗播放器。&lt;/p&gt;
+&lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/1776686596/video-player&quot; target=&quot;_blank&quot;&gt;https://github.com/1776686596/video-player&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;&lt;p&gt;推荐优先使用浏览器插件：装好后在任意网页一键弹出悬浮窗，更轻量也更顺手；桌面端更适合当独立播放器使用（带接口/缓存管理与预加载兜底）。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;项目 UI 文案沿用了“美女视频”的叫法，但它本质上是一个“可配置视频接口的播放器壳子”，换成任何公开视频/图片接口都行。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;section&gt;&lt;h2&gt;效果预览&lt;a href=&quot;#效果预览&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;下图是 Chrome 插件在网页中的实际使用效果（右下角悬浮窗）：&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img alt=&quot;Chrome 插件悬浮窗效果&quot; loading=&quot;lazy&quot; width=&quot;1847&quot; height=&quot;1018&quot; src=&quot;/_astro/video-player.BLIPp4Rp_Z2mDCuM.webp&quot; /&gt;&lt;figcaption&gt;Chrome 插件悬浮窗效果&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;项目由两部分组成&lt;a href=&quot;#项目由两部分组成&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;section&gt;&lt;h3&gt;1）桌面端（Tauri 应用）&lt;a href=&quot;#1桌面端tauri-应用&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;桌面端的目标是：&lt;strong&gt;播放体验尽量顺滑、接口尽量兼容、配置尽量可视化&lt;/strong&gt;。&lt;/p&gt;&lt;p&gt;核心功能：&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;功能&lt;/th&gt;&lt;th&gt;说明&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;视频播放&lt;/td&gt;&lt;td&gt;自定义控制栏（播放/暂停、进度、音量、倍速、全屏）&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;自动下一个&lt;/td&gt;&lt;td&gt;视频结束自动切换下一条&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;预加载&lt;/td&gt;&lt;td&gt;后台提前下载下一条，降低切换等待&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;接口管理&lt;/td&gt;&lt;td&gt;支持分类切换/随机、添加自定义接口、删除自定义接口&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;缓存管理&lt;/td&gt;&lt;td&gt;一键清理当前播放与预加载队列&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;美图模式&lt;/td&gt;&lt;td&gt;同一套“接口/分类”能力，用于随机图片浏览&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;2）浏览器端（Chrome 悬浮窗插件）&lt;a href=&quot;#2浏览器端chrome-悬浮窗插件&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Chrome 插件的目标是：&lt;strong&gt;不离开当前网页，随时开关一个浮窗播放器&lt;/strong&gt;。&lt;/p&gt;&lt;p&gt;交互上就一件事：点击扩展图标 → 注入脚本 → 页面右下角出现悬浮窗。&lt;/p&gt;&lt;p&gt;悬浮窗支持：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;拖拽移动&lt;/li&gt;
+&lt;li&gt;最小化/关闭&lt;/li&gt;
+&lt;li&gt;自动下一个 / 手动下一个&lt;/li&gt;
+&lt;/ul&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;桌面端实现要点：把“网络层复杂度”留在 Rust&lt;a href=&quot;#桌面端实现要点把网络层复杂度留在-rust&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;做“随机视频播放器”最烦的不是 UI，而是接口返回的多样性：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;302 重定向到真实地址&lt;/li&gt;
+&lt;li&gt;JSON 包一层 &lt;code&gt;data/url&lt;/code&gt; 字段&lt;/li&gt;
+&lt;li&gt;直链播放失败（跨域/CORS、Range、Referer、UA 等问题）&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;这个项目的策略是：&lt;strong&gt;前端只负责播放与交互，Rust 侧负责取链、解析与兜底&lt;/strong&gt;。&lt;/p&gt;&lt;section&gt;&lt;h3&gt;自定义 &lt;code&gt;stream://&lt;/code&gt; 协议：兜底播放兼容性&lt;a href=&quot;#自定义-stream-协议兜底播放兼容性&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;项目注册了一个自定义协议 &lt;code&gt;stream&lt;/code&gt;，前端遇到“直链播放失败”时会退回到：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;stream:///video?...&lt;/code&gt;：Rust 侧作为 HTTP 代理（并带 Range 支持）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;stream:///video/{id}&lt;/code&gt;：直接播放“预加载队列”里已下载的视频字节&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;这样 &lt;code&gt;&amp;lt;video&amp;gt;&lt;/code&gt; 只要能播 &lt;code&gt;stream://&lt;/code&gt;，很多兼容问题就能被统一兜底。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;预加载：把“等待”变成“切换”&lt;a href=&quot;#预加载把等待变成切换&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;预加载队列维持一个很小的上限（例如 2 条），让“下一个”尽量像切换而不是等待：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;播放过程中按节奏触发 &lt;code&gt;preload_next&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;切换时优先 &lt;code&gt;pop_next_video&lt;/code&gt; 拿到 &lt;code&gt;stream:///video/{id}&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;再配合前端“错误自动跳过（指数退避）”，接口偶发不稳定时也不会卡死。&lt;/p&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;本地运行与打包&lt;a href=&quot;#本地运行与打包&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;section&gt;&lt;h3&gt;运行桌面端（Tauri）&lt;a href=&quot;#运行桌面端tauri&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;npm&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;install&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;npm&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;run&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;dev&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;打包：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;npm&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;run&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;build&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;安装 Chrome 插件（开发者模式）&lt;a href=&quot;#安装-chrome-插件开发者模式&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;打开 &lt;code&gt;chrome://extensions/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;开启右上角「开发者模式」&lt;/li&gt;
+&lt;li&gt;从 GitHub 下载/克隆仓库：&lt;code&gt;https://github.com/1776686596/video-player&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;点击「加载已解压的扩展程序」，选择仓库里的 &lt;code&gt;chrome-extension/&lt;/code&gt; 目录&lt;/li&gt;
+&lt;/ol&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;免责声明&lt;a href=&quot;#免责声明&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;本项目会请求第三方公开接口资源，仅用于学习与交流。请在使用与二次分发时遵守法律法规、版权与接口方使用条款，并自行评估接口稳定性与安全性。&lt;/p&gt;&lt;/section&gt;</content:encoded></item><item><title>抖音酒类直播间监控系统 - 实时数据采集与可视化</title><link>https://blog.daisheng.xyz/posts/douyin-live-monitor/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/douyin-live-monitor/</guid><description>基于 Playwright + FastAPI 的抖音直播间数据监控系统，实时采集多个酒类品牌直播间的在线人数、点赞数和弹幕数据，提供精美的可视化仪表盘。</description><pubDate>Sun, 28 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;section&gt;&lt;h2&gt;项目简介&lt;a href=&quot;#项目简介&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;抖音酒类直播间监控系统&lt;/strong&gt;（Douyin Live Monitor）是我开发的一款实时数据采集与可视化工具。项目初衷是监控多个酒类品牌在抖音平台的直播数据，为运营决策提供数据支撑。&lt;/p&gt;&lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/1776686596/douyin-live-monitor&quot; target=&quot;_blank&quot;&gt;https://github.com/1776686596/douyin-live-monitor&lt;/a&gt;&lt;/p&gt;&lt;section&gt;&lt;h3&gt;核心功能&lt;a href=&quot;#核心功能&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;
 
 
 
