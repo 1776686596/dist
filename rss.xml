@@ -1,4 +1,173 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>园长の小站</title><description>Demo site</description><link>https://blog.daisheng.xyz/</link><templateTheme>Firefly</templateTheme><templateThemeVersion>6.16.5</templateThemeVersion><templateThemeUrl>https://github.com/CuteLeaf/Firefly</templateThemeUrl><lastBuildDate>2026年8月28日 01:10:13</lastBuildDate><item><title>115-python：115 网盘 Python 工具生态</title><link>https://blog.daisheng.xyz/posts/115-python/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/115-python/</guid><description>115-python 是一个围绕 115 网盘的 Python 工具生态，包含 p115client 核心客户端和挂载、直链、传输、数据库等多个实用模块。</description><pubDate>Wed, 26 Aug 2026 00:00:00 GMT</pubDate><content:encoded>&lt;section&gt;&lt;h2&gt;开场&lt;a href=&quot;#开场&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;平时用 115 网盘时，我经常遇到几个很实际的问题：&lt;/p&gt;&lt;ul&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>园长の小站</title><description>Demo site</description><link>https://blog.daisheng.xyz/</link><templateTheme>Firefly</templateTheme><templateThemeVersion>6.16.5</templateThemeVersion><templateThemeUrl>https://github.com/CuteLeaf/Firefly</templateThemeUrl><lastBuildDate>2026年8月28日 03:32:01</lastBuildDate><item><title>自建 VPS 代理：我的小鸡从出生到 VLESS + REALITY</title><link>https://blog.daisheng.xyz/posts/vps-proxy/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/vps-proxy/</guid><description>记录我从购买 DMIT VPS、SSH 密钥登录、服务器质量测试，到使用 sing-box 配置 VLESS + REALITY 的实践过程。</description><pubDate>Thu, 27 Aug 2026 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;&lt;p&gt;写作时间：2024年4月2日&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;本来只是想搭一个自己的 VPS 代理，结果一不小心就从“买台小鸡玩玩”发展成了“顺便写篇文章记录一下”。经典的只改一行配置，最后开了一个新副本 w&lt;/p&gt;
+&lt;p&gt;本文记录我在自己的服务器上进行远程访问、网络测试和个人设备连接的过程。不讨论批量代理、扫描、攻击或绕过平台限制，大家把自己的服务器当成自己的服务器用就好，不要突然开始扮演反派角色。&lt;/p&gt;
+&lt;blockquote&gt;&lt;p&gt;使用 VPS 和代理服务时，请遵守服务器提供商的服务条款以及所在地区的法律法规。不要把它用于攻击、批量注册、垃圾邮件、恶意爬取或其他未经授权的活动。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;section&gt;&lt;h2&gt;一、先简单理解 VPS 代理&lt;a href=&quot;#一先简单理解-vps-代理&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;VPS 可以理解成一台放在远程机房里的虚拟服务器。它不是魔法少女变身器，也不会自动发放“绝对匿名”成就。搭建代理后，设备的大致访问路径会变成：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;本地设备 → VPS 服务器 → 目标网站或服务&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;这样做通常有几个用途：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;在外出或公共网络环境下，通过自己的服务器访问个人服务；&lt;/li&gt;
+&lt;li&gt;给多个设备提供统一的网络出口；&lt;/li&gt;
+&lt;li&gt;学习 Linux、SSH、网络协议和服务器运维；&lt;/li&gt;
+&lt;li&gt;为开发、测试和远程访问环境提供一个固定入口。&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;但 VPS 代理并不等于匿名，千万不要看到“代理”两个字就脑补成隐身斗篷：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;VPS 服务商可以看到服务器的网络使用情况；&lt;/li&gt;
+&lt;li&gt;目标网站通常能看到 VPS 的出口 IP；&lt;/li&gt;
+&lt;li&gt;代理节点不会替代 HTTPS，也不会自动保护设备上的恶意软件；&lt;/li&gt;
+&lt;li&gt;密码、私钥、UUID、订阅链接和配置文件泄露后，别人可能直接使用你的服务器。&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;所以，自建代理真正的意义是拥有一个自己可以管理、审计和关闭的网络出口，而不是从此消失在互联网里。想完全隐身的话，建议先从关闭显示器开始，虽然效果也很有限（´・ω・`）&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;二、准备服务器&lt;a href=&quot;#二准备服务器&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;我使用的是手里的 DMIT 服务器，具体是控制台里购买的 64 相关方案，下面就拿这只小鸡当实验对象。不同套餐的 CPU、内存、磁盘、流量和网络线路可能不同，最终还是以控制台显示为准。&lt;/p&gt;&lt;p&gt;购买服务器后，一般需要在服务商后台完成这些操作：&lt;/p&gt;&lt;ol&gt;
+&lt;li&gt;选择机房和网络方案；&lt;/li&gt;
+&lt;li&gt;选择操作系统镜像；&lt;/li&gt;
+&lt;li&gt;设置 SSH 密钥或临时密码；&lt;/li&gt;
+&lt;li&gt;确认服务器的 IPv4、IPv6、登录用户名和 SSH 端口；&lt;/li&gt;
+&lt;li&gt;等待系统安装完成。&lt;/li&gt;
+&lt;/ol&gt;&lt;p&gt;新手建议选择自己熟悉的发行版，例如 Debian 或 Ubuntu。系统版本不必盲目追新，稳定、文档多、自己能排错才是王道。毕竟服务器不是抽卡，版本号越大不代表战斗力越高 w&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img alt=&quot;DMIT 服务器控制台&quot; loading=&quot;lazy&quot; width=&quot;633&quot; height=&quot;331&quot; src=&quot;/_astro/vps-proxy-dmit-console.DbYf3146_12YD10.webp&quot; /&gt;&lt;figcaption&gt;DMIT 服务器控制台&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;三、为什么推荐使用 SSH 密钥&lt;a href=&quot;#三为什么推荐使用-ssh-密钥&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;SSH 登录可以使用密码，也可以使用密钥。对于长期运行的 VPS，我更推荐使用 Ed25519 SSH 密钥。&lt;/p&gt;&lt;p&gt;密钥登录的基本原理并不复杂：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;私钥保存在自己的电脑上，不能上传给任何人；&lt;/li&gt;
+&lt;li&gt;公钥放在服务器的 &lt;code&gt;~/.ssh/authorized_keys&lt;/code&gt; 中；&lt;/li&gt;
+&lt;li&gt;登录时，服务器验证你是否持有对应的私钥；&lt;/li&gt;
+&lt;li&gt;私钥本身不会通过网络发送。&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;可以把它想象成一把钥匙：公钥放在门上，私钥留在自己手里。私钥一旦发出去，就相当于把家门钥匙贴到了电线杆上，下一秒就可能进入“为什么服务器流量突然爆炸了”的剧情。&lt;/p&gt;&lt;p&gt;相比密码，密钥的优点是：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;更不容易被暴力猜测；&lt;/li&gt;
+&lt;li&gt;不需要在服务器上保存可直接输入的登录密码；&lt;/li&gt;
+&lt;li&gt;可以为不同设备创建不同密钥，单独撤销某台设备的访问权限；&lt;/li&gt;
+&lt;li&gt;配合密码短语后，即使私钥文件被复制，也增加了一层保护。&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;在本地生成密钥：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;ssh-keygen&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-t&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;ed25519&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-C&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;&quot;daisheng-vps&quot;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;生成后通常会得到：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;~/.ssh/id_ed25519       # 私钥，只能自己保存&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;~/.ssh/id_ed25519.pub   # 公钥，可以上传到服务器&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;私钥不要上传到网盘、公开仓库或聊天群，也不要把包含私钥的整个 &lt;code&gt;.ssh&lt;/code&gt; 目录打包发送。公钥可以给服务器，私钥请和它保持安全距离，像对待银行卡密码一样对待它。&lt;/p&gt;&lt;p&gt;如果服务商后台支持直接填写 SSH 公钥，推荐在安装系统时直接粘贴 &lt;code&gt;id_ed25519.pub&lt;/code&gt; 的内容。连接命令通常类似：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;ssh&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-i&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;~/.ssh/id_ed25519&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;root@服务器IP&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;如果服务商修改了 SSH 端口，则使用：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;ssh&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-i&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;~/.ssh/id_ed25519&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-p&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;SSH端口&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;root@服务器IP&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;第一次连接时，SSH 会显示服务器指纹。确认指纹来自服务商控制台或服务器控制台后，再接受它，不要对陌生指纹无脑输入 &lt;code&gt;yes&lt;/code&gt;。这一步虽然没有战斗动画，但很重要（｀・ω・´）&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;四、通过 SSH 登录服务器&lt;a href=&quot;#四通过-ssh-登录服务器&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;我在本地终端中使用 SSH 连接服务器：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;ssh&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-i&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;~/.ssh/id_ed25519&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;root@服务器IP&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;登录成功后，会看到类似下面的终端界面：&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img alt=&quot;SSH 登录成功&quot; loading=&quot;lazy&quot; width=&quot;544&quot; height=&quot;354&quot; src=&quot;/_astro/vps-proxy-ssh-login.Cgk2bywq_ZPmmAP.webp&quot; /&gt;&lt;figcaption&gt;SSH 登录成功&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;看到服务器主机名、系统信息或 root 提示符，说明这只小鸡已经成功孵化，可以开始下一阶段任务了。&lt;/p&gt;&lt;p&gt;连接成功后，不建议马上关闭当前终端。后面的防火墙和 SSH 配置如果操作错误，当前会话可能是重新登录服务器的最后机会。更稳妥的做法是：&lt;/p&gt;&lt;ol&gt;
+&lt;li&gt;保留当前 SSH 会话；&lt;/li&gt;
+&lt;li&gt;另开一个终端测试新配置；&lt;/li&gt;
+&lt;li&gt;确认新密钥和新端口可以登录；&lt;/li&gt;
+&lt;li&gt;最后再关闭旧的密码登录或旧端口。&lt;/li&gt;
+&lt;/ol&gt;&lt;p&gt;不要在唯一的 SSH 会话里一边改配置，一边祈祷网络女神保佑。真的断掉之后，剧情通常不会自动回档。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;五、先做基础系统维护&lt;a href=&quot;#五先做基础系统维护&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;登录后先更新系统软件包：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;apt&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;update&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;apt&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;full-upgrade&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-y&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;这一步相当于给刚出生的小鸡打补丁。虽然看起来没有什么爽感，但不打补丁就直接开始跑服务，很容易进入“旧系统突然给我上强度”的支线。&lt;/p&gt;&lt;p&gt;如果使用的是其他发行版，应使用对应的包管理器。执行升级前，最好确认服务器没有正在运行的重要服务，并在服务商后台创建快照或备份。&lt;/p&gt;&lt;p&gt;基础安全建议：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;使用 SSH 密钥，不长期使用 root 密码登录；&lt;/li&gt;
+&lt;li&gt;创建一个普通管理员账号，并确认 &lt;code&gt;sudo&lt;/code&gt; 可用；&lt;/li&gt;
+&lt;li&gt;修改 SSH 配置前，先确认新配置没有语法错误；&lt;/li&gt;
+&lt;li&gt;防火墙只开放 SSH 端口、代理服务端口和确实需要的服务端口；&lt;/li&gt;
+&lt;li&gt;删除或停用不需要的服务；&lt;/li&gt;
+&lt;li&gt;不在文章、截图和公开仓库中展示私钥、密码、UUID、订阅链接和 REALITY 私钥；&lt;/li&gt;
+&lt;li&gt;定期查看流量、登录记录和系统日志。&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;不要为了“看起来更安全”就直接关闭 SSH 密码登录或修改端口。先确认密钥登录和新端口可用，再进行收紧配置，否则很容易把自己锁在服务器外面，然后对着控制台陷入沉思 w&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;六、拿到 VPS 后先测试质量&lt;a href=&quot;#六拿到-vps-后先测试质量&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;服务器能登录，不代表线路、IP 和磁盘性能就适合长期使用。正式安装代理之前，我会先给这只小鸡做一次入职体检，主要进行三类测试。&lt;/p&gt;&lt;section&gt;&lt;h3&gt;1. 融合怪测试&lt;a href=&quot;#1-融合怪测试&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;融合怪脚本通常会综合测试 CPU、内存、磁盘、系统信息和部分网络性能。原本的快捷用法是：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;curl&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-L&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;https://gitlab.com/spiritysdx/za/-/raw/main/ecs.sh&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-o&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;ecs.sh&lt;/span&gt;&lt;span&gt; &amp;amp;&amp;amp; &lt;/span&gt;&lt;span&gt;chmod&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;+x&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;ecs.sh&lt;/span&gt;&lt;span&gt; &amp;amp;&amp;amp; &lt;/span&gt;&lt;span&gt;bash&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;ecs.sh&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;由于这会下载并执行远程脚本，比较稳妥的做法是先查看脚本内容。不要看到“一键”两个字就闭着眼冲，现实世界没有自动存档：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;curl&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-fL&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;https://gitlab.com/spiritysdx/za/-/raw/main/ecs.sh&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-o&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;ecs.sh&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;less&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;ecs.sh&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;chmod&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;+x&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;ecs.sh&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;bash&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;ecs.sh&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;5&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;rm&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-f&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;ecs.sh&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;它的结果主要用于判断：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;CPU 和内存是否符合套餐描述；&lt;/li&gt;
+&lt;li&gt;磁盘读写性能是否异常；&lt;/li&gt;
+&lt;li&gt;系统版本和虚拟化环境是否正确；&lt;/li&gt;
+&lt;li&gt;网络基础指标是否值得继续测试。&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;测试脚本会更新，输出格式也可能变化。因此我会把它作为购买后的参考，而不是绝对结论。跑分很好看不等于所有网站都对你一见钟情，别被某一个漂亮数字骗婚 w&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img alt=&quot;融合怪测试结果&quot; loading=&quot;lazy&quot; width=&quot;1660&quot; height=&quot;1004&quot; src=&quot;/_astro/vps-proxy-fusion-test.Ccey3Ra__Z23czia.webp&quot; /&gt;&lt;figcaption&gt;融合怪测试结果&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;2. 网络质量测试&lt;a href=&quot;#2-网络质量测试&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;测试 IPv4 网络质量：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;bash&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;&amp;lt;(&lt;/span&gt;&lt;span&gt;curl&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-Ls&lt;/span&gt;&lt;span&gt; Net.Check.Place)&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-4&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;这里的 &lt;code&gt;-4&lt;/code&gt; 表示强制测试 IPv4。测试结果可以帮助判断延迟、丢包、线路质量和不同方向的连接情况。&lt;/p&gt;&lt;p&gt;需要注意：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;一次测试只能代表当前时间段；&lt;/li&gt;
+&lt;li&gt;晚高峰和非高峰的结果可能不同；&lt;/li&gt;
+&lt;li&gt;单个测试脚本不能代表所有网站的实际体验；&lt;/li&gt;
+&lt;li&gt;如果服务器同时提供 IPv6，应另外测试 IPv6，不要用 IPv4 结果代替。&lt;/li&gt;
+&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;3. IP 质量测试&lt;a href=&quot;#3-ip-质量测试&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;测试服务器公网 IP 的基础质量：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;bash&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;&amp;lt;(&lt;/span&gt;&lt;span&gt;curl&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-Ls&lt;/span&gt;&lt;span&gt; IP.Check.Place)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;IP 质量测试通常用于了解 IP 的归属、机房属性、历史风险和公开数据库中的基础评分。它可以作为选机参考，但不能保证某个网站一定能访问，也不能代替服务商的线路说明。&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img alt=&quot;IP 质量测试结果&quot; loading=&quot;lazy&quot; width=&quot;731&quot; height=&quot;433&quot; src=&quot;/_astro/vps-proxy-ip-quality.DLsOYKov_TKEj8.webp&quot; /&gt;&lt;figcaption&gt;IP 质量测试结果&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;执行这类命令前，也应该确认脚本来源可信。远程脚本可能随时改变，重要服务器不要在不了解内容的情况下直接执行陌生的一键命令。测试是为了了解小鸡，不是为了给未知脚本举办欢迎会。&lt;/p&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;七、安装代理管理脚本&lt;a href=&quot;#七安装代理管理脚本&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;测试完成后，我使用 233boy 的 sing-box 安装脚本进行管理：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;bash&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;&amp;lt;(&lt;/span&gt;&lt;span&gt;wget&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-qO-&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-o-&lt;/span&gt;&lt;span&gt; https://github.com/233boy/sing-box/raw/main/install.sh)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;一键梭哈确实很爽，终端刷过一堆文字的时候，仿佛自己已经成为了 Linux 大魔法师。但脚本毕竟来自第三方仓库，不是 sing-box 官方项目本身，所以不要把它当成完全透明的魔法书。&lt;/p&gt;&lt;p&gt;使用前应注意：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;先阅读项目说明和脚本内容；&lt;/li&gt;
+&lt;li&gt;关注脚本的更新时间、发布说明和变更记录；&lt;/li&gt;
+&lt;li&gt;不要把脚本当作完全透明的黑盒；&lt;/li&gt;
+&lt;li&gt;在重要服务器上执行前先创建快照；&lt;/li&gt;
+&lt;li&gt;安装完成后检查实际开放的端口和运行的服务。&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;如果不想直接通过管道执行，也可以先下载：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;wget&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-O&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;install.sh&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;https://github.com/233boy/sing-box/raw/main/install.sh&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;less&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;install.sh&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;bash&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;install.sh&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;rm&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-f&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;install.sh&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;安装结束后，可以在终端输入：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;sb&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;&lt;/p&gt;&lt;figure&gt;&lt;img alt=&quot;sing-box 管理菜单&quot; loading=&quot;lazy&quot; width=&quot;794&quot; height=&quot;241&quot; src=&quot;/_astro/vps-proxy-sing-box.CS6dtMGo_ZHRO2q.webp&quot; /&gt;&lt;figcaption&gt;sing-box 管理菜单&lt;/figcaption&gt;&lt;/figure&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;进入管理菜单。具体菜单名称会随脚本版本变化，一般可以用于：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;查看已有节点；&lt;/li&gt;
+&lt;li&gt;添加节点；&lt;/li&gt;
+&lt;li&gt;删除节点；&lt;/li&gt;
+&lt;li&gt;更新 sing-box 或管理脚本；&lt;/li&gt;
+&lt;li&gt;查看配置和连接信息；&lt;/li&gt;
+&lt;li&gt;输出客户端需要的链接或二维码。&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;配置修改后，不要只看脚本提示“完成”。应该同时检查服务状态、监听端口和日志。否则很容易出现“菜单里显示成功，客户端却完全不认识它”的名场面。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;八、为什么选择 VLESS + REALITY&lt;a href=&quot;#八为什么选择-vless--reality&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;我目前更倾向于使用 &lt;code&gt;VLESS + REALITY&lt;/code&gt;，主要是因为它的配置结构比较适合个人自建节点，并且客户端生态相对完善。&lt;/p&gt;&lt;p&gt;简单理解：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;VLESS&lt;/strong&gt;：一种轻量的代理协议，通常使用 UUID 进行客户端认证；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;REALITY&lt;/strong&gt;：一种基于 TLS 握手行为的传输方案，负责建立更接近正常 TLS 流量的连接；&lt;/li&gt;
+&lt;li&gt;两者组合后，VLESS 负责协议和身份，REALITY 负责传输层连接方式。&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;REALITY 并不等于匿名，也不代表服务器一定不会被识别或封禁。它仍然依赖客户端兼容性、服务器配置、IP 质量、端口可达性和服务商网络环境。&lt;/p&gt;&lt;p&gt;协议不是卡牌游戏，不是名字越酷、稀有度越高就一定越强。能理解、能备份、能排错，才是适合自己的配置（￣▽￣）b&lt;/p&gt;&lt;section&gt;&lt;h3&gt;常见协议对比&lt;a href=&quot;#常见协议对比&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;协议或组合&lt;/th&gt;&lt;th&gt;特点&lt;/th&gt;&lt;th&gt;优点&lt;/th&gt;&lt;th&gt;注意事项&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;Shadowsocks&lt;/td&gt;&lt;td&gt;轻量加密代理&lt;/td&gt;&lt;td&gt;配置简单、客户端多&lt;/td&gt;&lt;td&gt;具体表现依赖加密方式和网络环境&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;VMess&lt;/td&gt;&lt;td&gt;较早期的代理协议&lt;/td&gt;&lt;td&gt;历史客户端支持较多&lt;/td&gt;&lt;td&gt;新部署通常不作为首选，配置相对复杂&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Trojan&lt;/td&gt;&lt;td&gt;基于 TLS 的代理&lt;/td&gt;&lt;td&gt;HTTPS 兼容性较好&lt;/td&gt;&lt;td&gt;通常需要域名和证书，证书维护要做好&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;VLESS + TLS&lt;/td&gt;&lt;td&gt;VLESS 配合标准 TLS&lt;/td&gt;&lt;td&gt;结构清晰、生态成熟&lt;/td&gt;&lt;td&gt;一般需要域名和有效证书&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;VLESS + REALITY&lt;/td&gt;&lt;td&gt;VLESS 配合 REALITY 传输&lt;/td&gt;&lt;td&gt;常用于个人自建，通常不需要自己申请证书&lt;/td&gt;&lt;td&gt;客户端兼容性、参数匹配和网络质量要求较高&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Hysteria2 / TUIC&lt;/td&gt;&lt;td&gt;偏向高性能或 UDP 场景&lt;/td&gt;&lt;td&gt;某些网络环境下速度表现较好&lt;/td&gt;&lt;td&gt;对 UDP、客户端和网络环境依赖更明显&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;p&gt;这个表格只是选型参考，不代表某个协议在所有地区、运营商和设备上都一定更快或更稳定。对个人服务器来说，优先选择自己能理解、能备份、能排查的方案，比盲目追求协议名称更重要。&lt;/p&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;九、创建和使用节点&lt;a href=&quot;#九创建和使用节点&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;通过 &lt;code&gt;sb&lt;/code&gt; 管理菜单添加节点时，重点记录以下参数：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;服务器地址；&lt;/li&gt;
+&lt;li&gt;监听端口；&lt;/li&gt;
+&lt;li&gt;UUID；&lt;/li&gt;
+&lt;li&gt;REALITY 公钥；&lt;/li&gt;
+&lt;li&gt;short ID；&lt;/li&gt;
+&lt;li&gt;SNI 或服务器名称；&lt;/li&gt;
+&lt;li&gt;传输方式和流控参数；&lt;/li&gt;
+&lt;li&gt;客户端使用的安全选项。&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;这些参数必须一一对应。只要其中一个参数写错，客户端就可能表现为超时、握手失败或连接后无法访问网络。这个阶段最常见的 Boss 不是高深算法，而是多打了一个空格。&lt;/p&gt;&lt;p&gt;不要手工把真实节点信息写进公开文章。文章中只应使用类似下面的占位符：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;服务器地址：YOUR_SERVER_IP&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;端口：YOUR_PORT&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;UUID：YOUR_UUID&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;REALITY 公钥：YOUR_PUBLIC_KEY&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;5&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;short ID：YOUR_SHORT_ID&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;节点链接、订阅地址和二维码都属于敏感信息。不要发布到公开仓库，也不要随意转发给不认识的人。如果怀疑泄露，应立即在服务器上删除旧节点并重新生成凭据。公开订阅链接就像把家门钥匙做成二维码贴到公告栏，观众确实会很多，但大概率不是你想要的那种观众。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;十、安装完成后的验证&lt;a href=&quot;#十安装完成后的验证&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;section&gt;&lt;h3&gt;1. 检查监听端口&lt;a href=&quot;#1-检查监听端口&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;ss&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-lntup&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;确认代理服务确实监听了预期端口，并且监听地址不是一个完全错误的本地地址。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;2. 检查服务状态&lt;a href=&quot;#2-检查服务状态&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;如果脚本将 sing-box 注册为 systemd 服务，可以查看对应服务状态：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;systemctl&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;status&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;sing-box&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;--no-pager&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;如果服务名称因脚本版本不同而变化，以 &lt;code&gt;sb&lt;/code&gt; 菜单显示的服务名称为准。&lt;/p&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;3. 查看日志&lt;a href=&quot;#3-查看日志&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;Terminal window&lt;/span&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;journalctl&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-u&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;sing-box&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;-e&lt;/span&gt;&lt;span&gt; &lt;/span&gt;&lt;span&gt;--no-pager&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;重点关注：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;配置文件解析失败；&lt;/li&gt;
+&lt;li&gt;端口被占用；&lt;/li&gt;
+&lt;li&gt;权限不足；&lt;/li&gt;
+&lt;li&gt;TLS 或 REALITY 参数不匹配；&lt;/li&gt;
+&lt;li&gt;时间不同步；&lt;/li&gt;
+&lt;li&gt;网络连接被拒绝。&lt;/li&gt;
+&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;4. 从客户端测试&lt;a href=&quot;#4-从客户端测试&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;客户端导入节点后，先测试最基本的连通性，再测试网页、软件包管理器和自己的业务服务。不要只根据“节点能导入”就判断部署成功。导入成功只是拿到了入场券，不代表 Boss 已经倒下。&lt;/p&gt;&lt;p&gt;如果无法连接，可以按这个顺序排查：&lt;/p&gt;&lt;ol&gt;
+&lt;li&gt;服务器 IP 是否填写正确；&lt;/li&gt;
+&lt;li&gt;服务是否正在运行；&lt;/li&gt;
+&lt;li&gt;端口是否监听；&lt;/li&gt;
+&lt;li&gt;服务商后台防火墙是否放行；&lt;/li&gt;
+&lt;li&gt;系统防火墙是否放行；&lt;/li&gt;
+&lt;li&gt;UUID、REALITY 公钥、short ID、SNI 是否完全一致；&lt;/li&gt;
+&lt;li&gt;客户端时间是否准确；&lt;/li&gt;
+&lt;li&gt;服务器网络质量是否发生变化。&lt;/li&gt;
+&lt;/ol&gt;&lt;/section&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;十一、日常维护&lt;a href=&quot;#十一日常维护&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;自建服务器不是安装完成后就可以完全不管。它更像一只需要定期投喂的电子宠物，至少需要做这些事情：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;关注 VPS 到期时间和流量使用情况；&lt;/li&gt;
+&lt;li&gt;定期更新系统安全补丁；&lt;/li&gt;
+&lt;li&gt;更新 sing-box 或管理脚本前先创建快照；&lt;/li&gt;
+&lt;li&gt;只保留正在使用的节点和端口；&lt;/li&gt;
+&lt;li&gt;定期检查登录记录和异常流量；&lt;/li&gt;
+&lt;li&gt;节点凭据泄露后立即轮换；&lt;/li&gt;
+&lt;li&gt;不使用来源不明的配置文件；&lt;/li&gt;
+&lt;li&gt;不把服务器当成公共代理出售或转发给大量陌生用户；&lt;/li&gt;
+&lt;li&gt;记录每次修改过的端口、配置和服务版本。&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;可以给自己保留一份不包含敏感值的运维记录，例如：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;服务器：DMIT 某 VPS&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;系统：Debian / Ubuntu&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;SSH 端口：已记录在密码管理器&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;代理端口：已记录在密码管理器&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;5&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;安装日期：YYYY-MM-DD&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;6&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;最近备份：YYYY-MM-DD&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;7&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;最近更新：YYYY-MM-DD&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;真实 IP、私钥、UUID、订阅链接和密码应放在密码管理器中，而不是放在这篇公开文章里。安全这件事平时像空气，出问题时就会突然变成主线剧情，所以还是提前留意比较好。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;十二、总结&lt;a href=&quot;#十二总结&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;整个过程可以概括为：&lt;/p&gt;&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;购买 VPS&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;2&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;→ 安装稳定系统&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;3&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;→ 使用 SSH 密钥登录&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;4&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;→ 更新系统并完成基础加固&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;5&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;→ 运行融合怪、网络质量和 IP 质量测试&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;6&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;→ 安装 sing-box 管理脚本&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;7&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;→ 使用 sb 创建和管理节点&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;8&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;→ 选择 VLESS + REALITY&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;9&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;→ 导入客户端并逐项验证&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;10&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;→ 定期更新、备份和检查日志&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;&lt;p&gt;对我来说，这次实践的重点不只是“把代理跑起来”，还包括：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;学会使用 SSH 密钥管理服务器；&lt;/li&gt;
+&lt;li&gt;了解 VPS 的 CPU、磁盘和线路质量；&lt;/li&gt;
+&lt;li&gt;理解不同代理协议的适用场景；&lt;/li&gt;
+&lt;li&gt;掌握 sing-box 节点的基本管理方式；&lt;/li&gt;
+&lt;li&gt;养成备份凭据、检查日志和限制暴露面的习惯。&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;最终目标不是追求一条永远不变的“神线路”，而是搭建一个自己理解、自己维护、出现问题时能够定位和恢复的服务器环境。&lt;/p&gt;&lt;p&gt;至此，小鸡完成从“刚买回来的一台 VPS”到“可以正常管理的个人网络工具”的转职。接下来就好好维护，不要把它养成每天半夜报警的电子宠物就行了 w&lt;/p&gt;&lt;/section&gt;</content:encoded></item><item><title>115-python：115 网盘 Python 工具生态</title><link>https://blog.daisheng.xyz/posts/115-python/</link><guid isPermaLink="true">https://blog.daisheng.xyz/posts/115-python/</guid><description>115-python 是一个围绕 115 网盘的 Python 工具生态，包含 p115client 核心客户端和挂载、直链、传输、数据库等多个实用模块。</description><pubDate>Wed, 26 Aug 2026 00:00:00 GMT</pubDate><content:encoded>&lt;section&gt;&lt;h2&gt;开场&lt;a href=&quot;#开场&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;平时用 115 网盘时，我经常遇到几个很实际的问题：&lt;/p&gt;&lt;ul&gt;
 &lt;li&gt;想直接读取、挂载网盘里的文件，而不是每次都打开网页；&lt;/li&gt;
 &lt;li&gt;想把文件以直链、图片或扫码的方式分享出去；&lt;/li&gt;
 &lt;li&gt;想批量上传、下载，或者在本地维护一份文件列表用于查询。&lt;/li&gt;
